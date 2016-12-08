@@ -1,17 +1,20 @@
 var path = require('path');
 var webpack = require("webpack");
 var minimize = process.argv.indexOf('--minimize') !== -1;
-var plugins = [];
+var plugins = [
+        new webpack.ProvidePlugin({
+            "React": "react"
+        })];
 var filelocation = "./public/dist/bundle.js"
 
 if (minimize) {
   plugins.push(
     new webpack.DefinePlugin({
-      "process.env": { 
-         NODE_ENV: JSON.stringify("production") 
+      "process.env": {
+         NODE_ENV: JSON.stringify("production")
        }
     })
-  )  
+  )
   plugins.push(new webpack.optimize.UglifyJsPlugin(
     {
         compress: {
