@@ -40,7 +40,14 @@ module.exports = {
             exclude: [
                 path.resolve(__dirname, "node_modules"),
             ]
-        }],
+          },
+          // These Loaders are used for the bootstrap-webpack module
+          { test: /\.(woff|woff2)$/,  loader: "url-loader?limit=10000&mimetype=application/font-woff" },
+          { test: /\.ttf$/,    loader: "file-loader" },
+          { test: /\.eot$/,    loader: "file-loader" },
+          { test: /\.svg$/,    loader: "file-loader" }
+          // END: bootstrap-webpack module loaders
+        ],
         resolve: {
             extensions: ['', '.js', '.jsx']
         }
