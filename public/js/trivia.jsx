@@ -11,6 +11,7 @@ class Trivia extends React.Component {
     answers.push(exampleData[0].correct_answer);
 
     this.state = {
+      room: props.room,
       question: exampleData[0].question,
       correct_answer: exampleData[0].correct_answer,
       answers: answers
@@ -18,10 +19,12 @@ class Trivia extends React.Component {
   }
 
   render() {
-    return(
+    return (
       <div>
-        <div className='question'>{this.state.question}</div>
-        <AnswerList answers={this.state.answers} />
+        <h4 className="container" className='question background-shadow'>{this.state.question}</h4>
+        <div className="answersContainer" >
+          <AnswerList className="answers" answers={this.state.answers} />
+        </div>
       </div>
     )
   }
