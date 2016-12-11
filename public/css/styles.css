@@ -1,0 +1,120 @@
+/*TODO: clean up this file, combine and rename classes to names that make sense*/
+
+
+body {
+  color: rgb(200, 200, 200);
+  min-width: 250px;
+  font-family : "Comic Sans MS", cursive, sans-serif;
+
+  background: rgb(225, 193, 84); /* For browsers that don't support gradients */
+  background: -webkit-radial-gradient(rgb(225, 193, 84), rgb(126, 64, 21)); /* Safari 5.1 and up */
+  background: -o-radial-gradient(rgb(225, 193, 84), rgb(126, 64, 21)); /* Opera 11.6 and up */
+  background: -moz-radial-gradient(rgb(255, 193, 84), rgb(126, 64, 21)); /* Firefox 3.6 and up */
+  background: radial-gradient(rgb(255, 193, 84), rgb(126, 64, 21)); /* Modern browsers */
+
+  background-repeat: no-repeat;
+  min-height: 100vh;
+  min-width: 100vw;
+  height: 100%;
+  width: 100%;
+}
+
+.background-shadow {
+  border-radius: 2px;
+  box-shadow: 0px 0px 10px black;
+  background: rgb(0, 0, 0); /* For browsers that don't support rgba */
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.header {
+  position: relative;
+  text-shadow: 2px 2px 3px black;
+
+}
+
+.logo {
+  display: inline-block;
+  margin: 5px;
+  text-align: left;
+  font-size: 2em
+}
+
+.logo:first-letter {
+  color: rgb(140, 208, 46);
+}
+
+.room {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  display: inline-block;
+  text-align: right;
+}
+
+.question {
+  color: rgb(120, 120, 120);
+  padding: 10px 15px;
+  margin: 30px 20px 0px 20px;
+  text-shadow: 2px 2px 3px black;
+}
+
+.answersContainer {
+  margin: 0px 20px;
+  padding: 10px 20px;
+}
+
+.answer {
+  padding: 0px 15px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  text-shadow: 2px 2px 3px black;
+}
+
+input[type=text] {
+  border: none;
+  margin: 0px;
+  width: 100%;
+}
+
+.player {
+  padding: 0px 15px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  text-shadow: 2px 2px 3px black;
+}
+
+.answer:hover {
+  color: white;
+  background: rgb(80, 80, 80); /* For browsers that don't support rgba */
+  background: rgba(80, 80, 80, 0.3);
+}
+
+.headers {
+  color: rgb(120, 120, 120);
+  padding: 0px 15px;
+  margin: 10px 0px;
+  border-radius: 5px;
+  text-shadow: 2px 2px 3px black;
+}
+
+.rank {
+  display: inline-block;
+  width: 20%;
+}
+
+.name {
+  display: inline-block;
+  width: 30%;
+}
+
+.score {
+  display: inline-block;
+  text-align: right;
+  width: 20%;
+}
+
+.total {
+  display: inline-block;
+  text-align: right;
+  width: 30%;
+}
