@@ -12,7 +12,7 @@ class CreateRoomView extends React.Component {
 
   render() {
     return (
-      <input onChange={(e) => this.state.createRoomHandler(e)} className="answer background-shadow" type="text" placeholder="Create a room" />
+      <input onKeyPress={e => this.state.createRoomHandler(e)} className="answer background-shadow" type="text" placeholder="Create a room" />
     )
   }
 

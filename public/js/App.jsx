@@ -3,6 +3,7 @@ import { Router, Route, Link, IndexRoute, hashHistory, browserHistory } from 're
 import Trivia from './trivia.jsx'
 import ScoreBoard from  './ScoreBoard.jsx'
 import RoomView from  './RoomView.jsx'
+import exampleData from './exampleData.js'
 
 
 class App extends React.Component {
@@ -10,7 +11,14 @@ class App extends React.Component {
   constructor(props) {
     super(props);
 
+    const answers = exampleData[0].incorrect_answers;
+    answers.push(exampleData[0].correct_answer);
+
     this.state = {
+      question: exampleData[0].question,
+      correct_answer: exampleData[0].correct_answer,
+      answers: answers,
+      answerSelected: false,
       roomName: null,
       rooms: [
         'Default',
@@ -20,10 +28,10 @@ class App extends React.Component {
   }
 
 
+
  createRoomHandler(event) {
    // TODO: figure out why event.keyCode is undefined
-
-   if (event.keyCode === 13) {
+   if (event.key === 'Enter') {
      let room = event.target.value;
 
      this.setState({
@@ -31,12 +39,28 @@ class App extends React.Component {
      });
 
      // TODO: make an ajax POST request with the value of the text box;
+    //  $.ajax({
+    //    url:'http://localhost:8080/rooms',
+    //    method: 'POST',
+    //    data: room
+    //  });
    }
  }
 
- answerListEntryClickHandler (id) {
+ answerListEntryClickHandler (event, id) {
    // TODO: do some sweet css tricks on the chosen answer
    // make an ajax post request for the answer
+   if (!this.state.answerSelected) {
+     this.setState({
+       answerSelected: true
+     });
+     event.target.style.color = 'red';
+     //  $.ajax({
+     //    url:'http://localhost:8080/question',
+     //    method: 'POST',
+     //    data: this.state.answers[id]
+     //  });
+   }
  }
 
  roomListEntryClickHandler (id) {
@@ -46,7 +70,6 @@ class App extends React.Component {
      roomName: room
    });
  }
-
 
 
   render() {
@@ -65,7 +88,7 @@ class App extends React.Component {
           } else {
             return (
               <div>
-                <Trivia />
+                <Trivia question={this.state.question} answers={this.state.answers} answerListEntryClickHandler={this.answerListEntryClickHandler.bind(this)}/>
                 <ScoreBoard />
               </div>
             )

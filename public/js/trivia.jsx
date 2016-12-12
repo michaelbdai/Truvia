@@ -7,14 +7,10 @@ class Trivia extends React.Component {
   constructor(props) {
     super(props);
 
-    const answers = exampleData[0].incorrect_answers;
-    answers.push(exampleData[0].correct_answer);
-
     this.state = {
-      room: props.room,
-      question: exampleData[0].question,
-      correct_answer: exampleData[0].correct_answer,
-      answers: answers
+      question: props.question,
+      answers: props.answers,
+      answerListEntryClickHandler: props.answerListEntryClickHandler
     };
   }
 
@@ -23,7 +19,7 @@ class Trivia extends React.Component {
       <div>
         <h4 className="container" className='question background-shadow'>{this.state.question}</h4>
         <div className="answersContainer" >
-          <AnswerList className="answers" answers={this.state.answers} />
+          <AnswerList className="answers" answers={this.state.answers} answerListEntryClickHandler={this.state.answerListEntryClickHandler}/>
         </div>
       </div>
     )
