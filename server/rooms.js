@@ -66,8 +66,6 @@ var Rooms = function() {
             trivia.push(entry);
           });
         }
-        // console.log(trivia);
-        console.log('bop', this.getTrivia());
       }
 
       this.getAllTrivia = function() {
