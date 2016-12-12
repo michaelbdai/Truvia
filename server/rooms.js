@@ -171,10 +171,21 @@ var Rooms = function() {
     return roomStore[room];
   }
   //returns array of room objects(may be empty)
-  this.getRooms = function() {
+  this.getRoomsRaw = function() {
     var arr = [];
     for(var key in roomStore) {
       arr.push({key: roomStore[key]})
+    }
+    return arr;
+  }
+  //
+  this.getRooms = function() {
+    var arr = [];
+    for(var room in roomStore) {
+      arr.push({
+        roomname: room,
+        scoreboard: roomStore[room].getPlayers()
+      })
     }
     return arr;
   }
