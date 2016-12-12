@@ -38,7 +38,19 @@
   },
   "dependencies": {
     "babel-preset-stage-1": "^6.1.18",
+<<<<<<< HEAD
     "classnames": "^2.2.5",
+=======
+    "bootstrap": "^3.3.7",
+    "bootstrap-webpack": "0.0.5",
+    "css-loader": "^0.26.1",
+    "exports-loader": "^0.6.3",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "imports-loader": "^0.7.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
+>>>>>>> Update package.json and webpack.config.js with dependencies
     "lodash": "^3.10.1",
     "nodemon": "^1.11.0",
     "react": "^0.14.3",
@@ -46,6 +58,11 @@
     "react-redux": "^4.0.0",
     "react-router": "^2.0.1",
     "redux": "^3.0.4",
+<<<<<<< HEAD
     "uuid": "^3.0.1"
+=======
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7"
+>>>>>>> Update package.json and webpack.config.js with dependencies
   }
 }
