@@ -24,18 +24,20 @@ var Rooms = function() {
       var players = {}
       var numPlayers = Object.keys(players).length
       var trivia = [];
+      var currentTrivia = null;
       this.destroy = function() {
         delete roomStore[name];
       }
       this.addTrivia = function(trivia) {
         if(Array.isArray(trivia)) {        
-          trivia = this.trivia.concat(trivia);
+          trivia = trivia.concat(trivia);
         } else {
           throw new Error('add trivia requires array argument');
         }
       }
       this.getTrivia = function() {
-        return this.trivia.pop();
+        currentTrivia = trivia.pop();
+        return currentTrivia;
       }
       this.addPlayer = function(player) {
         if(players[player] === undefined) {
