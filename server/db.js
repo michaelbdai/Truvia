@@ -11,6 +11,7 @@ var User = db.define('user', {
   name: {type: Sequelize.STRING, unique: true},
   password: Sequelize.STRING,
 });
+db.sync()
 
 /*
 * inputs: string, string

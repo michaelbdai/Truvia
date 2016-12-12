@@ -24,18 +24,27 @@ var Rooms = function() {
       var players = {}
       var numPlayers = Object.keys(players).length
       var trivia = [];
+      var currentTrivia = null;
       this.destroy = function() {
         delete roomStore[name];
       }
       this.addTrivia = function(trivia) {
         if(Array.isArray(trivia)) {        
-          trivia = this.trivia.concat(trivia);
+          trivia = trivia.concat(trivia);
         } else {
           throw new Error('add trivia requires array argument');
         }
       }
+      this.newTrivia = function() {
+        currentTrivia = trivia.pop();
+        return currentTrivia;
+      }
       this.getTrivia = function() {
-        return this.trivia.pop();
+        return currentTrivia;
+      }
+
+      this.getAllTrivia = function() {
+        return trivia;
       }
       this.addPlayer = function(player) {
         if(players[player] === undefined) {
@@ -78,17 +87,19 @@ var Rooms = function() {
   }
   //no return value, requires at least one string input, second is optional
   this.makeRoom = function(room, player) {
+    console.log('room', room, 'player', player)
       if(!((typeof room) === 'string' && room.length > 1)) {
+        console.log(room, room.length);
         console.log('must have a room name');
       } else if(roomStore[room]) {
         console.log('that room exists')
       } else {
         roomStore[room] = new Room(room)
+        console.log(roomStore);
         if(Object.keys(roomStore[room]).length < 1) {
           console.log('unkown error making room');
         } else {
           if((typeof player) === 'string' && player.length > 0){
-            console.log('zoopy')
             roomStore[room].addPlayer(player);
           }
         }
@@ -101,8 +112,9 @@ var Rooms = function() {
   //returns array of room objects(may be empty)
   this.getRooms = function() {
     var arr = [];
-    for(var key in roomStore) {
-      arr.push({key: roomStore[key]})
+    console.log(roomStore);
+    for(var roomName in roomStore) {
+      arr.push({roomname: roomName, players: roomStore[roomName].getPlayers()})
     }
     return arr;
   }
@@ -117,5 +129,4 @@ module.exports = new Rooms();
 // myRoom.incrementScore('john');
 // console.log(myRoom.getPlayers())
 // console.log(myRoom.getPlayer('john'))
-// myRoom.destroy();
-// console.log(store.getRooms());
+// console.log(store.getRoom('jigga').getPlayers());

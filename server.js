@@ -4,13 +4,22 @@ var path = require('path');
 var port = process.env.PORT || 8080;
 var app = express();
 var bodyParser = require('body-parser');
-var Promise = require('bluebird');
-var db = require('./server/db'); // from Will
+// var Promise = require('bluebird');
+var session = require('express-session');
+var db = require('./server/db');
+var Rooms = require('./server/rooms');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
+
+app.use(session({
+  secret: 'keyboard cat',
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true }
+}));
 
 
 app.use(function(req, res, next) {
@@ -23,36 +32,41 @@ app.get('/', function(req, res) {
   res.send('Get request successful!');
 });
 
-
-// getRooms = array of roonnames
-// getRoomUsers = array of udernames
-
-// may need to change paths depending on front end routes
-
-app.get('/users', function(req, res) {
-  db.getRoomUsers().then(function(results) {
+app.post('/signin', function(req, res) {
+  db.verifyUser(req.body.name, req.body.password).then(function(results) {
     res.json(results);
   });
 });
 
-app.post('/users', function(req, res) {
-  var params = [req.body.name, req.body.password];
-  db.createUser(params).then(function(results) {
+app.post('/signup', function(req, res) {
+  db.registerUser(req.body.name, req.body.password).then(function(results) {
     res.json(results);
   });
 });
 
+//post an answer to question
+app.post('/rooms/:answer', function(req, res) {
+
+});
+
+//add user to a room
+app.post('/rooms/:room', function(req, res) {
+
+});
+
+//get all the rooms
 app.get('/rooms', function(req, res) {
-  db.getRooms().then(function(results) {
-    res.json(results);
-  });
+  res.json(Rooms.getRooms());
 });
 
+// returns a single room object
 app.post('/rooms', function(req, res) {
-  db.roomFindOrCreate(req.body.name).then(function(results) {
-    res.json(results);
-  });
+  console.log(req.body);
+  Rooms.makeRoom(req.body.roomname, req.body.user);
+  console.log(Rooms.getRooms())
+  res.json(Rooms.getRoom(req.body.roomname).getPlayers());
 });
+
 
 app.listen(port);
 console.log("Server listening on port " + port);
