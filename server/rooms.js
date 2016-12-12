@@ -35,8 +35,11 @@ var Rooms = function() {
           throw new Error('add trivia requires array argument');
         }
       }
-      this.getTrivia = function() {
+      this.newTrivia = function() {
         currentTrivia = trivia.pop();
+        return currentTrivia;
+      }
+      this.getTrivia = function() {
         return currentTrivia;
       }
       this.addPlayer = function(player) {
