@@ -178,7 +178,7 @@ var Rooms = function() {
     }
     return arr;
   }
-  //
+  // returns array of objects with room name and score boards
   this.getRooms = function() {
     var arr = [];
     for(var room in roomStore) {
