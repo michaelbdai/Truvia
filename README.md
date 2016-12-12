@@ -1,4 +1,4 @@
-# Project Name
+# **Truvía**
 
   **Truvía** is a curated trivia app that combines only the best most thought-provoking questions designed to challenge even the most adept trivia champions. **Truvía** connects multiple users from all over the world by dynamically providing curated trivia questions through a proprietary server algorithm.
 
