@@ -42,6 +42,10 @@ var Rooms = function() {
       this.getTrivia = function() {
         return currentTrivia;
       }
+
+      this.getAllTrivia = function() {
+        return trivia;
+      }
       this.addPlayer = function(player) {
         if(players[player] === undefined) {
           players[player] = 0;
