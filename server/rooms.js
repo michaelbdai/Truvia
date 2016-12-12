@@ -50,6 +50,9 @@ var Rooms = function() {
       }
       this.newTrivia = function() {
         currentTrivia = trivia.pop();
+        if(trivia.length < 3) {
+          this.addTrivia();
+        }
         return currentTrivia;
       }
       this.getTrivia = function() {
