@@ -42,8 +42,17 @@
     "bcrypt-nodejs": "0.0.3",
     "body-parser": "^1.15.2",
     "classnames": "^2.2.5",
-    "cortex": "^6.2.3",
     "express-session": "^1.14.2",
+    "classnames": "^2.2.5",
+    "bootstrap": "^3.3.7",
+    "bootstrap-webpack": "0.0.5",
+    "css-loader": "^0.26.1",
+    "exports-loader": "^0.6.3",
+    "extract-text-webpack-plugin": "^1.0.1",
+    "file-loader": "^0.9.0",
+    "imports-loader": "^0.7.0",
+    "less": "^2.7.1",
+    "less-loader": "^2.2.3",
     "lodash": "^3.10.1",
     "mysql": "^2.12.0",
     "nodemon": "^1.11.0",
@@ -55,5 +64,7 @@
     "redux": "^3.6.0",
     "sequelize": "^3.27.0",
     "uuid": "^3.0.1"
+    "style-loader": "^0.13.1",
+    "url-loader": "^0.5.7"
   }
 }

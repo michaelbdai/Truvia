@@ -1,6 +1,6 @@
-# Project Name
+# **Truvía**
 
-> Pithy project description
+  **Truvía** is a curated trivia app that combines only the best most thought-provoking questions designed to challenge even the most adept trivia champions. **Truvía** connects multiple users from all over the world by dynamically providing curated trivia questions through a proprietary server algorithm.
 
 ## Team
 
@@ -20,15 +20,17 @@
 
 ## Usage
 
-> Some usage instructions
+- Create a user account
+- Select or create a Room
+- Wait for people to join you room
+- Start proving your worth as a **Truvía** prodigy
 
 ## Requirements
 
 - Node 0.10.x
 - Redis 2.6.x
 - Postgresql 9.1.x
-- etc
-- etc
+- TODO: ADD MORE REQUIREMENTS
 
 ## Development
 
@@ -40,11 +42,12 @@ From within the root directory:
 sudo npm install -g bower
 npm install
 bower install
+npm start
 ```
 
 ### Roadmap
 
-View the project roadmap [here](LINK_TO_PROJECT_ISSUES)
+View our project roadmap [Github](https://github.com/Positive-Potatoes/Positive-Potatoes/issues) or [Waffle](https://waffle.io/Positive-Potatoes/Positive-Potatoes)
 
 
 ## Contributing
