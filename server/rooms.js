@@ -14,11 +14,17 @@ var Rooms = function() {
   var roomStore = {};
   /*
   * individual room class, requires a name
+  *
+  *
   * if a player is removed and the room becomes
   * empty it is destroyed
   *
-  * stores a room's individual trivia retrieved elsewhere
+  * initial trivia is empty, must be populated with addTrivia
+  * which is a promise, afterwords automatically repopulates trivia
+  * as it is used
   * 
+  * returns current trivia question with correct answer stripped via getTrivia
+  *
   */
   var Room = function(name) {
     if(!name){
@@ -43,7 +49,7 @@ var Rooms = function() {
             })
             .on('end', function() {
               body = JSON.parse(Buffer.concat(body).toString());
-              ctx.setTrivia(body.results);
+              ctx._setTrivia(body.results);
               resolve();
             })
         })
@@ -72,15 +78,26 @@ var Rooms = function() {
         }
       }
 
-      this.answerQuestion = function(answer) {
-        if(!currentTrivia) { return false; }
+      this.answerQuestion = function(answer, user) {
+        if(!(user && answer)) { 
+          console.log('no user or answer');
+          return false; 
+        }
+        if(!this.getPlayer(user)) {
+          console.log('user not in room');
+          return false;
+        }
+        if(!currentTrivia) { 
+          return false; 
+        }
         if(currentTrivia['correct_answer'] === answer) {
+          this.incrementScore(user);
           this.newTrivia();
           return true;
         }
       }
 
-      this.setTrivia = function(arr) {
+      this._setTrivia = function(arr) {
         console.log(trivia, 'hey')
         if(Array.isArray(arr)) {
           arr.forEach(entry => {
@@ -89,7 +106,7 @@ var Rooms = function() {
         }
       }
 
-      this.getAllTrivia = function() {
+      this._getAllTrivia = function() {
         return trivia;
       }
       this.addPlayer = function(player) {
@@ -173,7 +190,7 @@ module.exports = new Rooms();
 // console.log(myRoom.getPlayers())
 // console.log(myRoom.getPlayer('john'))
 // console.log(store.getRooms());
-// console.log(myRoom.getAllTrivia(), 'my')
+// console.log(myRoom._getAllTrivia(), 'my')
 // myRoom.addTrivia().then(function() {
 //   console.log(myRoom.getTrivia())
 // })
