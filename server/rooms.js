@@ -26,7 +26,7 @@ var Rooms = function() {
     } else {
       var players = {}
       var numPlayers = Object.keys(players).length
-      trivia = ['bop'];
+      trivia = [];
       var currentTrivia = null;
       this.destroy = function() {
         delete roomStore[name];
@@ -50,13 +50,34 @@ var Rooms = function() {
       }
       this.newTrivia = function() {
         currentTrivia = trivia.pop();
-        if(trivia.length < 3) {
+        if(trivia.length < 5) {
           this.addTrivia();
         }
         return currentTrivia;
       }
       this.getTrivia = function() {
-        return currentTrivia;
+        if(!currentTrivia) {
+          this.newTrivia();
+        }
+        if(currentTrivia) {
+          var possible = currentTrivia['incorrect_answers'].slice()
+          possible.push(currentTrivia['correct_answer']);
+          return {
+            category: currentTrivia['category'],
+            question: currentTrivia['question'],
+            answers: possible
+          };
+        } else {
+          return null;
+        }
+      }
+
+      this.answerQuestion = function(answer) {
+        if(!currentTrivia) { return false; }
+        if(currentTrivia['correct_answer'] === answer) {
+          this.newTrivia();
+          return true;
+        }
       }
 
       this.setTrivia = function(arr) {
@@ -154,5 +175,5 @@ module.exports = new Rooms();
 // console.log(store.getRooms());
 // console.log(myRoom.getAllTrivia(), 'my')
 // myRoom.addTrivia().then(function() {
-//   console.log(myRoom.getAllTrivia(), 'grp')
+//   console.log(myRoom.getTrivia())
 // })
