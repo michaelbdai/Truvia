@@ -1,22 +1,29 @@
+import AnswerList from './AnswerList.jsx'
+import exampleData from './exampleData.js'
 import React, { Component } from 'react'
-import { Router, Route, Link, IndexRoute, hashHistory, browserHistory, IndexLink } from 'react-router'
-// TODO: Add Component dependancies
 
-const Trivia = (props) => (
-  <h2>Trivia Page</h2>
-)
+class Trivia extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      question: props.question,
+      answers: props.answers,
+      answerListEntryClickHandler: props.answerListEntryClickHandler
+    };
+  }
+
+  render() {
+    return (
+      <div>
+        <h4 className="container" className='question background-shadow'>{this.state.question}</h4>
+        <div className="answersContainer" >
+          <AnswerList className="answers" answers={this.state.answers} answerListEntryClickHandler={this.state.answerListEntryClickHandler}/>
+        </div>
+      </div>
+    )
+  }
+}
 
 export default Trivia
-
-// Use for a statefull component
-// class Trivia extends Component {
-// constructor(props) {
-//   super(props);
-//   this.state = {date: new Date()};
-// }
-//   render () {
-//     return (
-//
-//     )
-//   }
-// }
