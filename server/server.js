@@ -6,8 +6,9 @@ var app = express();
 var bodyParser = require('body-parser');
 // var Promise = require('bluebird');
 var session = require('express-session');
-var db = require('./server/db');
-var Rooms = require('./server/rooms');
+var db = require('./db');
+var Rooms = require('./rooms');
+var cors = require('cors');
 
 app.use(express.static(__dirname + '/public'));
 app.use(bodyParser.json());
@@ -21,12 +22,7 @@ app.use(session({
   cookie: { secure: true }
 }));
 
-
-app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
+app.use(cors());
 
 app.get('/', function(req, res) {
   res.send('Get request successful!');
@@ -62,6 +58,7 @@ app.get('/rooms', function(req, res) {
 // returns a single room object
 app.post('/rooms', function(req, res) {
   console.log(req.body);
+  //Rooms.makeroom is a promise, change it
   Rooms.makeRoom(req.body.roomname, req.body.user);
   console.log(Rooms.getRooms())
   res.json(Rooms.getRoom(req.body.roomname).getPlayers());
