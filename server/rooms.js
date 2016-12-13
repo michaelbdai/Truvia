@@ -32,7 +32,7 @@ var Rooms = function() {
     } else {
       var players = {}
       var numPlayers = Object.keys(players).length
-      trivia = [];
+      var trivia = [];
       var currentTrivia = null;
       this.destroy = function() {
         delete roomStore[name];
@@ -58,7 +58,12 @@ var Rooms = function() {
         currentTrivia = trivia.pop();
         if(trivia.length < 5) {
           this.addTrivia();
+
         }
+        return currentTrivia;
+      }
+      this.newTrivia = function() {
+        currentTrivia = trivia.pop();
         return currentTrivia;
       }
       this.getTrivia = function() {
@@ -107,6 +112,7 @@ var Rooms = function() {
       }
       //for testing
       this._getAllTrivia = function() {
+
         return trivia;
       }
       this.addPlayer = function(player) {
@@ -158,6 +164,7 @@ var Rooms = function() {
         reject('that room exists')
       } else {
         roomStore[room] = new Room(room)
+        console.log(roomStore);
         if(Object.keys(roomStore[room]).length < 1) {
           reject('unkown error making room');
         } else {
@@ -181,8 +188,9 @@ var Rooms = function() {
   //returns array of room objects(may be empty)
   this.getRoomsRaw = function() {
     var arr = [];
-    for(var key in roomStore) {
-      arr.push({key: roomStore[key]})
+    console.log(roomStore);
+    for(var roomName in roomStore) {
+      arr.push({roomname: roomName, players: roomStore[roomName].getPlayers()})
     }
     return arr;
   }
@@ -202,6 +210,7 @@ var Rooms = function() {
 module.exports = new Rooms();
 
 // var store = new Rooms();
+
 // store.makeRoom('jigga').then(function() {
 //   var myRoom = store.getRoom('jigga')
 //   myRoom.addPlayer('john')
