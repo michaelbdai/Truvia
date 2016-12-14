@@ -1,7 +1,21 @@
 
+export const postAnswer = () => ({
+	type: 'POST_ANSWER'
+})
+
+export const getQuestion = () => ({
+	type: 'GET_QUESTION'
+})
+
+export const recordVoice = (filepath) => ({
+	type: 'RECORD_VOICE',
+	filepath
+})
+
+export const skipQuestion = () => ({
+	type: 'SKIP_QUESTION'
+})
  
-
-
 // let nextTodoId = 0
 // export const addTodo = (text) => ({
 //   type: 'ADD_TODO',
