@@ -7,7 +7,9 @@
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "dev": "webpack --minimize",
     "build": "webpack -p",
-    "start": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start-react": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start-nodemon": "nodemon --harmony -w server server",
+    "start": "node --harmony -w server server",
     "test:watch": "npm run test -- --watch"
   },
   "repository": {
@@ -65,6 +67,7 @@
     "react-router": "^2.0.1",
     "redux": "^3.6.0",
     "sequelize": "^3.27.0",
+    "socket.io": "^1.7.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "uuid": "^3.0.1"
