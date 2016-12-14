@@ -8,7 +8,11 @@
     "dev": "webpack --minimize",
     "build": "webpack -p",
     "start": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
-    "test:watch": "npm run test -- --watch"
+    "test:watch": "npm run test -- --watch",
+    "react-start": "react-scripts start",
+    "react-build": "react-scripts build",
+    "react-eject": "react-scripts eject",
+    "react-test": "react-scripts test"
   },
   "repository": {
     "type": "git",
@@ -34,7 +38,10 @@
     "mocha": "^2.4.5",
     "react-addons-test-utils": "^0.14.7",
     "webpack": "^1.12.9",
-    "webpack-dev-server": "^1.14.0"
+    "webpack-dev-server": "^1.14.0",
+    "enzyme": "^2.4.1",
+    "react-addons-test-utils": "^15.3.0",
+    "react-scripts": "^0.6.0"    
   },
   "dependencies": {
     "axios": "^0.15.3",
