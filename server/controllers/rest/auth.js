@@ -1,4 +1,4 @@
-var auth = require('../models/auth')
+var auth = require('../../models/auth')
 
 exports.signin = async function(req, res) {
   const results = await auth.verifyUser(req.body.name, req.body.password);

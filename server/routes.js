@@ -1,6 +1,6 @@
 const triviaRoute = require('express').Router();
-const auth = require('./controllers/auth');
-const rooms = require('./controllers/rooms');
+const auth = require('./controllers/rest/auth');
+const rooms = require('./controllers/rest/rooms');
 
 triviaRoute.route('/signin')
   .post(auth.signin)

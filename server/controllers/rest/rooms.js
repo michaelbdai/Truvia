@@ -1,4 +1,4 @@
-var Rooms = require('../models/rooms');
+var Rooms = require('../../models/rooms');
 
 
 const unmarkAnswers = triviaObject => {
