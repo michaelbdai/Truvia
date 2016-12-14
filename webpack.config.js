@@ -5,7 +5,7 @@ var plugins = [
         new webpack.ProvidePlugin({
             "React": "react"
         })];
-var filelocation = "./public/dist/bundle.js"
+var filelocation = "./client/dist/bundle.js"
 
 if (minimize) {
   plugins.push(
@@ -22,20 +22,20 @@ if (minimize) {
         }
     }
   ));
-  filelocation = "./public/dist/bundle.min.js"
+  filelocation = "./client/dist/bundle.min.js"
 }
 module.exports = {
-    entry: './public/js/index.jsx',
+    entry: './client/src/index.js',
     output: {
         path: __dirname,
         filename: filelocation
     },
     module: {
         loaders: [{
-            test: /\.jsx?$/,
+            test: /\.js(x|)?$/,
             loaders: ['babel?presets[]=es2015,presets[]=react'],
             include: [
-                path.resolve(__dirname, "./public/js"),
+                path.resolve(__dirname, "./client/src"),
             ],
             exclude: [
                 path.resolve(__dirname, "node_modules"),

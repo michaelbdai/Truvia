@@ -27,3 +27,19 @@ class Trivia extends React.Component {
 }
 
 export default Trivia
+
+ // answerListEntryClickHandler (event, id) {
+ //   // TODO: do some sweet css tricks on the chosen answer
+ //   // make an ajax post request for the answer
+ //   if (!this.state.answerSelected) {
+ //     this.setState({
+ //       answerSelected: true
+ //     });
+ //     event.target.style.color = 'red';
+ //     //  $.ajax({
+ //     //    url:'http://localhost:8080/question',
+ //     //    method: 'POST',
+ //     //    data: this.state.answers[id]
+ //     //  });
+ //   }
+ // }
