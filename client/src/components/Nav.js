@@ -1,7 +1,14 @@
 import React from 'react'
+import AppBar from 'material-ui/AppBar'
+
 
 const Nav = () => (
-	<div> Trivia </div>
+	<div>
+    <AppBar
+    title="Trivia"
+    iconClassNameRight="muidocs-icon-navigation-expand-more"
+    />
+  </div>
 
 
 
