@@ -25,7 +25,7 @@ if (minimize) {
   filelocation = "./client/dist/bundle.min.js"
 }
 module.exports = {
-    entry: './client/js/index.jsx',
+    entry: './client/src/index.js',
     output: {
         path: __dirname,
         filename: filelocation
@@ -35,7 +35,7 @@ module.exports = {
             test: /\.js(x|)?$/,
             loaders: ['babel?presets[]=es2015,presets[]=react'],
             include: [
-                path.resolve(__dirname, "./client/js"),
+                path.resolve(__dirname, "./client/src"),
             ],
             exclude: [
                 path.resolve(__dirname, "node_modules"),
