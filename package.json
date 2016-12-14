@@ -7,12 +7,16 @@
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "dev": "webpack --minimize",
     "build": "webpack -p",
-    "start": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "test:watch": "npm run test -- --watch",
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
     "react-eject": "react-scripts eject",
-    "react-test": "react-scripts test"
+    "react-test": "react-scripts test",
+    "start-react": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
+    "start-nodemon": "nodemon --harmony -w server server",
+    "start": "node --harmony -w server server",
+    "test:watch": "npm run test -- --watch"
+
   },
   "repository": {
     "type": "git",
@@ -58,9 +62,11 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
     "imports-loader": "^0.7.0",
+    "isomorphic-fetch": "^2.2.1",
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "lodash": "^3.10.1",
+    "morgan": "^1.7.0",
     "mysql": "^2.12.0",
     "nodemon": "^1.11.0",
     "react": "^0.14.3",
@@ -70,6 +76,7 @@
     "react-router": "^2.0.1",
     "redux": "^3.6.0",
     "sequelize": "^3.27.0",
+    "socket.io": "^1.7.2",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "uuid": "^3.0.1"
