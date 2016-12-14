@@ -1,7 +1,7 @@
 {
-  "name": "Positive-Potatoes",
+  "name": "Legacy Project - Trivia",
   "version": "1.0.0",
-  "description": "> Pithy project description",
+  "description": "Trivia app using voice recognition",
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
@@ -20,15 +20,15 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pengjoshua/Positive-Potatoes.git"
+    "url": "git+https://github.com/StupendousSpinach/LegacyTrivia.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pengjoshua/Positive-Potatoes/issues"
+    "url": "https://github.com/StupendousSpinach/LegacyTrivia/issues"
   },
-  "homepage": "https://github.com/pengjoshua/Positive-Potatoes#readme",
+  "homepage": "https://github.com/StupendousSpinach/LegacyTrivia#readme",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
@@ -45,7 +45,7 @@
     "webpack-dev-server": "^1.14.0",
     "enzyme": "^2.4.1",
     "react-addons-test-utils": "^15.3.0",
-    "react-scripts": "^0.6.0"    
+    "react-scripts": "^0.6.0"
   },
   "dependencies": {
     "axios": "^0.15.3",
