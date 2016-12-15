@@ -29307,7 +29307,7 @@
 
 	// const Nav = () => (
 
-	//   <Toolbar >
+	//   <AppBar >
 	//     <ToolbarGroup>
 	//       <ToolbarTitle text="Truvia" style={Styles.toolbarTitle} />
 	//     </ToolbarGroup>
@@ -29327,7 +29327,7 @@
 	//         label="Login"
 	//         style={Styles.userButton} />
 	//     </ToolbarGroup>    
-	//   </Toolbar>
+	//   </AppBar>
 
 	// )
 

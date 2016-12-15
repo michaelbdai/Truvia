@@ -10,7 +10,7 @@ import Styles from './Styles'
 
 // const Nav = () => (
 
-//   <Toolbar >
+//   <AppBar >
 //     <ToolbarGroup>
 //       <ToolbarTitle text="Truvia" style={Styles.toolbarTitle} />
 //     </ToolbarGroup>
@@ -30,7 +30,7 @@ import Styles from './Styles'
 //         label="Login"
 //         style={Styles.userButton} />
 //     </ToolbarGroup>    
-//   </Toolbar>
+//   </AppBar>
 
 // )
 
