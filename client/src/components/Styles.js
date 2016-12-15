@@ -30,7 +30,14 @@ const Styles = {
     marginBottom: 15,
     display: 'inline-block',
     padding: '20px 20px',
-  }
+  },
+  userButton: {
+    color: 'white',
+    width: 170
+  },
+  toolbarTitle: {
+    color: 'white'
+  },    
 };
 
 export default Styles;
