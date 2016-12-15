@@ -1,4 +1,5 @@
 const GameSession = require('./GameSession');
+const _ = require('lodash');
 
 class TriviaSession extends GameSession {
   constructor(owner, timeout) {
@@ -18,14 +19,15 @@ class TriviaSession extends GameSession {
     this._setTrivia(triviaJSON.results);
   }
 
-    _scrubQueston(question) {
-      question.incorrect_answers.push(question.correct_answer);
-      const options = question.incorrect_answers.slice();
-      delete question.incorrect_answers;
-      delete question.correct_answer;
-      question['options'] = options;
-      return question;
-    }
+  // Removes keys from question marking correct answers and turns them into ambiguous options
+  _scrubQueston(question) {
+    question.incorrect_answers.push(question.correct_answer);
+    const options = question.incorrect_answers.slice();
+    delete question.incorrect_answers;
+    delete question.correct_answer;
+    question['options'] = options;
+    return question;
+  }
 
   async getCurrentQuestion() {
     if (!this.currentQuestion) await this.addTrivia();
@@ -39,9 +41,7 @@ class TriviaSession extends GameSession {
    * @return {type}        player's new score
    */
   incrementScore(playerName) {
-    const player = this.getPlayerData(playerName);
-    player.score = player.score !== undefiend ? player.score + 1 : 0;
-    return player.score;
+    return ++this.getPlayer(playerName).score;
   }
 
   /**
@@ -53,7 +53,7 @@ class TriviaSession extends GameSession {
    */
   answerQuestion(answer, user) {
     if(this.currentQuestion
-      && this.currentQuestion['correct_answer'] === answer) {
+      && this.currentQuestion['correct_answer'] === answer) { //TODO partial match
       this.incrementScore(user);
       this.nextQuestion();
       return true;
@@ -61,10 +61,21 @@ class TriviaSession extends GameSession {
     return false;
   }
 
+  addPlayer(player) {
+    player.score = 0;
+    super.addPlayer(player);
+  }
+
   nextQuestion() {
-    if (trivia.length < 3) this.addTrivia();
-    this.currentQuestion = trivia.pop();
+    if (this.trivia.length <3) this.addTrivia(); // <3
+    this.currentQuestion = this.trivia.pop();
     return this.currentQuestion;
+  }
+
+  getScoreBoard() {
+    return _.map(this.players, ({name, score}) => {
+      return {name, score};
+    });
   }
 
   _setTrivia(arr) {

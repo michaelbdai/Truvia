@@ -29176,14 +29176,17 @@
 				//send state.userAnswer to SERVER
 				//get result from server
 				//all users' result
-				//update: state.userObj and state.result  
+				//update: state.userObj and state.result
 				return state;
 			case 'GET_QUESTION':
 				//get request for next question
 				//update state.question per respond
-				return state;
+				console.log('reducer triggered');
+				return _extends({}, state, {
+					question: action.question
+				});
 			case 'RECORD_VOICE':
-				//change voice file 
+				//change voice file
 				//post request to API with audioFilePath
 				//get userAnswer -> update state.userAnswer
 				return state;
@@ -29210,7 +29213,6 @@
 				});
 			default:
 				return state;
-
 		}
 	};
 	exports.default = trivia;
@@ -40366,9 +40368,13 @@
 
 	var _Styles2 = _interopRequireDefault(_Styles);
 
+	var _reactRedux = __webpack_require__(199);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	var Question = function Question() {
+	var Question = function Question(_ref) {
+	  var _ref$question = _ref.question,
+	      question = _ref$question === undefined ? 'Who is the smartest person in HR 51?' : _ref$question;
 	  return _react2.default.createElement(
 	    _Paper2.default,
 	    { style: _Styles2.default.questionContainer, zDepth: 1 },
@@ -40385,9 +40391,21 @@
 	    _react2.default.createElement(
 	      'div',
 	      { style: _Styles2.default.questionBody },
-	      'Who is the smartest person in HR 51?'
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        console.log('in Question' + question)
+	      ),
+	      _react2.default.createElement(
+	        'div',
+	        null,
+	        question
+	      )
 	    )
 	  );
+	};
+	Question.propTypes = {
+	  question: _react.PropTypes.string.isRequired
 	};
 
 	exports.default = Question;
@@ -40436,8 +40454,6 @@
 	  value: true
 	});
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -40452,13 +40468,15 @@
 
 	var _Paper2 = _interopRequireDefault(_Paper);
 
+	var _reactRedux = __webpack_require__(199);
+
+	var _actions = __webpack_require__(522);
+
+	var _Question = __webpack_require__(465);
+
+	var _Question2 = _interopRequireDefault(_Question);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 	var micIcon = _react2.default.createElement(
 	  _FontIcon2.default,
@@ -40478,78 +40496,78 @@
 	// TODO: Somehow link (in html) to fetch icon does not work after implementing react-router. If no possible solution to connect link, try downloading https://material.io/icons/#ic_label_outline.
 
 
-	var Tools = function (_React$Component) {
-	  _inherits(Tools, _React$Component);
+	// export default class Tools extends React.Component {
+	// class Tools extends React.Component {
+	//   render() {
+	//     return (
+	//       <Paper zDepth={1}>
+	//         <BottomNavigation>
+	//           <BottomNavigationItem
+	//             label="Record"
+	//             icon={micIcon}
+	//             onTouchTap={() => this.select(0)}
+	//           />
+	//           <BottomNavigationItem
+	//             label="Skip"
+	//             icon={skipIcon}
+	//             onTouchTap={() => this.select(1)}
+	//           />
+	//           <BottomNavigationItem
+	//             label="Submit"
+	//             icon={submitIcon}
+	//             onTouchTap={() => {
+	//               // this.select(2);
+	//               console.log('submit button clicked')
+	//               dispatch(postAnswer('Susan is the smartest.'));
+	//               }
+	//             }
+	//           />
+	//         </BottomNavigation>
+	//       </Paper>
+	//     )
+	//   }
+	// }
+	var Tools = function Tools(_ref) {
+	  var dispatch = _ref.dispatch;
 
-	  function Tools() {
-	    _classCallCheck(this, Tools);
-
-	    return _possibleConstructorReturn(this, (Tools.__proto__ || Object.getPrototypeOf(Tools)).apply(this, arguments));
-	  }
-
-	  _createClass(Tools, [{
-	    key: 'render',
-
-	    // contructor() {
-	    //   super(props);
-	    //   this.state = {
-	    //     selectedIndex: 0,
-	    //   }
-	    // };
-
-	    // select (index) {
-	    //   this.setState({selectedIndex: index});
-	    // }
-
-	    value: function render() {
-	      var _this2 = this;
-
-	      return _react2.default.createElement(
-	        _Paper2.default,
-	        { zDepth: 1 },
-	        _react2.default.createElement(
-	          _BottomNavigation.BottomNavigation,
-	          null,
-	          _react2.default.createElement(_BottomNavigation.BottomNavigationItem, {
-	            label: 'Record',
-	            icon: micIcon,
-	            onTouchTap: function onTouchTap() {
-	              return _this2.select(0);
-	            }
-	          }),
-	          _react2.default.createElement(_BottomNavigation.BottomNavigationItem, {
-	            label: 'Skip',
-	            icon: skipIcon,
-	            onTouchTap: function onTouchTap() {
-	              return _this2.select(1);
-	            }
-	          }),
-	          _react2.default.createElement(_BottomNavigation.BottomNavigationItem, {
-	            label: 'Submit',
-	            icon: submitIcon,
-	            onTouchTap: function onTouchTap() {
-	              return _this2.select(2);
-	            }
-	          })
-	        )
-	      );
-	    }
-	  }]);
-
-	  return Tools;
-	}(_react2.default.Component);
-	// TODO: state change on bottom nav
-	// <BottomNavigation selectedIndex={this.state.selectedIndex}>
-
-
-	// <div>
-	//   <div> Record </div>
-	//   <div> Submit </div>
-	//   <div> Skip </div>
-	// </div>
-
+	  return _react2.default.createElement(
+	    _Paper2.default,
+	    { zDepth: 1 },
+	    _react2.default.createElement(
+	      _BottomNavigation.BottomNavigation,
+	      null,
+	      _react2.default.createElement(_BottomNavigation.BottomNavigationItem, {
+	        label: 'Record',
+	        icon: micIcon,
+	        onTouchTap: function onTouchTap() {
+	          return console.log('');
+	        }
+	      }),
+	      _react2.default.createElement(_BottomNavigation.BottomNavigationItem, {
+	        label: 'Skip',
+	        icon: skipIcon,
+	        onTouchTap: function onTouchTap() {
+	          return console.log('');
+	        }
+	      }),
+	      _react2.default.createElement(_BottomNavigation.BottomNavigationItem, {
+	        label: 'Submit',
+	        icon: submitIcon,
+	        onTouchTap: function onTouchTap() {
+	          // this.select(2);
+	          console.log('submit button clicked');
+	          dispatch((0, _actions.getQuestion)('How many students are in HR 51?'));
+	        }
+	      })
+	    )
+	  );
+	};
+	Tools = (0, _reactRedux.connect)()(Tools);
 
 	exports.default = Tools;
+
+	// TODO: state change on bottom nav
+	// <BottomNavigation selectedIndex={this.state.selectedIndex}>
 
 /***/ },
 /* 468 */
@@ -46462,9 +46480,9 @@
 
 	var _Scoreboard2 = _interopRequireDefault(_Scoreboard);
 
-	var _Question = __webpack_require__(465);
+	var _VisibleQuestion = __webpack_require__(579);
 
-	var _Question2 = _interopRequireDefault(_Question);
+	var _VisibleQuestion2 = _interopRequireDefault(_VisibleQuestion);
 
 	var _Answer = __webpack_require__(466);
 
@@ -46480,6 +46498,7 @@
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
+	// import Question from './Question'
 	var Game = function Game() {
 	  return _react2.default.createElement(
 	    _MuiThemeProvider2.default,
@@ -46489,7 +46508,7 @@
 	      null,
 	      _react2.default.createElement(_Nav2.default, null),
 	      _react2.default.createElement(_Scoreboard2.default, null),
-	      _react2.default.createElement(_Question2.default, null),
+	      _react2.default.createElement(_VisibleQuestion2.default, null),
 	      _react2.default.createElement(_Answer2.default, null),
 	      _react2.default.createElement(_Tools2.default, null)
 	    )
@@ -46614,7 +46633,7 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.joinGame = exports.createGame = exports.skipQuestion = exports.recordVoice = exports.getQuestion = exports.postAnswer = undefined;
+	exports.joinGame = exports.createGame = exports.getQuestion = exports.postAnswer = undefined;
 
 	var _lodash = __webpack_require__(523);
 
@@ -46640,19 +46659,6 @@
 	  };
 	};
 
-	var recordVoice = exports.recordVoice = function recordVoice(filepath) {
-	  console.log(filepath);
-	  return {
-	    type: 'RECORD_VOICE',
-	    filepath: filepath
-	  };
-	};
-
-	var skipQuestion = exports.skipQuestion = function skipQuestion() {
-	  return {
-	    type: 'SKIP_QUESTION'
-	  };
-	};
 	var sendRequest = function sendRequest() {
 	  return {
 	    type: 'SEND_REQUEST'
@@ -67541,6 +67547,36 @@
 	};
 
 	module.exports = keyOf;
+
+/***/ },
+/* 579 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _reactRedux = __webpack_require__(199);
+
+	var _Question = __webpack_require__(465);
+
+	var _Question2 = _interopRequireDefault(_Question);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var mapStateToProps = function mapStateToProps(state) {
+	  console.log('in VisibleQuestion');
+	  console.log(state.question);
+	  return {
+	    question: state.question
+	  };
+	};
+
+	var VisibleQuestion = (0, _reactRedux.connect)(mapStateToProps)(_Question2.default);
+
+	exports.default = VisibleQuestion;
 
 /***/ }
 /******/ ]);

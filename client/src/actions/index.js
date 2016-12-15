@@ -8,17 +8,8 @@ export const getQuestion = () => ({
   type: 'GET_QUESTION'
 })
 
-export const recordVoice = (filepath) => {
-  console.log(filepath);
-  return {
-    type: 'RECORD_VOICE',
-    filepath
-  }
-};
 
-export const skipQuestion = () => ({
-  type: 'SKIP_QUESTION'
-})
+
 const sendRequest = () => {
   return{
     type: 'SEND_REQUEST'
@@ -84,5 +75,6 @@ export const joinGame = (guestName, roomID) => {
     dispatch(postGuest(guestName, roomID))
   }  
 } 
+
 
 

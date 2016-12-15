@@ -17,14 +17,18 @@ const trivia = (state = intitialState, action) => {
 			//send state.userAnswer to SERVER
 			//get result from server
 			//all users' result
-			//update: state.userObj and state.result  
+			//update: state.userObj and state.result
 			return state
 		case 'GET_QUESTION':
 			//get request for next question
 			//update state.question per respond
-			return state
+			console.log('reducer triggered')
+			return {
+				...state,
+				question: action.question
+			}
 		case 'RECORD_VOICE':
-			//change voice file 
+			//change voice file
 			//post request to API with audioFilePath
 			//get userAnswer -> update state.userAnswer
 			return state
@@ -54,8 +58,6 @@ const trivia = (state = intitialState, action) => {
 			}						
 		default:
 			return state
-
-
 	}
 }
 export default trivia

@@ -4,7 +4,7 @@
   "description": "Trivia app using voice recognition",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
+    "test": "mocha test",
     "dev": "webpack --minimize",
     "build": "webpack -w",
     "test:watch": "npm run test -- --watch",
@@ -27,6 +27,7 @@
     "url": "https://github.com/StupendousSpinach/LegacyTrivia/issues"
   },
   "homepage": "https://github.com/StupendousSpinach/LegacyTrivia#readme",
+  "engines" : { "node" : ">=7.1.0" },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
