@@ -1,10 +1,22 @@
 const Styles = {
-  questionPaper : {
+  questionContainer : {
     height: 500,
-    width: 700,
-    margin: 20,
+    width: '100%',
+    margin: 0,
     textAlign: 'center',
     display: 'inline-block',
+  },
+  questionHeader : {
+    height: 50,
+    width: '100%',
+    margin: 0,
+    padding: '20px 20px',
+    fontSize: '20px',
+  },
+  questionBody: {
+    fontSize: '17px',
+    padding: '20px 20px',
+    textAlign: 'left',
   }
 };
 
