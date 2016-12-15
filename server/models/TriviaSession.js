@@ -73,7 +73,6 @@ class TriviaSession extends GameSession {
   }
 
   getScoreBoard() {
-    console.log('SCOREBOARD', this.players);
     return _.map(this.players, ({name, score}) => {
       return {name, score};
     });
