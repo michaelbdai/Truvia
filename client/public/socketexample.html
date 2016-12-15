@@ -1,0 +1,62 @@
+<!doctype html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Stupendous Spinach</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  </head>
+  <body>
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+
+    // Posting to guest with {name} creates a new room and a returns some data.
+    // Posting to guest with {name, roomID} lets the name join the room.
+    // Use postman to test it out
+
+    fetch('/guest', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: 'Susan'
+      })
+    })
+      .then(res => res.json())
+      .then(json => {
+        console.log('POST data from /guest ->', json);
+        // Take token from json and store it persistently into sessionStorage
+        window.sessionStorage.setItem('token', json.token);
+        connectSocket(json.roomID);
+      });
+
+    function connectSocket(roomID) {
+      console.log('... starting trivia socket connection');
+      let token = window.sessionStorage.getItem('token');
+      let socket = io.connect('/trivia', {
+        'query': 'token=' + token
+      });
+
+      // Authentication
+      socket
+        .emit('authenticate', {token: token})
+        .on('authenticated', () => {
+          console.log('Client authorized for /trivia');
+          listenTrivia(socket);
+        })
+        .on('unauthorized', msg => {
+          console.log('Unauthorized' + JSON.stringify(msg.data));
+        });
+    }
+
+    function listenTrivia(socket) {
+      socket.on('user enter', (name, count) => {
+        console.log(`User ${name} has entered, ${count} in room`);
+        if (count === 1) {
+          socket.emit('game start');
+        }
+      })
+    }
+
+    </script>
+  </body>
+</html>
