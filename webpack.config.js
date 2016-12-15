@@ -33,7 +33,7 @@ module.exports = {
     module: {
         loaders: [{
             test: /\.js(x|)?$/,
-            loaders: ['babel?presets[]=es2015,presets[]=react'],
+            loaders: ['babel?presets[]=es2015,presets[]=react,presets[]=stage-2'],
             include: [
                 path.resolve(__dirname, "./client/src"),
             ],
