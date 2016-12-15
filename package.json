@@ -1,7 +1,7 @@
 {
   "name": "Positive-Potatoes",
   "version": "1.0.0",
-  "description": "> Pithy project description",
+  "description": "Trivia app using voice recognition",
   "main": "index.js",
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
@@ -14,21 +14,19 @@
     "react-test": "react-scripts test",
     "start-react": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start-nodemon": "nodemon --harmony -w server server",
-    "start": "node --harmony server",
-    "test:watch": "npm run test -- --watch"
-
+    "start": "node --harmony server"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/pengjoshua/Positive-Potatoes.git"
+    "url": "git+https://github.com/StupendousSpinach/LegacyTrivia.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/pengjoshua/Positive-Potatoes/issues"
+    "url": "https://github.com/StupendousSpinach/LegacyTrivia/issues"
   },
-  "homepage": "https://github.com/pengjoshua/Positive-Potatoes#readme",
+  "homepage": "https://github.com/StupendousSpinach/LegacyTrivia#readme",
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
@@ -40,12 +38,11 @@
     "jquery": "^2.2.1",
     "jsdom": "^8.1.0",
     "mocha": "^2.4.5",
-    "react-addons-test-utils": "^0.14.7",
+    "react-addons-test-utils": "^15.3.0",
     "webpack": "^1.12.9",
     "webpack-dev-server": "^1.14.0",
     "enzyme": "^2.4.1",
-    "react-addons-test-utils": "^15.3.0",
-    "react-scripts": "^0.6.0"    
+    "react-scripts": "^0.6.0"
   },
   "dependencies": {
     "axios": "^0.15.3",
@@ -66,14 +63,16 @@
     "less": "^2.7.1",
     "less-loader": "^2.2.3",
     "lodash": "^3.10.1",
+    "material-ui": "^0.16.5",
     "morgan": "^1.7.0",
     "mysql": "^2.12.0",
     "nodemon": "^1.11.0",
-    "react": "^0.14.3",
-    "react-dom": "^0.14.3",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
     "react-global": "^0.1.8",
     "react-redux": "^4.4.6",
     "react-router": "^2.0.1",
+    "react-tap-event-plugin": "^2.0.1",
     "redux": "^3.6.0",
     "sequelize": "^3.27.0",
     "shortid": "^2.2.6",
