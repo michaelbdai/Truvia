@@ -21,6 +21,15 @@ module.exports = triviaSocket => {
         session.getCurrentQuestion().then(question => {
           triviaSocket.to(room).emit('question', question);
         });
+        // Every 25 seconds send a new quesiton
+        setInterval(() => {
+          session.nextQuestion();
+          session.getCurrentQuestion()
+            .then(question => triviaSocket.to(room).emit('question', question))
+
+          // Set timeout to give options after 10 seconds
+          setTimeout(() => triviaSocket.to(room).emit('options'), 10000);
+        }, 25000);
       } else {
         socket.emit('error', 'Game can only be started by owner');
       }
@@ -35,9 +44,6 @@ module.exports = triviaSocket => {
           session.gameState = 'END';
           triviaSocket.to(room).emit('end', socket.user);
         } else {
-          setTimeout(() => session.getCurrentQuestion().then(question => {
-            triviaSocket.to(room).emit('question', socket.user);
-          }), 3000); //TODO change to setInterval so questions aren't stuck
         }
       } else {
         cb(false);
