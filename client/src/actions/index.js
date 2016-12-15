@@ -1,11 +1,18 @@
 
-export const postAnswer = () => ({
-	type: 'POST_ANSWER'
+export const postAnswer = (answer) => ({
+	type: 'POST_ANSWER',
+  answer
 })
 
-export const getQuestion = () => ({
-	type: 'GET_QUESTION'
-})
+export const getQuestion = (question) => {
+  console.log('action called');
+  return {
+  	type: 'GET_QUESTION',
+    question
+  }
+
+}
+
 
 export const recordVoice = (filepath) => {
 	console.log(filepath);
@@ -18,7 +25,7 @@ export const recordVoice = (filepath) => {
 export const skipQuestion = () => ({
 	type: 'SKIP_QUESTION'
 })
- 
+
 // let nextTodoId = 0
 // export const addTodo = (text) => ({
 //   type: 'ADD_TODO',
