@@ -24,17 +24,14 @@
       .then(res => res.json())
       .then(json => {
         console.log('POST data from /guest ->', json);
-        // Take token from json and store it persistently into the browser's sessionStorage
+        // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         connectSocket(json.roomID);
       });
 
     function connectSocket(roomID) {
       console.log('... starting trivia socket connection');
-      // Fetch the token from session storage
       let token = window.sessionStorage.getItem('token');
-      // Then conenct to the trivia socket and send the token so the server knows
-      // who is connecting
       let socket = io.connect('/trivia', {
         'query': 'token=' + token
       });
@@ -44,8 +41,6 @@
         .emit('authenticate', {token: token})
         .on('authenticated', () => {
           console.log('Client authorized for /trivia');
-          // Pass socket to listen trivia when socket is authorized
-          // listenTrivia will attach listeners for the game events
           listenTrivia(socket);
         })
         .on('unauthorized', msg => {
@@ -54,48 +49,15 @@
     }
 
     function listenTrivia(socket) {
-
-      // When a user enters the trivia room, a 'user enter' event is triggered
-      // and the server sends back the name of the joining user and the number
-      // of players in the room
       socket.on('user enter', (name, count) => {
         console.log(`User ${name} has entered, ${count} in room`);
         if (count === 1) {
           socket.emit('game start');
         }
       });
-
-      // Listen for server questions, a callback is passed to the server
-      // that expects the question to be passed in
       socket.on('question', question => {
         console.log(question);
-        // Send an answer to the server, with a callback expecting whether the
-        // answer is correct or not
-        socket.emit('answer', 'hack reactor', isCorrect => {
-          if (isCorrect) {
-            console.log('Answered correctly! :)');
-          } else {
-            console.log('Got the wrong answer :(');
-          }
-
-          // Ask the server for all the player scores, a callback is send to the
-          // server expecting the scores to be passed in
-          socket.emit('all scores', scores => {
-            console.log('Got scores back:', scores);
-          });
-        });
       });
-
-      // The question has been answered correctly by this user or some other user
-      // the user who answered correctly is passed to the callback
-      socket.on('answered', user => {
-        console.log(user + ' answered the question correctly!!');
-      });
-
-      // The game has ended the winning user is passed to the callback
-      socket.on('end', winningUser => {
-        console.log(`End of trivia, ${winningUser} won the game`);
-      })
     }
 
     </script>
