@@ -4,6 +4,7 @@ import FontIcon from 'material-ui/FontIcon'
 import FlatButton from 'material-ui/FlatButton'
 import Login from '../containers/Login'
 import Signup from '../containers/Signup'
+import AppBar from 'material-ui/AppBar'
 
 
 const Nav = () => (
@@ -30,8 +31,17 @@ const Nav = () => (
     </ToolbarGroup>    
   </Toolbar>
 
-
-
 )
+
+
+// const Nav = () => (
+// 	<div>
+//     {/* TODO: Decide what functionalities would be inside app bar */}
+//     <AppBar
+//     title="Trivia"
+//     iconClassNameRight="muidocs-icon-navigation-expand-more"
+//     />
+//   </div>
+// )
 
 export default Nav

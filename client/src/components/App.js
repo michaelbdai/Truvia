@@ -15,6 +15,19 @@ const App = () => (
 		</div>
 	</MuiThemeProvider>
 
+
+// const App = () => (
+// 	<MuiThemeProvider>
+//     <div>
+//   		<Nav />
+//   		<Scoreboard />
+//   		<Question />
+//   		<Answer />
+//   		<Tools />
+//     </div>
+//   </MuiThemeProvider>
+
+
 )
 			// <Nav />
 export default App

@@ -11,6 +11,8 @@ import Game from './components/Game.js'
 import JoinGame from './components/JoinGame.js'
 import CreateGame from './components/CreateGame.js'
 import Login from './containers/Login'
+import injectTapEventPlugin from 'react-tap-event-plugin';
+injectTapEventPlugin();
 
 const store = createStore(reducer)
 

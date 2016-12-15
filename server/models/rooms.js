@@ -6,7 +6,7 @@
 * getRoom
 * getRooms
 */
-var _ = require('lodash');
+const _ = require('lodash');
 
 /** Class representing all Rooms */
 class Rooms {
@@ -17,15 +17,14 @@ class Rooms {
    * async makeRoom - Add a room to the room object, with an initial player. Trivia
    * is automatically added to the room.
    *
-   * @param  {type} roomName Name of the room
-   * @param  {type} player   Name of the player
+   * @param  {type} id       ID of the room
+   * @param  {type} owner    Name of room's owner
    * @return {type}          Promise of the room that is created
    */
-  async makeRoom (roomName, player) {
-    if (this.roomStore[roomName]) return this.roomStore[roomName];
-    const room = new Room(roomName);
-    this.roomStore[roomName] = room;
-    room.addPlayer(player);
+  async makeRoom (id, owner) {
+    if (this.roomStore[id]) return this.roomStore[id];
+    const room = new Room(id, owner);
+    this.roomStore[id] = room;
     await room.addTrivia();
     return room;
   }
@@ -36,8 +35,8 @@ class Rooms {
    * @param  {type} roomName The room name to retrieve
    * @return {type}          The found {Room} object
    */
-  getRoom(roomName) {
-    return this.roomStore[roomName];
+  getRoom(id) {
+    return this.roomStore[id];
   }
 
   getRooms() {
@@ -46,9 +45,10 @@ class Rooms {
 }
 
 class Room {
-  constructor(name) {
-    this.name = name;
+  constructor(id, owner) {
+    this.id = id;
     this.players = {};
+    this.owner = owner;
     this.trivia = [];
     this.currentTrivia = null;
   }
