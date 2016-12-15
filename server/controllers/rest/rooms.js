@@ -42,10 +42,10 @@ module.exports.guestLogin = async function(req, res) {
     const room = Rooms.getRoom(roomID);
     response = room ? {
       success: true,
-      user,
+      name: user,
       message: user + ' joined room ' + room.id,
       roomOwner: room.owner,
-      token: jwt.sign({ user: user, roomID: room.id, owner: false }, jwtSecret)
+      token: jwt.sign({ name: user, roomID: room.id, owner: false }, jwtSecret)
     } : {
       success: false,
       message: 'Room does not exist',
@@ -54,10 +54,10 @@ module.exports.guestLogin = async function(req, res) {
     const room = await Rooms.makeRoom(sid.generate(), user); // TODO room needs to have ID
     response = {
       success: true,
-      user,
+      name: user,
       message: 'Room created for ' + user,
       roomID: room.id,
-      token: jwt.sign({ user: user, roomID: room.id, owner: true }, jwtSecret)
+      token: jwt.sign({ name: user, roomID: room.id, owner: true }, jwtSecret)
     };
   }
 

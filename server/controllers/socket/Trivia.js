@@ -1,7 +1,6 @@
 const io = require('../../index.js').io;
 const socketioJwt = require('socketio-jwt');
-const Rooms = require('../../models/rooms');
-
+const manager = require('../../models/GameSessionsManager');
 const gameClients = {};
 
 let triviaSocket = io.of('/trivia');
@@ -15,14 +14,28 @@ triviaSocket
     const token = socket.decoded_token;
     console.log('User authenticated socket /trivia with token: ' +
       JSON.stringify(token, null, 2));
-    const lobID = token.roomID + 'lobby';
-    const gameID = token.roomID;
-    socket.join(lobID);
 
-    gameClients[gameID] = gameClients[gameID] || [];
-    gameClients[gameID].push(socket);
 
-    triviaSocket.to(lobID).emit('user enter', token.user, gameClients[gameID].length);
+    socket.session = socket.session || manager.getSession(token.roomID);
+    if (!socket.session && token.owner) {
+      const owner = { name: token.name };
+      socket.session = manager.createTriviaSession(owner, token.roomID);
+    } else {
+      socket.emit('error', 'Game can only be started by owner');
+    }
+
+    // if (!session && token.owner) {
+    //
+    // }
+
+    // const lobID = token.roomID + 'lobby';
+    // const gameID = token.roomID;
+    // socket.join(lobID);
+    //
+    // gameClients[gameID] = gameClients[gameID] || [];
+    // gameClients[gameID].push(socket);
+    //
+    // triviaSocket.to(lobID).emit('user enter', token.user, gameClients[gameID].length);
 
     socket.on('game start', () => {
       if (token.owner) {
@@ -33,7 +46,6 @@ triviaSocket
           socket.join(gameID);
         });
       } else {
-        socket.emit('error', 'Game can only be started by owner');
       }
     });
 

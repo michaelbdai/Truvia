@@ -26,4 +26,4 @@ console.log("Server listening on port " + port);
 module.exports = {app, io};
 
 // Run the socket connections
-require('./controllers/socket/rooms');
+require('./controllers/socket/Trivia');
