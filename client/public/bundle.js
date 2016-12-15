@@ -38419,10 +38419,6 @@
 
 	var _Paper2 = _interopRequireDefault(_Paper);
 
-	var _locationOn = __webpack_require__(458);
-
-	var _locationOn2 = _interopRequireDefault(_locationOn);
-
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -38446,6 +38442,8 @@
 	  { className: 'material-icons' },
 	  'check'
 	);
+	// TODO: Somehow link (in html) to fetch icon does not work after implementing react-router. If no possible solution to connect link, try downloading https://material.io/icons/#ic_label_outline.
+
 
 	var Tools = function (_React$Component) {
 	  _inherits(Tools, _React$Component);
@@ -38757,43 +38755,7 @@
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(3)))
 
 /***/ },
-/* 458 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-
-	var _react = __webpack_require__(1);
-
-	var _react2 = _interopRequireDefault(_react);
-
-	var _pure = __webpack_require__(435);
-
-	var _pure2 = _interopRequireDefault(_pure);
-
-	var _SvgIcon = __webpack_require__(444);
-
-	var _SvgIcon2 = _interopRequireDefault(_SvgIcon);
-
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-	var CommunicationLocationOn = function CommunicationLocationOn(props) {
-	  return _react2.default.createElement(
-	    _SvgIcon2.default,
-	    props,
-	    _react2.default.createElement('path', { d: 'M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z' })
-	  );
-	};
-	CommunicationLocationOn = (0, _pure2.default)(CommunicationLocationOn);
-	CommunicationLocationOn.displayName = 'CommunicationLocationOn';
-	CommunicationLocationOn.muiName = 'SvgIcon';
-
-	exports.default = CommunicationLocationOn;
-
-/***/ },
+/* 458 */,
 /* 459 */
 /***/ function(module, exports, __webpack_require__) {
 
