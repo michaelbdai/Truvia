@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js --recursive ./test",
     "dev": "webpack --minimize",
-    "build": "webpack -p",
+    "build": "webpack -w",
     "test:watch": "npm run test -- --watch",
     "react-start": "react-scripts start",
     "react-build": "react-scripts build",
@@ -15,6 +15,7 @@
     "start-react": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start-nodemon": "nodemon --harmony -w server server",
     "start": "node --harmony server"
+
   },
   "repository": {
     "type": "git",
