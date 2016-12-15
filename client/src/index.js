@@ -25,7 +25,7 @@ render(
 			<Route path = 'joingame' component = {JoinGame} />
 			<Route path = 'joingame/:gameID' component = {JoinGame} />
 			<Route path = 'game' component = {Game} />
-		</Router>	
+		</Router>
 	</Provider>
   ), document.getElementById('app')
 )
