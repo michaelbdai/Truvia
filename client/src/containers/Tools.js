@@ -1,12 +1,12 @@
 import React from 'react'
-import FontIcon from 'material-ui/FontIcon';
-import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation';
-import Paper from 'material-ui/Paper';
-import IconLocationOn from 'material-ui/svg-icons/communication/location-on';
+import FontIcon from 'material-ui/FontIcon'
+import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation'
+import Paper from 'material-ui/Paper'
 
-const micIcon = <FontIcon className="material-icons">mic</FontIcon>;
-const skipIcon = <FontIcon className="material-icons">help</FontIcon>;
-const submitIcon = <FontIcon className="material-icons">check</FontIcon>;
+const micIcon = <FontIcon className="material-icons">mic</FontIcon>
+const skipIcon = <FontIcon className="material-icons">help</FontIcon>
+const submitIcon = <FontIcon className="material-icons">check</FontIcon>
+// TODO: Somehow link (in html) to fetch icon does not work after implementing react-router. If no possible solution to connect link, try downloading https://material.io/icons/#ic_label_outline.
 
 
 export default class Tools extends React.Component {
