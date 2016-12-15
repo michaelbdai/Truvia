@@ -28,6 +28,8 @@ dist/
 node_modules/
 bower_components/
 
+bundle.js
+bundle.js.map
 
 .DS_Store
 

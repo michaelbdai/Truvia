@@ -23,7 +23,7 @@ triviaSocket
       socket.emit('error', 'Game can only be created by owner');
       socket.disconnect();
     }
-    const session = socket.session;
+    socket.user = token.name;
 
     if (!socket.session.getPlayer(token.name)) {
       socket.session.addPlayer({ name: token.name, socket });
@@ -31,6 +31,7 @@ triviaSocket
 
     triviaSocket.emit('user enter', token.name, socket.session.getPlayersCount());
 
+    const session = socket.session;
     const room = token.roomID;
     socket.on('game start', () => {
       if (token.owner) {
@@ -40,14 +41,33 @@ triviaSocket
           p.socket.join(token.roomID);
           console.log(`Player ${p.name} joined in room ${room}`);
         });
-        socket.gameState = 'RUNNING';
+        socket.gameState = 'QUESTION';
         session.getCurrentQuestion().then(question => {
-          console.log(question);
           triviaSocket.to(room).emit('question', question);
         });
       } else {
         socket.emit('error', 'Game can only be started by owner');
       }
+    });
+
+    socket.on('answer', (answer, cb) => {
+      if (session.answerQuestion(answer, socket.user)) {
+        cb(true);
+        triviaSocket.to(room).emit('answered', socket.user);
+        if (session.getPlayer(socket.user).score > 8) {
+          triviaSocket.to(room).emit('end', socket.user);
+        } else {
+          setTimeout(() => session.getCurrentQuestion().then(question => {
+            triviaSocket.to(room).emit('question', socket.user);
+          }), 3000);
+        }
+      } else {
+        cb(false);
+      }
+    });
+
+    socket.on('all scores', cb => {
+      cb(session.getScoreBoard());
     });
 
   });
