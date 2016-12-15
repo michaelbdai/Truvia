@@ -5,7 +5,6 @@ class TriviaSession extends GameSession {
     super(owner, timeout);
     this.trivia = [];
     this.currentQuestion = null;
-    this.addTrivia();
   }
 
   /**
@@ -19,8 +18,18 @@ class TriviaSession extends GameSession {
     this._setTrivia(triviaJSON.results);
   }
 
-  getCurrentQuestion() {
-    return this.currentQuestion;
+    _scrubQueston(question) {
+      question.incorrect_answers.push(question.correct_answer);
+      const options = question.incorrect_answers.slice();
+      delete question.incorrect_answers;
+      delete question.correct_answer;
+      question['options'] = options;
+      return question;
+    }
+
+  async getCurrentQuestion() {
+    if (!this.currentQuestion) await this.addTrivia();
+    return this._scrubQueston(this.currentQuestion);
   }
 
   /**

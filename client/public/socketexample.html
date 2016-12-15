@@ -54,7 +54,10 @@
         if (count === 1) {
           socket.emit('game start');
         }
-      })
+      });
+      socket.on('question', question => {
+        console.log(question);
+      });
     }
 
     </script>

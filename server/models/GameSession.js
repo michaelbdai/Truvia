@@ -10,7 +10,7 @@ class GameSession {
   }
 
   preventExpire() {
-    this.expireAt += this.timeout;
+    this.expireAt = Date.now() + this.timeout;
   }
 
   addPlayer(player) {
@@ -33,24 +33,33 @@ class GameSession {
   }
 
   updatePlayerData(playerName, fn) {
+    this.preventExpire();
     const data = this.players[playerName];
     this.players[playerName] = fn(data);
   }
 
-  getPlayerData(playerName) {
+  getPlayer(playerName) {
+    this.preventExpire();
     return this.players[playerName];
   }
 
   setPlayerData(playerName, data) {
+    this.preventExpire();
     this.players[playerName] = data;
   }
 
   getOwner() {
+    this.preventExpire();
     return this.owner;
   }
 
   getPlayers() {
+    this.preventExpire();
     return this.players;
+  }
+
+  getPlayersCount() {
+    return Object.keys(this.players).length;
   }
 
   _shouldRemove() {
