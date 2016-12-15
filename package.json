@@ -14,11 +14,8 @@
     "react-test": "react-scripts test",
     "start-react": "nodemon ./node_modules/webpack-dev-server/bin/webpack-dev-server.js",
     "start-nodemon": "nodemon --harmony -w server server",
-<<<<<<< HEAD
-    "start": "node --harmony -w server server"
-=======
     "start": "node --harmony server"
->>>>>>> af22e9c45074eb61afe5e43b604ab73f4777b2cb
+
   },
   "repository": {
     "type": "git",
