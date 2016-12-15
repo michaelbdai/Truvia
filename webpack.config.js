@@ -5,7 +5,7 @@ var plugins = [
         new webpack.ProvidePlugin({
             "React": "react"
         })];
-var filelocation = "./client/dist/bundle.js"
+var filelocation = "./client/public/bundle.js"
 
 if (minimize) {
   plugins.push(
@@ -22,7 +22,7 @@ if (minimize) {
         }
     }
   ));
-  filelocation = "./client/dist/bundle.min.js"
+  filelocation = "./client/public/bundle.min.js"
 }
 module.exports = {
     entry: './client/src/index.js',
