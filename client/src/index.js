@@ -2,9 +2,8 @@ import React from 'react'
 import { render } from 'react-dom'
 import { createStore } from 'redux'
 import { Provider } from 'react-redux'
-import { Router, Route, IndexRoute } from 'react-router'
+import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router'
 import reducer from './reducers'
-import { hashHistory } from 'react-router'
 import Index from './components/index.js'
 import App from './components/App.js'
 import Game from './components/Game.js'
@@ -16,16 +15,18 @@ injectTapEventPlugin();
 
 const store = createStore(reducer)
 
+
 render(
   (<Provider store={store}>
-		<Router history={hashHistory}>
-			<Route path = '/' component = {App}>
-				<IndexRoute component={Index}/>
-				<Route path = 'joingame' component = {JoinGame} />
-				<Route path = 'game/:gameID' component = {Game} />
+  	<div>
+			<Router history={hashHistory}>
+				<Route path = '/' component = {App}/>
 				<Route path = 'creategame' component = {CreateGame} />
-			</Route>
-		</Router>
+				<Route path = 'joingame' component = {JoinGame} />
+				<Route path = 'game' component = {Game} />
+			</Router>
+		</div>
   </Provider>
   ), document.getElementById('app')
 )
+

@@ -12,6 +12,7 @@ const App = () => (
 	<MuiThemeProvider>
 		<div>
 			app
+			<Link to='/creategame'> creategame </Link>
 		</div>
 	</MuiThemeProvider>
 
