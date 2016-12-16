@@ -6,7 +6,7 @@ import VisibleQuestion from '../containers/VisibleQuestion'
 import Answer from './Answer'
 import Tools from '../containers/Tools'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-import { Link } from 'react-router'
+
 
 
 const Game = () => (

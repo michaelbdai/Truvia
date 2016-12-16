@@ -1,10 +1,15 @@
 import React from 'react'
 
-const JoinGame = () => (
-	<div>JoinGame</div>
 
 
+const JoinGame = ({ params: { gameID } }) => (
+	<div>
+		<div>JoinGame</div>
+		<div>{gameID}</div>
+	</div>
 
 )
+
+
 
 export default JoinGame

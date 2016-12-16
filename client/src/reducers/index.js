@@ -3,8 +3,13 @@ const intitialState = {
 	userAnswer: '',
 	question: '',
 	userObj: {},
-	result: false
+	result: false,
+	gameID:'',
+	gameHost:'',
+	joinAsHost: false,
+	isFetching: false
 }
+
 
 const trivia = (state = intitialState, action) => {
 	switch (action.type) {
@@ -31,8 +36,29 @@ const trivia = (state = intitialState, action) => {
 			//1. RECORD_VOICE - but, change state.userAnswer to empty str
 			//2. POST_ANSWER - post empty state.userAnswer
 			return state
+		case 'CREATE_GAME':
+			return {
+				...state, 
+				gameID: action.gameID, 
+				gameHost: action.gameHost,
+				joinAsHost: true,
+				isFetching: false
+			}
+		case 'JOIN_GAME':
+			return {
+				...state, 
+				gameID: action.gameID, 
+				gameHost: action.gameHost,
+				isFetching: false
+			}	
+		case 'SEND_REQUEST':
+			return {
+				...state, 
+				isFetching: true
+			}						
 		default:
 			return state
 	}
 }
 export default trivia
+
