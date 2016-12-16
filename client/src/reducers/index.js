@@ -13,6 +13,26 @@ const intitialState = {
 
 const trivia = (state = intitialState, action) => {
 	switch (action.type) {
+		case 'CREATE_GAME':
+			return {
+				...state,
+				gameID: action.gameID,
+				gameHost: action.gameHost,
+				joinAsHost: true,
+				isFetching: false
+			}
+		case 'JOIN_GAME':
+			return {
+				...state,
+				gameID: action.gameID,
+				gameHost: action.gameHost,
+				isFetching: false
+			}
+		case 'SEND_REQUEST':
+			return {
+				...state,
+				isFetching: true
+			}
 		case 'POST_ANSWER':
 			//send state.userAnswer to SERVER
 			//get result from server
@@ -36,26 +56,6 @@ const trivia = (state = intitialState, action) => {
 			//1. RECORD_VOICE - but, change state.userAnswer to empty str
 			//2. POST_ANSWER - post empty state.userAnswer
 			return state
-		case 'CREATE_GAME':
-			return {
-				...state, 
-				gameID: action.gameID, 
-				gameHost: action.gameHost,
-				joinAsHost: true,
-				isFetching: false
-			}
-		case 'JOIN_GAME':
-			return {
-				...state, 
-				gameID: action.gameID, 
-				gameHost: action.gameHost,
-				isFetching: false
-			}	
-		case 'SEND_REQUEST':
-			return {
-				...state, 
-				isFetching: true
-			}						
 		default:
 			return state
 	}
