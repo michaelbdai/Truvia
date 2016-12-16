@@ -32,9 +32,7 @@
     function connectSocket(roomID) {
       console.log('... starting trivia socket connection');
       let token = window.sessionStorage.getItem('token');
-      let socket = io.connect('/trivia', {
-        'query': 'token=' + token
-      });
+      let socket = io.connect('/trivia');
 
       // Authentication
       socket
