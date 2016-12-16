@@ -42,7 +42,7 @@ module.exports = triviaSocket => {
         triviaSocket.to(room).emit('answered', socket.user);
         if (session.getPlayer(socket.user).score > 8) {
           session.gameState = 'END';
-          triviaSocket.to(room).emit('end', socket.user);
+          triviaSocket.to(room).emit('game end', socket.user);
         } else {
         }
       } else {
@@ -50,7 +50,7 @@ module.exports = triviaSocket => {
       }
     });
 
-    socket.on('all scores', cb => {
+    socket.on('scoreboard', cb => {
       cb(session.getScoreBoard());
     });
   });

@@ -31,31 +31,69 @@
 
     function connectSocket(roomID) {
       console.log('... starting trivia socket connection');
+      // Get token from browser storage (persistent)
       let token = window.sessionStorage.getItem('token');
+      // Start socket connection to trivia
       let socket = io.connect('/trivia');
 
       // Authentication
       socket
+        // Send token on authenticate event
         .emit('authenticate', {token: token})
+        // When authenticated start listening for trivia
         .on('authenticated', () => {
           console.log('Client authorized for /trivia');
           listenTrivia(socket);
         })
+        // When unauthorized do something else
         .on('unauthorized', msg => {
           console.log('Unauthorized' + JSON.stringify(msg.data));
         });
     }
 
     function listenTrivia(socket) {
+      // When user enters, server sends the entering user's name and the number
+      // of people in the game now
       socket.on('user enter', (name, count) => {
         console.log(`User ${name} has entered, ${count} in room`);
         if (count === 1) {
+          // When there's enough users, send a game start event to the server
+          // The server will then start the game and emit a quesiton event
           socket.emit('game start');
         }
       });
+
+      // Server sends a question event, the question is sent back to the callback
       socket.on('question', question => {
         console.log(question);
+        // Ask the server for the scoreboard, scoreboard sent back to client in callback
+        socket.emit('scoreboard', scoreboard => {
+          console.log('Scoreboard is ' + JSON.stringify(scoreboard));
+        });
+        // Try to answer the question after getting the answer,
+        // the answer to send to the server is the second argument
+        // whether the answer is correct is sent back to the client in the 3rd argument
+        // which is the callback
+        socket.emit('answer',
+          'The answer is always hack reactor',
+          correct => {
+            console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
+          }
+        );
       });
+
+      // Server sends 'answered' event when another user correctly answers a question
+      // the user who answered is send to client in the callback
+      socket.on('answered', user => {
+        console.log(user + ' answered the question correctly!');
+      });
+
+      // Sever sends 'game end' when the game finishes, and the winning user is sent
+      // to the client in the callback
+      socket.on('game end', winningUser => {
+        console.log('Game ended, ' + winningUser + ' won the game! :)')
+      });
+
     }
 
     </script>
