@@ -1,6 +1,6 @@
 import React from 'react'
 import Nav from './Nav'
-import Scoreboard from './Scoreboard'
+import ShowScores from '../containers/ShowScores'
 // import Question from './Question'
 import VisibleQuestion from '../containers/VisibleQuestion'
 import Answer from './Answer'
@@ -13,7 +13,7 @@ const Game = () => (
 	<MuiThemeProvider>
     <div>
   		<Nav />
-  		<Scoreboard />
+  		<ShowScores />
   		<VisibleQuestion />
   		<Answer />
   		<Tools />

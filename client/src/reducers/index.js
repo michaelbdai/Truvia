@@ -1,8 +1,8 @@
 const intitialState = {
 	audioFilePath: 'record/answer.wav',
-	userAnswer: '',
-	question: '',
-	userObj: {},
+	userAnswer: 'In-state: Bing! Bing! Bing!',
+	question: 'In-state: Who is the smartest person in HR 51?',
+	userObj: {Bing: 3, Louis: 1, Nimmy: 3, Sunsan: 6},
 	result: false,
 	gameID:'',
 	gameHost:'',

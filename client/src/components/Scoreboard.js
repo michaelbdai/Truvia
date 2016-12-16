@@ -2,9 +2,10 @@ import React from 'react'
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+
 import Styles from './Styles'
 
-const Scoreboard = () => (
+const Scoreboard = ({userObj}) => (
   <Paper style={Styles.scoreboardContainer} >
     <Table >
     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -15,16 +16,16 @@ const Scoreboard = () => (
       </TableRow>
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
+    {
+      Object.keys(userObj).map((name, index)=>(
       <TableRow>
-        <TableRowColumn>1</TableRowColumn>
-        <TableRowColumn>Susan Hong</TableRowColumn>
-        <TableRowColumn>10</TableRowColumn>
+        <TableRowColumn>{index}</TableRowColumn>
+        <TableRowColumn>{name}</TableRowColumn>
+        <TableRowColumn>{userObj[name]}</TableRowColumn>
       </TableRow>
-      <TableRow>
-        <TableRowColumn>2</TableRowColumn>
-        <TableRowColumn>Bing Dai</TableRowColumn>
-        <TableRowColumn>6</TableRowColumn>
-      </TableRow>
+
+      ))
+    }
     </TableBody>
     </Table>
   </Paper>
