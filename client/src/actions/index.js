@@ -2,7 +2,7 @@ import * as _ from 'lodash';
 import { hashHistory } from 'react-router'
 
 export const postAnswer = (answer) => {
-  socket.emit('answer', answer, ()=> console.log('cb'));
+  socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
   return {
     type: 'POST_ANSWER',
     answer
@@ -32,21 +32,20 @@ const listenTrivia = (socket) => {
   });
 
   socket.on('question', question => {
-    console.log(question);
     store.dispatch(getQuestion(question.question, question.options, question.difficulty));
   });
 
   socket.on('answered', user => {
-  });
-
-  socket.on('end', user => {
-    console.log(user+ ' answered, and more than 8 correct')
+    console.log(user + ' answered the question correctly!');
   });
 
   socket.emit('scoreboard', scoreObj => {
-    console.log(scoreObj);
     store.dispatch(updateScore(scoreObj));
-  })
+  });
+
+  socket.on('game end', winningUser => {
+    console.log('Game ended, ' + winningUser + ' won the game! :)')
+  });
 }
 
 const connectSocket = (roomID) => {
@@ -66,11 +65,6 @@ const connectSocket = (roomID) => {
     });
 }
 
-const sendRequest = () => {
-  return{
-    type: 'SEND_REQUEST'
-  }
-}
 
 const postGuest = (name, roomID) => {
   let data = roomID ? {name: name} : {name: name, roomID: roomID}
@@ -90,6 +84,11 @@ const postGuest = (name, roomID) => {
         dispatch(connectSocket(data, json))
 
       });
+  }
+}
+const sendRequest = () => {
+  return{
+    type: 'SEND_REQUEST'
   }
 }
 
