@@ -46633,7 +46633,9 @@
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.joinGame = exports.createGame = exports.getQuestion = exports.postAnswer = undefined;
+	exports.getQuestion = exports.postAnswer = exports.joinGame = exports.createGame = undefined;
+
+	var _typeof = typeof Symbol === "function" && typeof Symbol.iterator === "symbol" ? function (obj) { return typeof obj; } : function (obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; };
 
 	var _lodash = __webpack_require__(523);
 
@@ -46643,41 +46645,18 @@
 
 	var _socket2 = _interopRequireDefault(_socket);
 
+	var _socket3 = __webpack_require__(580);
+
+	var _socket4 = _interopRequireDefault(_socket3);
+
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 	function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
-
-	var postAnswer = exports.postAnswer = function postAnswer() {
-	  return {
-	    type: 'POST_ANSWER'
-	  };
-	};
-
-	var getQuestion = exports.getQuestion = function getQuestion() {
-	  return {
-	    type: 'GET_QUESTION'
-	  };
-	};
 
 	var sendRequest = function sendRequest() {
 	  return {
 	    type: 'SEND_REQUEST'
 	  };
-	};
-	var connectSocket = function connectSocket(roomID) {
-	  console.log('... starting trivia socket connection');
-	  var token = window.sessionStorage.getItem('token');
-	  var socket = _socket2.default.connect('/trivia', {
-	    'query': 'token=' + token
-	  });
-
-	  // Authentication
-	  socket.emit('authenticate', { token: token }).on('authenticated', function () {
-	    console.log('Client authorized for /trivia');
-	    listenTrivia(socket);
-	  }).on('unauthorized', function (msg) {
-	    console.log('Unauthorized' + JSON.stringify(msg.data));
-	  });
 	};
 	var postGuest = function postGuest(name, roomID) {
 	  console.log('postGame');
@@ -46695,17 +46674,18 @@
 	      console.log('CreateGame POST data from /guest ->', json);
 	      // Take token from json and store it persistently into sessionStorage
 	      window.sessionStorage.setItem('token', json.token);
-	      dispatch(connectSocket(json.roomID));
+	      console.log(typeof _socket4.default === 'undefined' ? 'undefined' : _typeof(_socket4.default));
+	      dispatch((0, _socket4.default)(json.roomID));
 	      dispatch(receivePosts(data, json));
 	    });
 	  };
-	  var receivePosts = function receivePosts(data, json) {
-	    console.log(json);
-	    return {
-	      type: 'CREATE_GAME',
-	      gameID: json.roomID,
-	      gameHost: data.name
-	    };
+	};
+	var receivePosts = function receivePosts(data, json) {
+	  console.log(json);
+	  return {
+	    type: 'CREATE_GAME',
+	    gameID: json.roomID,
+	    gameHost: data.name
 	  };
 	};
 	var createGame = exports.createGame = function createGame(gameHost) {
@@ -46717,6 +46697,17 @@
 	var joinGame = exports.joinGame = function joinGame(guestName, roomID) {
 	  return function (dispatch) {
 	    dispatch(postGuest(guestName, roomID));
+	  };
+	};
+	var postAnswer = exports.postAnswer = function postAnswer() {
+	  return {
+	    type: 'POST_ANSWER'
+	  };
+	};
+
+	var getQuestion = exports.getQuestion = function getQuestion() {
+	  return {
+	    type: 'GET_QUESTION'
 	  };
 	};
 
@@ -67577,6 +67568,53 @@
 	var VisibleQuestion = (0, _reactRedux.connect)(mapStateToProps)(_Question2.default);
 
 	exports.default = VisibleQuestion;
+
+/***/ },
+/* 580 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+
+	var _socket = __webpack_require__(524);
+
+	var _socket2 = _interopRequireDefault(_socket);
+
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+	var listenTrivia = function listenTrivia(socket) {
+	  socket.on('user enter', function (name, count) {
+	    console.log('User ' + name + ' has entered, ' + count + ' in room');
+	    if (count === 1) {
+	      socket.emit('game start');
+	    }
+	  });
+	  socket.on('question', function (question) {
+	    console.log(question);
+	  });
+	}; // import * as actions from './actions';
+
+
+	var connectSocket = function connectSocket(roomID) {
+	  console.log('... starting trivia socket connection');
+	  var token = window.sessionStorage.getItem('token');
+	  var socket = _socket2.default.connect('/trivia', {
+	    'query': 'token=' + token
+	  });
+
+	  // Authentication
+	  socket.emit('authenticate', { token: token }).on('authenticated', function () {
+	    console.log('Client authorized for /trivia');
+	    listenTrivia(socket);
+	  }).on('unauthorized', function (msg) {
+	    console.log('Unauthorized' + JSON.stringify(msg.data));
+	  });
+	};
+
+	exports.default = connectSocket;
 
 /***/ }
 /******/ ]);
