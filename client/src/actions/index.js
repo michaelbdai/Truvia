@@ -1,5 +1,7 @@
 import * as _ from 'lodash';
 import io from 'socket.io-client';
+import { hashHistory } from 'react-router'
+
 export const postAnswer = () => ({
   type: 'POST_ANSWER'
 })
@@ -15,6 +17,17 @@ const sendRequest = () => {
   return{
     type: 'SEND_REQUEST'
   }
+}
+const listenTrivia = (socket) => {
+  socket.on('user enter', (name, count) => {
+    console.log(`User ${name} has entered, ${count} in room`);
+    if (count === 1) {
+      socket.emit('game start');
+    }
+  });
+  socket.on('question', question => {
+    console.log(question);
+  });
 }
 const connectSocket = (roomID) => {
   console.log('... starting trivia socket connection');
@@ -57,6 +70,7 @@ const postGuest = (name, roomID) => {
 }
 const receivePosts = (data, json) => {
   console.log(json);
+  hashHistory.push('/game')
   return {
     type: 'CREATE_GAME',
     gameID: json.roomID,
