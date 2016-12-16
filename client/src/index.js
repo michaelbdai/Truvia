@@ -12,23 +12,26 @@ import JoinGame from './components/JoinGame.js'
 import CreateGame from './containers/CreateGame.js'
 import Login from './containers/Login'
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import Watson from './components/Watson';
+
 injectTapEventPlugin();
 
 const store = createStore(reducer, applyMiddleware(thunkMiddleware))
 
 
-render(
-	(<Provider store={store}>
+render((
+  <Provider store={store}>
 		<Router history={hashHistory}>
 			<Route path = '/' component = {App}/>
 			<Route path = 'creategame' component = {CreateGame} />
 			<Route path = 'joingame' component = {JoinGame} />
 			<Route path = 'joingame/:gameID' component = {JoinGame} />
 			<Route path = 'game' component = {Game} />
+      <Route path = 'watson' component = {Watson} />
 		</Router>
 	</Provider>
   ), document.getElementById('app')
-)
+);
 
 
 //////////

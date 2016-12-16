@@ -27,7 +27,9 @@
     "url": "https://github.com/StupendousSpinach/LegacyTrivia/issues"
   },
   "homepage": "https://github.com/StupendousSpinach/LegacyTrivia#readme",
-  "engines" : { "node" : ">=7.1.0" },
+  "engines": {
+    "node": ">=7.1.0"
+  },
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.18.2",
@@ -83,6 +85,7 @@
     "socketio-jwt": "^4.5.0",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
-    "uuid": "^3.0.1"
+    "uuid": "^3.0.1",
+    "watson-speech": "^0.25.1"
   }
 }

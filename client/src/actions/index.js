@@ -1,11 +1,38 @@
 import * as _ from 'lodash';
 import io from 'socket.io-client';
-import connectSocket from '../socket'
+export const postAnswer = () => ({
+  type: 'POST_ANSWER'
+})
+
+export const getQuestion = (question) => ({
+  type: 'GET_QUESTION',
+  question
+})
+
+
 
 const sendRequest = () => {
   return{
     type: 'SEND_REQUEST'
   }
+}
+const connectSocket = (roomID) => {
+  console.log('... starting trivia socket connection');
+  let token = window.sessionStorage.getItem('token');
+  let socket = io.connect('/trivia', {
+    'query': 'token=' + token
+  });
+
+  // Authentication
+  socket
+    .emit('authenticate', {token: token})
+    .on('authenticated', () => {
+      console.log('Client authorized for /trivia');
+      listenTrivia(socket);
+    })
+    .on('unauthorized', msg => {
+      console.log('Unauthorized' + JSON.stringify(msg.data));
+    });  
 }
 const postGuest = (name, roomID) => {
   console.log('postGame')
@@ -23,7 +50,6 @@ const postGuest = (name, roomID) => {
         console.log('CreateGame POST data from /guest ->', json);
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
-        console.log(typeof connectSocket)
         dispatch(connectSocket(json.roomID))
         dispatch(receivePosts(data, json))
       });
@@ -35,26 +61,22 @@ const receivePosts = (data, json) => {
     type: 'CREATE_GAME',
     gameID: json.roomID,
     gameHost: data.name
-  }
+  } 
+
 }
+
+
 export const createGame = (gameHost) => {
   console.log('createGame');
   return(dispatch) => {
     dispatch(postGuest(gameHost))
-  }
+  }  
 }
 export const joinGame = (guestName, roomID) => {
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
-  }
-}
-export const postAnswer = () => ({
-  type: 'POST_ANSWER'
-})
-
-export const getQuestion = () => ({
-  type: 'GET_QUESTION'
-})
+  }  
+} 
 
 
 
