@@ -15,7 +15,7 @@ class GameSession {
 
   addPlayer(player) {
     this.preventExpire();
-    if (player.name.length < 3)
+    if (player.name.length <3)
       throw `Player name, '${player.name}', must be at least 3 characters`;
     if (!/^[a-zA-Z0-9]*$/.test(player.name))
       throw `Player name, '${player.name}' must only contain only charactters A-Z, a-z, or 0-9`;
