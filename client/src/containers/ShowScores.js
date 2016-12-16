@@ -1,23 +1,20 @@
 import { connect } from 'react-redux'
+import Scoreboard from '../components/Scoreboard'
 
 
 const mapStateToProps = (state) => ({
-  gameHost: state.gameHost
+  userObj: state.userObj
 })
 
 const mapDispatchToProps = () => ({
 
 })
 
-let ShowHost = ({gameHost}) => (
 
-	<div>Gamehost: {gameHost} </div>
 
-)
-
-ShowHost = connect(
+let ShowScores = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ShowHost)
+)(Scoreboard)
 
-export default ShowHost
+export default ShowScores

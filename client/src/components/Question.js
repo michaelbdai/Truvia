@@ -4,7 +4,7 @@ import Divider from 'material-ui/Divider';
 import Styles from './Styles'
 import { connect } from 'react-redux'
 
-const Question = ({question='Who is the smartest person in HR 51?'}) => (
+const Question = ({question}) => (
   <Paper style={Styles.questionContainer} zDepth={1} >
     <div style={Styles.questionHeader}>
       <p>Question 1 of 15</p>

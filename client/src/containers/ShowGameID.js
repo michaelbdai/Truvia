@@ -2,22 +2,22 @@ import { connect } from 'react-redux'
 
 
 const mapStateToProps = (state) => ({
-  gameHost: state.gameHost
+  gameID: state.gameID
 })
 
 const mapDispatchToProps = () => ({
 
 })
 
-let ShowHost = ({gameHost}) => (
+let ShowGameID = ({gameID}) => (
 
-	<div>Gamehost: {gameHost} </div>
+	<div>GameID: {gameID} </div>
 
 )
 
-ShowHost = connect(
+ShowGameID = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ShowHost)
+)(ShowGameID)
 
-export default ShowHost
+export default ShowGameID

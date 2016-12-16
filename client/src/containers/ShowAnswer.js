@@ -1,23 +1,19 @@
 import { connect } from 'react-redux'
+import Answer from '../components/Answer'
 
 
 const mapStateToProps = (state) => ({
-  gameHost: state.gameHost
+  userAnswer: state.userAnswer
 })
 
 const mapDispatchToProps = () => ({
 
 })
 
-let ShowHost = ({gameHost}) => (
 
-	<div>Gamehost: {gameHost} </div>
-
-)
-
-ShowHost = connect(
+ShowAnswer = connect(
   mapStateToProps,
   mapDispatchToProps
-)(ShowHost)
+)(Answer)
 
-export default ShowHost
+export default ShowAnswer
