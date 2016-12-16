@@ -17,14 +17,11 @@ export const getQuestion = (question, options, difficulty) => ({
   difficulty
 })
 
-export const updateScore = (user) => {
-  console.log('score update')
-  let newUserObj = {};
-  newUserObj[user] = 99
-  console.log(newUserObj);
+export const updateScore = (scoreObj) => {
+  console.log( 'from action');
   return {
     type: 'UPDATE_SCORE',
-    newUserObj
+    scoreObj
   }
 }
 
@@ -38,18 +35,23 @@ const listenTrivia = (socket) => {
   socket.on('question', question => {
     console.log(question);
     store.dispatch(getQuestion(question.question, question.options, question.difficulty));
-    // store.dispatch(getDifficulty(question.difficulty));
   });
   // ## added
   socket.on('answered', user => {
     console.log(user + ' answered the question')
     // ## The question will be changed anyways
     // ## TODO: How do I know if this is correct or not?
-    store.dispatch(updateScore(user))
+    // store.dispatch(updateScore(user))
+    // socket.emit('al')
   });
   socket.on('end', user => {
     console.log(user+ ' answered, and more than 8 correct')
+  });
+  socket.emit('all scores', scoreObj => {
+    console.log(scoreObj);
+    store.dispatch(updateScore(scoreObj));
   })
+
 }
 const connectSocket = (roomID) => {
   console.log('... starting trivia socket connection');
