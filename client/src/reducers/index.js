@@ -1,10 +1,10 @@
 const intitialState = {
 	audioFilePath: 'record/answer.wav',
-	userAnswer: 'In-state: Bing! Bing! Bing!',
-	question: 'In-state: Who is the smartest person in HR 51?',
-	options: ['a'],
+	userAnswer: '',
+	question: '',
+	options: [],
 	difficulty: 'haha',
-	userObj: {Bing: 3, Louis: 1, Nimmy: 3, Sunsan: 6},
+	scoreObj: [{name: 'test', score: 99}],
 	result: false,
 	gameID:'',
 	gameHost:'',
@@ -58,7 +58,7 @@ const trivia = (state = intitialState, action) => {
 			console.log('score updated in reducer')
 			return {
 				...state,
-				userObj: action.newUserObj
+				scoreObj: action.scoreObj
 			}
 		case 'RECORD_VOICE':
 			//change voice file

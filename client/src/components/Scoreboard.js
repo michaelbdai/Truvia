@@ -2,10 +2,9 @@ import React from 'react'
 import Paper from 'material-ui/Paper';
 import Divider from 'material-ui/Divider';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-
 import Styles from './Styles'
 
-const Scoreboard = ({userObj}) => (
+const Scoreboard = ({scoreObj}) => (
   <Paper style={Styles.scoreboardContainer} >
     <Table >
     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -17,13 +16,12 @@ const Scoreboard = ({userObj}) => (
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
     {
-      Object.keys(userObj).map((name, index)=>(
-      <TableRow key={index}>
-        <TableRowColumn>{index}</TableRowColumn>
-        <TableRowColumn>{name}</TableRowColumn>
-        <TableRowColumn>{userObj[name]}</TableRowColumn>
-      </TableRow>
-
+      scoreObj.map((userObj, index)=>(
+        <TableRow key={index}>
+          <TableRowColumn>{index}</TableRowColumn>
+          <TableRowColumn>{userObj.name}</TableRowColumn>
+          <TableRowColumn>{userObj.score}</TableRowColumn>
+        </TableRow>
       ))
     }
     </TableBody>
@@ -32,12 +30,3 @@ const Scoreboard = ({userObj}) => (
 );
 
 export default Scoreboard
-
- // <Paper style={Styles.scoreboardContainer} zDepth={1} >
- //      <List>
- //        <Subheader>Score Board</Subheader>
- //        <ListItem
- //          primaryText="Brendan Lim"
- //        />
- //      </List>
- //    </Paper>

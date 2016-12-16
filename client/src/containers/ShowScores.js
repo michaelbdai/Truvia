@@ -1,20 +1,12 @@
 import { connect } from 'react-redux'
 import Scoreboard from '../components/Scoreboard'
 
-
 const mapStateToProps = (state) => ({
-  userObj: state.userObj
+  scoreObj: state.scoreObj
 })
-
-const mapDispatchToProps = () => ({
-
-})
-
-
 
 let ShowScores = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Scoreboard)
 
 export default ShowScores
