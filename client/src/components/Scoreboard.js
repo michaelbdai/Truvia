@@ -18,7 +18,7 @@ const Scoreboard = ({userObj}) => (
     <TableBody displayRowCheckbox={false}>
     {
       Object.keys(userObj).map((name, index)=>(
-      <TableRow>
+      <TableRow key={index}>
         <TableRowColumn>{index}</TableRowColumn>
         <TableRowColumn>{name}</TableRowColumn>
         <TableRowColumn>{userObj[name]}</TableRowColumn>
