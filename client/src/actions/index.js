@@ -47,7 +47,7 @@ const listenTrivia = (socket) => {
   socket.on('end', user => {
     console.log(user+ ' answered, and more than 8 correct')
   });
-  socket.emit('all scores', scoreObj => {
+  socket.emit('scoreboard', scoreObj => {
     console.log(scoreObj);
     store.dispatch(updateScore(scoreObj));
   })
