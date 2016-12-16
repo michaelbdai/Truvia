@@ -1,9 +1,14 @@
 import * as _ from 'lodash';
 import { hashHistory } from 'react-router'
 
-export const postAnswer = () => ({
-  type: 'POST_ANSWER'
-})
+export const postAnswer = (answer) => {
+  console.log('posted');
+  socket.emit('answer', answer, ()=> console.log('cb'));
+  return {
+    type: 'POST_ANSWER',
+    answer
+  }
+}
 
 export const getQuestion = (question, options, difficulty) => ({
   type: 'GET_QUESTION',
@@ -12,16 +17,17 @@ export const getQuestion = (question, options, difficulty) => ({
   difficulty
 })
 
-// export const getDifficulty = (difficulty) => ({
-//   type: 'GET_DIFFICULTY',
-//   difficulty
-// })
-
-const sendRequest = () => {
-  return{
-    type: 'SEND_REQUEST'
+export const updateScore = (user) => {
+  console.log('score update')
+  let newUserObj = {};
+  newUserObj[user] = 99
+  console.log(newUserObj);
+  return {
+    type: 'UPDATE_SCORE',
+    newUserObj
   }
 }
+
 const listenTrivia = (socket) => {
   socket.on('user enter', (name, count) => {
     console.log(`User ${name} has entered, ${count} in room`);
@@ -34,6 +40,16 @@ const listenTrivia = (socket) => {
     store.dispatch(getQuestion(question.question, question.options, question.difficulty));
     // store.dispatch(getDifficulty(question.difficulty));
   });
+  // ## added
+  socket.on('answered', user => {
+    console.log(user + ' answered the question')
+    // ## The question will be changed anyways
+    // ## TODO: How do I know if this is correct or not?
+    store.dispatch(updateScore(user))
+  });
+  socket.on('end', user => {
+    console.log(user+ ' answered, and more than 8 correct')
+  })
 }
 const connectSocket = (roomID) => {
   console.log('... starting trivia socket connection');
@@ -50,6 +66,11 @@ const connectSocket = (roomID) => {
     .on('unauthorized', msg => {
       console.log('Unauthorized' + JSON.stringify(msg.data));
     });
+}
+const sendRequest = () => {
+  return{
+    type: 'SEND_REQUEST'
+  }
 }
 const postGuest = (name, roomID) => {
   console.log('postGame')

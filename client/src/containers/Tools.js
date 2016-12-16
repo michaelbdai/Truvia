@@ -4,7 +4,7 @@ import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigati
 import Paper from 'material-ui/Paper'
 
 import { connect } from 'react-redux'
-import { getQuestion } from '../actions'
+import { getQuestion, postAnswer } from '../actions'
 import Question from '../components/Question'
 
 const micIcon = <FontIcon className="material-icons">mic</FontIcon>
@@ -32,6 +32,7 @@ let Tools = ({ dispatch }) => {
           onTouchTap={() => {
             // this.select(2);
             console.log('submit button clicked')
+            dispatch(postAnswer('yup'));
             // dispatch(getQuestion('How many students are in HR 51?'));
             }
           }

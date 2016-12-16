@@ -40,7 +40,10 @@ const trivia = (state = intitialState, action) => {
 			//get result from server
 			//all users' result
 			//update: state.userObj and state.result
-			return state
+			return {
+				...state,
+				userAnswer: action.answer
+			}
 		case 'GET_QUESTION':
 			//get request for next question
 			//update state.question per respond
@@ -50,6 +53,12 @@ const trivia = (state = intitialState, action) => {
 				question: action.question,
 				options: action.options,
 				difficulty: action.difficulty
+			}
+		case 'UPDATE_SCORE':
+			console.log('score updated in reducer')
+			return {
+				...state,
+				userObj: action.newUserObj
 			}
 		case 'RECORD_VOICE':
 			//change voice file
