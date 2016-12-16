@@ -5,10 +5,17 @@ export const postAnswer = () => ({
   type: 'POST_ANSWER'
 })
 
-export const getQuestion = (question) => ({
+export const getQuestion = (question, options, difficulty) => ({
   type: 'GET_QUESTION',
-  question
+  question,
+  options,
+  difficulty
 })
+
+// export const getDifficulty = (difficulty) => ({
+//   type: 'GET_DIFFICULTY',
+//   difficulty
+// })
 
 const sendRequest = () => {
   return{
@@ -24,7 +31,8 @@ const listenTrivia = (socket) => {
   });
   socket.on('question', question => {
     console.log(question);
-    store.dispatch(getQuestion(question.question));
+    store.dispatch(getQuestion(question.question, question.options, question.difficulty));
+    // store.dispatch(getDifficulty(question.difficulty));
   });
 }
 const connectSocket = (roomID) => {

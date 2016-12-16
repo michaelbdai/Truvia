@@ -2,6 +2,8 @@ const intitialState = {
 	audioFilePath: 'record/answer.wav',
 	userAnswer: 'In-state: Bing! Bing! Bing!',
 	question: 'In-state: Who is the smartest person in HR 51?',
+	options: ['a'],
+	difficulty: 'haha',
 	userObj: {Bing: 3, Louis: 1, Nimmy: 3, Sunsan: 6},
 	result: false,
 	gameID:'',
@@ -45,7 +47,9 @@ const trivia = (state = intitialState, action) => {
 			console.log('reducer triggered')
 			return {
 				...state,
-				question: action.question
+				question: action.question,
+				options: action.options,
+				difficulty: action.difficulty
 			}
 		case 'RECORD_VOICE':
 			//change voice file
