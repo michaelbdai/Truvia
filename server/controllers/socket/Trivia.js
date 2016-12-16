@@ -50,7 +50,7 @@ module.exports = triviaSocket => {
       }
     });
 
-    socket.on('all scores', cb => {
+    socket.on('scoreboard', cb => {
       cb(session.getScoreBoard());
     });
   });

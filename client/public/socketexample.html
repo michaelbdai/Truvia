@@ -57,7 +57,25 @@
       });
       socket.on('question', question => {
         console.log(question);
+        socket.emit('scoreboard', scoreboard => {
+          console.log('Scoreboard is ' + JSON.stringify(scoreboard));
+        });
+        socket.emit('answer',
+          'The answer is always hack reactor',
+          correct => {
+            console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
+          }
+        );
       });
+
+      socket.on('answered', user => {
+        console.log(user + ' answered the question correctly!');
+      });
+
+      socket.on('end', winningUser => {
+        console.log('Game ended, ' + winningUser + ' won the game! :)')
+      });
+
     }
 
     </script>
