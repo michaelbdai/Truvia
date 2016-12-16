@@ -58,6 +58,7 @@
     "classnames": "^2.2.5",
     "cors": "^2.8.1",
     "css-loader": "^0.26.1",
+    "dotenv": "^2.0.0",
     "exports-loader": "^0.6.3",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.9.0",
@@ -86,6 +87,8 @@
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
     "uuid": "^3.0.1",
+    "vcap_services": "^0.2.0",
+    "watson-developer-cloud": "^2.14.3",
     "watson-speech": "^0.25.1"
   }
 }
