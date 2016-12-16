@@ -63,13 +63,13 @@ const postGuest = (name, roomID) => {
         console.log('CreateGame POST data from /guest ->', json);
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
-        dispatch(connectSocket(json.roomID))
         dispatch(receivePosts(data, json))
+        
       });
   }
 }
 const receivePosts = (data, json) => {
-  console.log(json);
+  console.log('receivePosts')
   hashHistory.push('/game')
   return {
     type: 'CREATE_GAME',
