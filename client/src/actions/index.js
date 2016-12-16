@@ -1,23 +1,33 @@
 import * as _ from 'lodash';
-import io from 'socket.io-client';
 import { hashHistory } from 'react-router'
 
-export const postAnswer = () => ({
-  type: 'POST_ANSWER'
-})
-
-export const getQuestion = (question) => ({
-  type: 'GET_QUESTION',
-  question
-})
-
-
-
-const sendRequest = () => {
-  return{
-    type: 'SEND_REQUEST'
+export const postAnswer = (answer) => {
+  console.log('posted');
+  socket.emit('answer', answer, ()=> console.log('cb'));
+  return {
+    type: 'POST_ANSWER',
+    answer
   }
 }
+
+export const getQuestion = (question, options, difficulty) => ({
+  type: 'GET_QUESTION',
+  question,
+  options,
+  difficulty
+})
+
+export const updateScore = (user) => {
+  console.log('score update')
+  let newUserObj = {};
+  newUserObj[user] = 99
+  console.log(newUserObj);
+  return {
+    type: 'UPDATE_SCORE',
+    newUserObj
+  }
+}
+
 const listenTrivia = (socket) => {
   socket.on('user enter', (name, count) => {
     console.log(`User ${name} has entered, ${count} in room`);
@@ -27,15 +37,25 @@ const listenTrivia = (socket) => {
   });
   socket.on('question', question => {
     console.log(question);
+    store.dispatch(getQuestion(question.question, question.options, question.difficulty));
+    // store.dispatch(getDifficulty(question.difficulty));
   });
+  // ## added
+  socket.on('answered', user => {
+    console.log(user + ' answered the question')
+    // ## The question will be changed anyways
+    // ## TODO: How do I know if this is correct or not?
+    store.dispatch(updateScore(user))
+  });
+  socket.on('end', user => {
+    console.log(user+ ' answered, and more than 8 correct')
+  })
 }
 const connectSocket = (roomID) => {
   console.log('... starting trivia socket connection');
   let token = window.sessionStorage.getItem('token');
-  let socket = io.connect('/trivia', {
-    'query': 'token=' + token
-  });
-
+  // window.socket = io.connect('/trivia');
+  let socket = window.socket;
   // Authentication
   socket
     .emit('authenticate', {token: token})
@@ -45,7 +65,12 @@ const connectSocket = (roomID) => {
     })
     .on('unauthorized', msg => {
       console.log('Unauthorized' + JSON.stringify(msg.data));
-    });  
+    });
+}
+const sendRequest = () => {
+  return{
+    type: 'SEND_REQUEST'
+  }
 }
 const postGuest = (name, roomID) => {
   console.log('postGame')
@@ -64,7 +89,8 @@ const postGuest = (name, roomID) => {
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         dispatch(receivePosts(data, json))
-        
+        dispatch(connectSocket(data, json))
+
       });
   }
 }
@@ -75,22 +101,21 @@ const receivePosts = (data, json) => {
     type: 'CREATE_GAME',
     gameID: json.roomID,
     gameHost: data.name
-  } 
+  }
 
 }
-
 
 export const createGame = (gameHost) => {
   console.log('createGame');
   return(dispatch) => {
     dispatch(postGuest(gameHost))
-  }  
+  }
 }
 export const joinGame = (guestName, roomID) => {
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
-  }  
-} 
+  }
+}
 
 
 

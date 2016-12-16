@@ -4,7 +4,7 @@ import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigati
 import Paper from 'material-ui/Paper'
 
 import { connect } from 'react-redux'
-import { getQuestion } from '../actions'
+import { getQuestion, postAnswer } from '../actions'
 import Question from '../components/Question'
 
 const micIcon = <FontIcon className="material-icons">mic</FontIcon>
@@ -12,38 +12,6 @@ const skipIcon = <FontIcon className="material-icons">help</FontIcon>
 const submitIcon = <FontIcon className="material-icons">check</FontIcon>
 // TODO: Somehow link (in html) to fetch icon does not work after implementing react-router. If no possible solution to connect link, try downloading https://material.io/icons/#ic_label_outline.
 
-
-// export default class Tools extends React.Component {
-// class Tools extends React.Component {
-//   render() {
-//     return (
-//       <Paper zDepth={1}>
-//         <BottomNavigation>
-//           <BottomNavigationItem
-//             label="Record"
-//             icon={micIcon}
-//             onTouchTap={() => this.select(0)}
-//           />
-//           <BottomNavigationItem
-//             label="Skip"
-//             icon={skipIcon}
-//             onTouchTap={() => this.select(1)}
-//           />
-//           <BottomNavigationItem
-//             label="Submit"
-//             icon={submitIcon}
-//             onTouchTap={() => {
-//               // this.select(2);
-//               console.log('submit button clicked')
-//               dispatch(postAnswer('Susan is the smartest.'));
-//               }
-//             }
-//           />
-//         </BottomNavigation>
-//       </Paper>
-//     )
-//   }
-// }
 let Tools = ({ dispatch }) => {
   return (
     <Paper zDepth={1}>
@@ -64,7 +32,8 @@ let Tools = ({ dispatch }) => {
           onTouchTap={() => {
             // this.select(2);
             console.log('submit button clicked')
-            dispatch(getQuestion('How many students are in HR 51?'));
+            dispatch(postAnswer('yup'));
+            // dispatch(getQuestion('How many students are in HR 51?'));
             }
           }
         />

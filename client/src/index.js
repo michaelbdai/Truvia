@@ -5,6 +5,11 @@ import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory, hashHistory } from 'react-router'
 import thunkMiddleware from 'redux-thunk'
 import injectTapEventPlugin from 'react-tap-event-plugin';
+import io from 'socket.io-client';
+
+const store = createStore(reducer, applyMiddleware(thunkMiddleware))
+window.socket = io.connect('/trivia');
+window.store = store;
 
 import reducer from './reducers'
 import App from './components/App'
@@ -15,9 +20,6 @@ import Login from './containers/Login'
 import Watson from './components/Watson';
 
 injectTapEventPlugin();
-
-const store = createStore(reducer, applyMiddleware(thunkMiddleware))
-
 
 render((
   <Provider store={store}>

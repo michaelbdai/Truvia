@@ -3,9 +3,6 @@ import { connect } from 'react-redux'
 import { joinGame } from '../actions'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
-
-
-
 let JoinGame = ({ dispatch, gameID }) => {
   let input
   return(
@@ -23,11 +20,10 @@ let JoinGame = ({ dispatch, gameID }) => {
         <button type = 'submit'>
             Join Game
         </button>
-      </form> 
+      </form>
 
     </div>
   </MuiThemeProvider>
-
 )}
 
 JoinGame = connect()(JoinGame);
