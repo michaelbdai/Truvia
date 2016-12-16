@@ -11,21 +11,18 @@ let CreateGame = ({ dispatch }) => {
 	return (
 	<MuiThemeProvider>
 		<div>
-			
 			<Nav />
 			<div> Please enter your name and create the game </div>
 			<form onSubmit={e =>{
 				e.preventDefault()
 				dispatch(createGame(input.value))
 				input.value = ''
-				hashHistory.push('/game')
 			}}>
 				<input ref = {node => {
 					input = node
 				}} />
 				<button type = 'submit'>
 						Create Game
-
 				</button>
 			</form> 
 
