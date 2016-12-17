@@ -45,6 +45,7 @@ module.exports.guestLogin = async function(req, res) {
       name: user,
       message: user + ' joined room ' + room.id,
       roomOwner: room.owner,
+      owner: false,
       token: jwt.sign({ name: user, roomID: room.id, owner: false }, jwtSecret)
     } : {
       success: false,
@@ -57,6 +58,7 @@ module.exports.guestLogin = async function(req, res) {
       name: user,
       message: 'Room created for ' + user,
       roomID: room.id,
+      owner: true,
       token: jwt.sign({ name: user, roomID: room.id, owner: true }, jwtSecret)
     };
   }
