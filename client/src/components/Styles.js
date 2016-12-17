@@ -38,6 +38,21 @@ const Styles = {
   toolbarTitle: {
     color: 'white'
   },
+  gameOverContainer: {
+    height: 230,
+    width: '100%',
+    marginTop: 200,
+    textAlign: 'center',
+    display: 'inline-block',
+    padding: '50px 100px',
+  },
+  gameOverHeader: {
+    fontSize: '30px'
+  },
+  gameOverBody: {
+    fontSize: '20px',
+    marginTop: '10px'
+  }
 };
 
 export default Styles;
