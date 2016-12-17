@@ -31,10 +31,11 @@ export const speechToText = (text) => {  // figureout how to get the text here
   }
 }
 
-const listenTrivia = (socket) => {
+const listenTrivia = (socket, isOwner) => {
   socket.on('user enter', (name, count) => {
     console.log(`User ${name} has entered, ${count} in room`);
-    if (count === 1) {
+    console.log(isOwner.owner);
+    if (isOwner.owner && count === 2) {
       socket.emit('game start');
     }
   });
@@ -56,7 +57,7 @@ const listenTrivia = (socket) => {
   });
 }
 
-const connectSocket = (roomID) => {
+const connectSocket = (roomID, isOwner) => {
   console.log('... starting trivia socket connection');
   let token = window.sessionStorage.getItem('token');
   // Once socket connected, store as window variable
@@ -66,7 +67,7 @@ const connectSocket = (roomID) => {
     .emit('authenticate', {token: token})
     .on('authenticated', () => {
       console.log('Client authorized for /trivia');
-      listenTrivia(socket);
+      listenTrivia(socket, isOwner);
     })
     .on('unauthorized', msg => {
       console.log('Unauthorized' + JSON.stringify(msg.data));
@@ -86,10 +87,12 @@ const postGuest = (name, roomID) => {
       .then(res => res.json())
       .then(json => {
         console.log('CreateGame POST data from /guest ->', json);
+        const isOwner = json.owner;
+        console.log('isOwner'+ isOwner);
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         dispatch(receivePosts(data, json))
-        dispatch(connectSocket(data, json))
+        dispatch(connectSocket(data, json, isOwner))
 
       });
   }
@@ -117,6 +120,8 @@ export const createGame = (gameHost) => {
 }
 
 export const joinGame = (guestName, roomID) => {
+  console.log('joinGame:');
+  console.log(roomID);
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
   }
