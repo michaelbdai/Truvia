@@ -21,7 +21,7 @@ const Game = () => (
 				}}>
 	  		<ShowScores />
 	  		<ShowQuestion />
-	  		<Answer />
+	  		<ShowAnswer />
 	  		<Tools />
 			</div>
     </div>
