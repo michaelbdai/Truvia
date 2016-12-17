@@ -64,10 +64,11 @@ class GameSessionsManager {
         if (!socket.session && token.owner) {
           const owner = { name: token.name, socket };
           socket.session = this.createSession(Session, owner, token.roomID);
-        } else {
-          socket.emit('error', 'Game can only be created by owner');
-          socket.disconnect();
         }
+        // else {
+        //   socket.emit('error', 'Game can only be created by owner');
+        //   socket.disconnect();
+        // }
         socket.user = token.name;
 
         if (!socket.session.getPlayer(token.name)) {

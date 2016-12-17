@@ -2,8 +2,7 @@ import * as _ from 'lodash';
 import { hashHistory } from 'react-router'
 
 export const postAnswer = (answer) => {
-  console.log('posted');
-  socket.emit('answer', answer, ()=> console.log('cb'));
+  socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
   return {
     type: 'POST_ANSWER',
     answer
@@ -18,7 +17,6 @@ export const getQuestion = (question, options, difficulty) => ({
 })
 
 export const updateScore = (scoreObj) => {
-  console.log( 'from action');
   return {
     type: 'UPDATE_SCORE',
     scoreObj
@@ -32,31 +30,28 @@ const listenTrivia = (socket) => {
       socket.emit('game start');
     }
   });
+
   socket.on('question', question => {
-    console.log(question);
     store.dispatch(getQuestion(question.question, question.options, question.difficulty));
   });
-  // ## added
-  socket.on('answered', user => {
-    console.log(user + ' answered the question')
-    // ## The question will be changed anyways
-    // ## TODO: How do I know if this is correct or not?
-    // store.dispatch(updateScore(user))
-    // socket.emit('al')
-  });
-  socket.on('end', user => {
-    console.log(user+ ' answered, and more than 8 correct')
-  });
-  socket.emit('all scores', scoreObj => {
-    console.log(scoreObj);
-    store.dispatch(updateScore(scoreObj));
-  })
 
+  socket.on('answered', user => {
+    console.log(user + ' answered the question correctly!');
+  });
+
+  socket.emit('scoreboard', scoreObj => {
+    store.dispatch(updateScore(scoreObj));
+  });
+
+  socket.on('game end', winningUser => {
+    console.log('Game ended, ' + winningUser + ' won the game! :)')
+  });
 }
+
 const connectSocket = (roomID) => {
   console.log('... starting trivia socket connection');
   let token = window.sessionStorage.getItem('token');
-  // window.socket = io.connect('/trivia');
+  // Once socket connected, store as window variable
   let socket = window.socket;
   // Authentication
   socket
@@ -69,14 +64,9 @@ const connectSocket = (roomID) => {
       console.log('Unauthorized' + JSON.stringify(msg.data));
     });
 }
-const sendRequest = () => {
-  return{
-    type: 'SEND_REQUEST'
-  }
-}
+
+
 const postGuest = (name, roomID) => {
-  console.log('postGame')
-  // let data = _.omitBy({name, roomID}, _.isUndefined);
   let data = roomID ? {name: name} : {name: name, roomID: roomID}
   return dispatch => {
       dispatch(sendRequest)
@@ -96,6 +86,12 @@ const postGuest = (name, roomID) => {
       });
   }
 }
+const sendRequest = () => {
+  return{
+    type: 'SEND_REQUEST'
+  }
+}
+
 const receivePosts = (data, json) => {
   console.log('receivePosts')
   hashHistory.push('/game')
@@ -104,15 +100,14 @@ const receivePosts = (data, json) => {
     gameID: json.roomID,
     gameHost: data.name
   }
-
 }
 
 export const createGame = (gameHost) => {
-  console.log('createGame');
   return(dispatch) => {
     dispatch(postGuest(gameHost))
   }
 }
+
 export const joinGame = (guestName, roomID) => {
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
