@@ -1,12 +1,15 @@
-const uuid = require('uuid/v4');
+const sid = require('shortid');
 
 // Should not allow duplicate players
 class GameSession {
   constructor(owner, timeout) {
     this.players = {};
     this.timeout = timeout;
+    this.id = sid.generate();
     this.expireAt = Date.now() + this.timeout;
-    this.addPlayer(owner);
+    this.addPlayer({name: owner});
+    this.owner = this.players[owner];
+    this.gameState = 'lobby';
   }
 
   preventExpire() {
@@ -21,8 +24,11 @@ class GameSession {
       throw `Player name, '${player.name}' must only contain only charactters A-Z, a-z, or 0-9`;
     if (this.players[player.name])
       throw `Player ${player.name} already exists`;
-    player.id = uuid();
+    player.id = sid.generate();
     this.players[player.name] = player;
+    console.log('ts ' + player.socket);
+
+    return player;
   }
 
   removePlayer(playerName) {
@@ -61,6 +67,17 @@ class GameSession {
   getPlayersCount() {
     return Object.keys(this.players).length;
   }
+
+  setGameState(state) {
+    this.gameState = state;
+  }
+
+  start() { this.gameState = 'started'; }
+  stop() { this.gameState = 'stopped'; }
+
+  running() { return this.gameState === 'started'; }
+  stopped() { return this.gameState === 'stopped'; }
+
 
   _shouldRemove() {
     return this.expireAt < Date.now();

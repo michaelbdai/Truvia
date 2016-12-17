@@ -71,6 +71,7 @@ class TriviaSession extends GameSession {
 
   addPlayer(player) {
     player.score = 0;
+    console.log('ts ' + player.socket);
     super.addPlayer(player);
   }
 

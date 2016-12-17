@@ -62,6 +62,7 @@ const connectSocket = (roomID, isOwner) => {
   let token = window.sessionStorage.getItem('token');
   // Once socket connected, store as window variable
   let socket = window.socket;
+  console.log('socket is ', socket);
   // Authentication
   socket
     .emit('authenticate', {token: token})
@@ -86,7 +87,8 @@ const postGuest = (name, roomID) => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log('CreateGame POST data from /guest ->', json);
+        console.log('CreateGame POST data from /api/guest ->', json);
+        console.log('ROOMID:\n' + json.roomID)
         const isOwner = json.owner;
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
