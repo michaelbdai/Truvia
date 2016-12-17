@@ -9,11 +9,12 @@ import Nav from '../components/Nav'
 import { hashHistory } from 'react-router'
 
 let CreateGame = ({ dispatch }) => {
-	let input
+	let txtField
 	const onSubmit = e => {
-		e.preventDefault()
-		dispatch(createGame(input.value))
-		input.value = ''
+		e && e.preventDefault()
+		console.log('dfgdf', txtField.input.value);
+		dispatch(createGame(txtField.input.value))
+		txtField.input.value = ''
 	}
 	return (
 		<MuiThemeProvider>
@@ -34,19 +35,16 @@ let CreateGame = ({ dispatch }) => {
 							style={{fontSize: 288, color: 'rgb(71, 83, 67)'}}>school</FontIcon>
 					</div>
 					<form onSubmit={onSubmit}>
-					<TextField
-						hintText='Enter anything'
-						floatingLabelText='Your name'
-						underlineStyle={{borderColor: 'white'}}
-						hintStyle={{color: '#88a666'}}
-						inputStyle={{color: '#5b6f44'}}
-						ref={node => input = node}/>
-					<div style={{marginTop: 20}}>
-						<RaisedButton
-							label='Create Game'
-							onTouchTap={onSubmit}/>
-					</div>
+						<TextField
+							hintText='Enter anything'
+							floatingLabelText='Your name'
 
+							ref={node => txtField = node}/>
+						<div style={{marginTop: 20}}>
+							<RaisedButton
+								label='Create Game'
+								onTouchTap={onSubmit}/>
+						</div>
 					</form>
 				</div>
 
