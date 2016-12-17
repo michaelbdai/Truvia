@@ -18,7 +18,9 @@
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        name: 'Susan'
+        // name: 'Susan',
+        name: 'Louis',
+        roomID : "HJjnEVMVg"
       })
     })
       .then(res => res.json())
@@ -27,6 +29,7 @@
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         connectSocket(json.roomID);
+        console.log(json);
       });
 
     function connectSocket(roomID) {
@@ -60,7 +63,8 @@
           // When there's enough users, send a game start event to the server
           // The server will then start the game and emit a quesiton event
           let rounds = 2; // default 8
-          socket.emit('game start', rounds);
+          // socket.emit('game start', rounds);
+          // ## Disable calling game start from client
         }
       });
 
