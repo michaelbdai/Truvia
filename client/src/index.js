@@ -15,7 +15,7 @@ window.APP_NAME = 'Truevia';
 import reducer from './reducers'
 import App from './components/App'
 import Game from './components/Game'
-import JoinGameView from './components/JoinGameView'
+import { JoinGameView, JoinGameViewRoute } from './components/JoinGameView'
 import CreateGame from './containers/CreateGame'
 import Login from './containers/Login'
 import Watson from './components/Watson';
@@ -29,7 +29,7 @@ render((
   			<Route path = '/' component = {CreateGame}/>
   			<Route path = '/creategame' component = {CreateGame} />
   			<Route path = '/joingame' component = {JoinGameView} />
-  			<Route path = '/joingame/:gameID' component = {JoinGameView} />
+  			<Route path = '/joingame/:gameID' component = {JoinGameViewRoute} />
   			<Route path = '/game' component = {Game} />
         <Route path = '/watson' component = {Watson} />
   		</Router>
