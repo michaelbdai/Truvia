@@ -14,14 +14,21 @@ const Styles = {
     display: 'inline-block',
   },
   questionHeader : {
-    height: 50,
+    height: 40,
+    paddingTop: 10,
     width: '100%',
     fontSize: '20px',
+    color: 'rgb(158, 158, 158)',
   },
   questionBody: {
     fontSize: '17px',
     padding: '20px 20px',
     textAlign: 'left',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'center',
+
   },
   answerContainer: {
     height: 100,
