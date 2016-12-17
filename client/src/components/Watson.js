@@ -34,7 +34,7 @@ export default class Watson extends React.Component {
           that.setState({translatedSpeech: data.alternatives[0].transcript})
           console.log(data);
         });
-
+        // what is this for????
         setTimeout(() => console.log('stream is ', stream), 10000);
 
       }).catch(function(error) {

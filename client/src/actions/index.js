@@ -70,12 +70,35 @@ const postGuest = (name, roomID) => {
 }
 const receivePosts = (data, json) => {
   console.log('receivePosts')
+  //--------------need to test
+  if (data.roomID){ // user try to join room
+    if (json.sucess) {
+      hashHistory.push('/game')
+       return {
+        type: 'JOIN_GAME',
+        gameID: data.roomID,
+        gameHost: data.name
+      }     
+    } else {
+      //alert
+      hashHistory.push('/joinGame')
+      return {type:''}
+    }
+
+  } else { // user try to create room
+    hashHistory.push('/game')
+    return {
+      type: 'CREATE_GAME',
+      gameID: json.roomID,
+      gameHost: data.name
+    }      
+  }
+
+
+
+  //----------------
   hashHistory.push('/game')
-  return {
-    type: 'CREATE_GAME',
-    gameID: json.roomID,
-    gameHost: data.name
-  } 
+
 
 }
 

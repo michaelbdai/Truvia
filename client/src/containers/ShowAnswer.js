@@ -1,19 +1,19 @@
 import { connect } from 'react-redux'
-import Answer from '../components/Answer'
-
+import Paper from 'material-ui/Paper'
+import Styles from '../components/Styles'
 
 const mapStateToProps = (state) => ({
   userAnswer: state.userAnswer
 })
 
-const mapDispatchToProps = () => ({
-
-})
-
+const ShowAnswer = ({userAnswer}) => (
+  <Paper style={Styles.answerContainer} >
+    {userAnswer}
+  </Paper>
+)
 
 ShowAnswer = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Answer)
+  mapStateToProps
+)(ShowAnswer)
 
 export default ShowAnswer

@@ -1,6 +1,5 @@
 import React from 'react'
-import ShowHost from '../containers/ShowHost'
-import ShowGameID from '../containers/ShowGameID'
+import StatusBar from '../containers/StatusBar'
 import AppBar from 'material-ui/AppBar'
 
 
@@ -16,8 +15,7 @@ const Nav = () => (
     title="Trivia"
     iconClassNameRight="muidocs-icon-navigation-expand-more"
     />
-    <ShowGameID />
-    <ShowHost />
+    <StatusBar />
   </div>
 )
 

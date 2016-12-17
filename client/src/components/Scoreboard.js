@@ -17,12 +17,14 @@ const Scoreboard = ({userObj}) => (
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
     {
-      Object.keys(userObj).map((name, index)=>(
-      <TableRow key={index}>
-        <TableRowColumn>{index}</TableRowColumn>
-        <TableRowColumn>{name}</TableRowColumn>
-        <TableRowColumn>{userObj[name]}</TableRowColumn>
-      </TableRow>
+      Object.keys(userObj)
+      .sort((a,b) => {userObj[a] - userObj[b]})
+      .map((name, index)=>(
+        <TableRow key={index}>
+          <TableRowColumn>{index}</TableRowColumn>
+          <TableRowColumn>{name}</TableRowColumn>
+          <TableRowColumn>{userObj[name]}</TableRowColumn>
+        </TableRow>
 
       ))
     }

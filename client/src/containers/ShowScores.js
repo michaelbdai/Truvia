@@ -6,15 +6,9 @@ const mapStateToProps = (state) => ({
   userObj: state.userObj
 })
 
-const mapDispatchToProps = () => ({
-
-})
-
-
 
 let ShowScores = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(Scoreboard)
 
 export default ShowScores
