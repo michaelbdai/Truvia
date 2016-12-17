@@ -7,7 +7,7 @@ const Styles = {
     display: 'inline-block',
   },
   questionContainer : {
-    height: 300,
+    height: 230,
     width: '100%',
     margin: 0,
     textAlign: 'center',
@@ -37,7 +37,7 @@ const Styles = {
   },
   toolbarTitle: {
     color: 'white'
-  },    
+  },
 };
 
 export default Styles;

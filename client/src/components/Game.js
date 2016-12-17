@@ -11,7 +11,7 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const Game = () => (
 	<MuiThemeProvider>
-    <div className='background'>
+    <div className='background stretch'>
   		<Nav
 				title={`${APP_NAME}`}
 				style={{backgroundColor: '#8BC34A'}} />

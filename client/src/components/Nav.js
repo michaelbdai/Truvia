@@ -17,10 +17,10 @@ const Nav = (props) => (
 		style={props.style}
     iconClassNameRight="muidocs-icon-navigation-expand-more"
     />
-    <ShowGameID />
-    <ShowHost />
   </div>
 )
+// <ShowGameID />
+// <ShowHost />
 
 export default Nav
 

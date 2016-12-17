@@ -35,9 +35,11 @@ let CreateGame = ({ dispatch }) => {
 					</div>
 					<form onSubmit={onSubmit}>
 					<TextField
-						hintText='Your Name'
+						hintText='Enter anything'
+						floatingLabelText='Your name'
 						underlineStyle={{borderColor: 'white'}}
 						hintStyle={{color: '#88a666'}}
+						inputStyle={{color: '#5b6f44'}}
 						ref={node => input = node}/>
 					<div style={{marginTop: 20}}>
 						<RaisedButton
