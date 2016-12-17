@@ -67,6 +67,7 @@ const listenTrivia = (socket, isOwner) => {
   });
 
   socket.on('game end', winningUser => {
+    browserHistory.push('/gameover')
     console.log('Game ended, ' + winningUser + ' won the game! :)')
   });
 }
