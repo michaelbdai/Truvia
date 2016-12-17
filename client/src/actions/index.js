@@ -53,6 +53,7 @@ const listenTrivia = (socket, isOwner) => {
   });
 
   socket.on('game end', winningUser => {
+    browserHistory.push('/gameover')
     console.log('Game ended, ' + winningUser + ' won the game! :)')
   });
 }
@@ -113,7 +114,7 @@ const receivePosts = (data, json) => {
   //       type: 'JOIN_GAME',
   //       gameID: data.roomID,
   //       gameHost: data.name
-  //     }     
+  //     }
   //   } else {
   //     //alert
   //     hashHistory.push('/joinGame')
@@ -126,7 +127,7 @@ const receivePosts = (data, json) => {
   //     type: 'CREATE_GAME',
   //     gameID: json.roomID,
   //     gameHost: data.name
-  //   }      
+  //   }
   // }
 
 
