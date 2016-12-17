@@ -9,13 +9,6 @@ const mapStateToProps = (state) => {
  }
 }
 
-// const Answer = ({userAnswer}) => (
-//   <Paper style={Styles.answerContainer} >
-//     {userAnswer}
-//   </Paper>
-// )
-
-
 const ShowAnswer = connect(
   mapStateToProps
 )(Answer)
