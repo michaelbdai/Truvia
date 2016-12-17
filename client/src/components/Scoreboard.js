@@ -18,7 +18,7 @@ const Scoreboard = ({scoreObj}) => (
     {
       scoreObj
         .sort((a, b) => {a.score - b.score})
-        .map((userObj, index)=>(
+        .map((userObj, index) => (
         <TableRow key={index}>
           <TableRowColumn>{index}</TableRowColumn>
           <TableRowColumn>{userObj.name}</TableRowColumn>
