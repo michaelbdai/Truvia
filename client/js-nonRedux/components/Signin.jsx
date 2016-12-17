@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Router, Route, Link, IndexRoute, hashHistory, browserHistory, IndexLink } from 'react-router';
+import { Router, Route, Link, IndexRoute, browserHistory, browserHistory, IndexLink } from 'react-router';
 import Signup from './Signup.jsx';
 import Rooms from './Rooms.jsx';
 import uuid from 'uuid';

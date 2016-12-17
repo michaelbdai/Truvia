@@ -5,6 +5,7 @@ const cors = require('cors');
 const vcapServices = require('vcap_services');
 const extend = require('util')._extend
 const watson = require('watson-developer-cloud');
+const path = require('path');
 require('isomorphic-fetch');
 require('dotenv').load({silent: true});
 
@@ -49,4 +50,10 @@ module.exports = {app, io};
 
 // Run the socket connections
 const triviaRoute = require('./routes');
-app.use('/', triviaRoute);
+app.use('/api', triviaRoute);
+
+app.get('*', function (request, response){
+  const index = path.resolve(__dirname, '../client/public', 'index.html');
+  console.log('Sending index ' + index);
+  response.sendFile(index);
+})

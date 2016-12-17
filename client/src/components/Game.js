@@ -5,27 +5,22 @@ import ShowScores from '../containers/ShowScores'
 import ShowQuestion from '../containers/ShowQuestion'
 import ShowAnswer from '../containers/ShowAnswer'
 import Tools from '../containers/Tools'
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-
 
 
 const Game = () => (
-	<MuiThemeProvider>
-    <div className='background stretch'>
-  		<Nav
-				title={`${APP_NAME}`}
-				style={{backgroundColor: '#8BC34A'}} />
-			<div style={{
-				paddingLeft: 10,
-				paddingRight: 10
-				}}>
-	  		<ShowScores />
-	  		<ShowQuestion />
-	  		<ShowAnswer />
-	  		<Tools />
-			</div>
-    </div>
-  </MuiThemeProvider>
+  <div className='background stretch'>
+		<Nav
+			title={`${APP_NAME}`} />
+		<div style={{
+			paddingLeft: 10,
+			paddingRight: 10
+			}}>
+  		<ShowScores />
+  		<ShowQuestion />
+  		<ShowAnswer />
+  		<Tools />
+		</div>
+  </div>
 
 )
 

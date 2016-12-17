@@ -1,5 +1,5 @@
 import * as _ from 'lodash';
-import { hashHistory } from 'react-router'
+import { browserHistory } from 'react-router'
 //import { streamSpeech } from '../components/Watson';
 export const postAnswer = (answer) => {
   socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
@@ -79,7 +79,7 @@ const postGuest = (name, roomID) => {
   let data = roomID ? {name: name} : {name: name, roomID: roomID}
   return dispatch => {
       dispatch(sendRequest)
-      return fetch('http://localhost:8080/guest', {
+      return fetch('/api/guest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -105,7 +105,7 @@ const sendRequest = () => {
 
 const receivePosts = (data, json) => {
   console.log('receivePosts')
-  hashHistory.push('/game')
+  browserHistory.push('/game')
   return {
     type: 'CREATE_GAME',
     gameID: json.roomID,
@@ -126,6 +126,3 @@ export const joinGame = (guestName, roomID) => {
     dispatch(postGuest(guestName, roomID))
   }
 }
-
-
-
