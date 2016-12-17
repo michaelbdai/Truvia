@@ -4,8 +4,6 @@ import Styles from '../components/Styles'
 import Answer from '../components/Answer'
 
 const mapStateToProps = (state) => {
-  console.log("inside show answer");
-  console.log(state);
   return {
    text: state.text
  }
@@ -21,6 +19,5 @@ const mapStateToProps = (state) => {
 const ShowAnswer = connect(
   mapStateToProps
 )(Answer)
-
 
 export default ShowAnswer

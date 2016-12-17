@@ -1,6 +1,5 @@
-const uuid = require('uuid/v4');
 const socketioJwt = require('socketio-jwt');
-// const GameSession = require('./GameSession');
+const TriviaSession = require('./TriviaSession');
 
 // Should delete session after no activity
 class GameSessionsManager {
@@ -10,18 +9,18 @@ class GameSessionsManager {
     this.ownerGameSessions = {}; // map from owner -> gameSession
   }
 
-  createSession(Session, owner, name = uuid()) {
+  createSession(Session, owner) {
     const session = new Session(owner, this.timeout);
 
-    this.gameSessions[name] = session;
+    this.gameSessions[session.id] = session;
     this.ownerGameSessions[owner.name] = session;
-    this.startRemoveCheck(name, this.timeout);
+    this.startRemoveCheck(session.id, this.timeout);
     return session;
   }
 
-  // createTriviaSession(owner, name = uuid()) {
-  //   return this.createSession(TriviaSession, owner, name);
-  // }
+  createTriviaSession(owner) {
+    return this.createSession(TriviaSession, owner);
+  }
 
   startRemoveCheck(name, timeout) {
     setTimeout(() => {
@@ -38,6 +37,8 @@ class GameSessionsManager {
   getSession(name) {
     return this.gameSessions[name];
   }
+
+  get sessions() { return this.gameSessions; }
 
   getSessionByOwner(owner) {
     return this.ownerGameSessions[owner.name];
@@ -70,9 +71,12 @@ class GameSessionsManager {
         //   socket.disconnect();
         // }
         socket.user = token.name;
-
+        if (socket.session.getOwner().name === token.name) {
+          socket.session.getOwner().socket = socket;
+        }
         if (!socket.session.getPlayer(token.name)) {
-          socket.session.addPlayer({ name: token.name, socket });
+          const player = { name: token.name, socket };
+          socket.session.addPlayer(player);
         }
 
         cb(socket);

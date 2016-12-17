@@ -11,7 +11,7 @@ module.exports = triviaSocket => {
     const room = token.roomID;
 
     const sendQuestion = () => {
-      if (session.gameState === 'END') return;
+      if (session.stopped()) return;
 
       session.nextQuestion();
       session.getCurrentQuestion().then(question =>
@@ -47,12 +47,12 @@ module.exports = triviaSocket => {
       if (token.owner) {
         const players = socket.session.getPlayers();
         session.setRounds(rounds);
+        session.start();
         console.log(`Trivia game starting with players ${_.map(players, p => p.name)}`);
         _.each(players, p => {
           p.socket.join(token.roomID);
           console.log(`Player ${p.name} joined in room ${room}`);
         });
-        session.gameState = 'QUESTION';
         sendTimedQuestion(8);
       } else {
         socket.emit('error', 'Game can only be started by owner');
@@ -60,12 +60,12 @@ module.exports = triviaSocket => {
     });
 
     socket.on('answer', (answer, cb) => {
-      if (session.gameState !== 'QUESTION') return;
+      if (session.stopped()) return;
       if (session.answerQuestion(answer, socket.user)) {
         cb(true);
         triviaSocket.to(room).emit('answered', socket.user);
         if (session.gameShouldEnd()) {
-          session.gameState = 'END';
+          session.stop();
           triviaSocket.to(room).emit('game end', socket.user);
         } else {
           // Every 25 seconds send a new quesiton
