@@ -105,12 +105,46 @@ const sendRequest = () => {
 }
 
 const receivePosts = (data, json) => {
+  //TODO: !!! add the following
+  // console.log('receivePosts')
+  // //--------------need to test
+  // if (data.roomID){ // user try to join room
+  //   if (json.sucess) {
+  //     hashHistory.push('/game')
+  //      return {
+  //       type: 'JOIN_GAME',
+  //       gameID: data.roomID,
+  //       gameHost: data.name
+  //     }     
+  //   } else {
+  //     //alert
+  //     hashHistory.push('/joinGame')
+  //     return {type:''}
+  //   }
+
+  // } else { // user try to create room
+  //   hashHistory.push('/game')
+  //   return {
+  //     type: 'CREATE_GAME',
+  //     gameID: json.roomID,
+  //     gameHost: data.name
+  //   }      
+  // }
+
+
+
+  // //----------------
+  // hashHistory.push('/game')
+
+
+
   browserHistory.push('/game')
   return {
     type: 'CREATE_GAME',
     gameID: json.roomID,
     gameHost: data.name
   }
+
 }
 
 export const createGame = (gameHost) => {

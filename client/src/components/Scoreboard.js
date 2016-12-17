@@ -16,7 +16,9 @@ const Scoreboard = ({scoreObj}) => (
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
     {
-      scoreObj.map((userObj, index)=>(
+      scoreObj
+        .sort((a, b) => {a.score - b.score})
+        .map((userObj, index) => (
         <TableRow key={index}>
           <TableRowColumn>{index}</TableRowColumn>
           <TableRowColumn>{userObj.name}</TableRowColumn>
@@ -30,3 +32,5 @@ const Scoreboard = ({scoreObj}) => (
 );
 
 export default Scoreboard
+
+//.sort((a,b) => {a.score - b.score})

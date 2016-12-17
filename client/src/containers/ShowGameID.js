@@ -5,19 +5,14 @@ const mapStateToProps = (state) => ({
   gameID: state.gameID
 })
 
-const mapDispatchToProps = () => ({
-
-})
-
 let ShowGameID = ({gameID}) => (
 
-	<div>GameID: {gameID} </div>
+	<div>GameLink: /joingame/{gameID} </div>
 
 )
 
 ShowGameID = connect(
-  mapStateToProps,
-  mapDispatchToProps
+  mapStateToProps
 )(ShowGameID)
 
 export default ShowGameID

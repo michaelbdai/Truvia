@@ -7,6 +7,7 @@ import RaisedButton from 'material-ui/RaisedButton';
 import Nav from '../components/Nav';
 
 let JoinGame = ({ dispatch, gameID }) => {
+
   let txtField
 	const onSubmit = e => {
 		e && e.preventDefault()
@@ -48,15 +49,9 @@ let JoinGame = ({ dispatch, gameID }) => {
 	)
 }
 
+
 JoinGame = connect()(JoinGame);
 
 export default JoinGame
 
-/*
 
-  <div>
-    <div>JoinGame</div>
-    <div>{gameID}</div>
-  </div>
-
-  */
