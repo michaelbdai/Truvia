@@ -2,17 +2,15 @@ import { connect } from 'react-redux'
 import Question from '../components/Question'
 
 const mapStateToProps = (state) => {
-  console.log('in VisibleQuestion');
-  console.log(state.question);
   return {
-    question: state.question
+    question: state.question,
+    options: state.options,
+    difficulty: state.difficulty
   }
-
 }
 
-
-const VisibleQuestion = connect(
+const ShowQuestion = connect(
   mapStateToProps
 )(Question)
 
-export default VisibleQuestion
+export default ShowQuestion

@@ -52,5 +52,6 @@ module.exports = {
             extensions: ['', '.js', '.jsx']
         }
     },
-    plugins: plugins
+    plugins: plugins,
+    devtool: 'source-map'
 };

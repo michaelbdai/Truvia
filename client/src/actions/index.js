@@ -1,59 +1,85 @@
 import * as _ from 'lodash';
-import io from 'socket.io-client';
-import { hashHistory } from 'react-router'
-
-export const postAnswer = () => ({
-  type: 'POST_ANSWER'
-})
-
-export const getQuestion = (question) => ({
-  type: 'GET_QUESTION',
-  question
-})
-
-
-
-const sendRequest = () => {
-  return{
-    type: 'SEND_REQUEST'
+import { browserHistory } from 'react-router'
+//import { streamSpeech } from '../components/Watson';
+export const postAnswer = (answer) => {
+  socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
+  return {
+    type: 'POST_ANSWER',
+    answer
   }
 }
-const listenTrivia = (socket) => {
+
+export const getQuestion = (question, options, difficulty) => ({
+  type: 'GET_QUESTION',
+  question,
+  options,
+  difficulty
+})
+
+export const updateScore = (scoreObj) => {
+  return {
+    type: 'UPDATE_SCORE',
+    scoreObj
+  }
+}
+
+export const speechToText = (text) => {  // figureout how to get the text here
+  console.log("speechToText");
+  return {
+    type: 'SPEECH_TO_TEXT',
+    text
+  }
+}
+
+const listenTrivia = (socket, isOwner) => {
   socket.on('user enter', (name, count) => {
     console.log(`User ${name} has entered, ${count} in room`);
-    if (count === 1) {
+    if (isOwner.owner && count === 2) {
+      console.log('The owner triggers game start')
       socket.emit('game start');
     }
   });
+
   socket.on('question', question => {
-    console.log(question);
-  });
-}
-const connectSocket = (roomID) => {
-  console.log('... starting trivia socket connection');
-  let token = window.sessionStorage.getItem('token');
-  let socket = io.connect('/trivia', {
-    'query': 'token=' + token
+    store.dispatch(getQuestion(question.question, question.options, question.difficulty));
   });
 
+  socket.on('answered', user => {
+    console.log(user + ' answered the question correctly!');
+  });
+
+  socket.emit('scoreboard', scoreObj => {
+    store.dispatch(updateScore(scoreObj));
+  });
+
+  socket.on('game end', winningUser => {
+    console.log('Game ended, ' + winningUser + ' won the game! :)')
+  });
+}
+
+const connectSocket = (roomID, isOwner) => {
+  console.log('... starting trivia socket connection');
+  let token = window.sessionStorage.getItem('token');
+  // Once socket connected, store as window variable
+  let socket = window.socket;
   // Authentication
   socket
     .emit('authenticate', {token: token})
     .on('authenticated', () => {
       console.log('Client authorized for /trivia');
-      listenTrivia(socket);
+      listenTrivia(socket, isOwner);
     })
     .on('unauthorized', msg => {
       console.log('Unauthorized' + JSON.stringify(msg.data));
-    });  
+    });
 }
+
+
 const postGuest = (name, roomID) => {
-  console.log('postGame')
-  // let data = _.omitBy({name, roomID}, _.isUndefined);
-  let data = roomID ? {name: name} : {name: name, roomID: roomID}
+  let data = roomID ? {name: name, roomID: roomID} : {name: name}
   return dispatch => {
       dispatch(sendRequest)
-      return fetch('http://localhost:8080/guest', {
+      return fetch('/api/guest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(data)
@@ -61,59 +87,72 @@ const postGuest = (name, roomID) => {
       .then(res => res.json())
       .then(json => {
         console.log('CreateGame POST data from /guest ->', json);
+        const isOwner = json.owner;
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         dispatch(receivePosts(data, json))
-        
+        dispatch(connectSocket(data, json, isOwner))
+
       });
   }
 }
-const receivePosts = (data, json) => {
-  console.log('receivePosts')
-  //--------------need to test
-  if (data.roomID){ // user try to join room
-    if (json.sucess) {
-      hashHistory.push('/game')
-       return {
-        type: 'JOIN_GAME',
-        gameID: data.roomID,
-        gameHost: data.name
-      }     
-    } else {
-      //alert
-      hashHistory.push('/joinGame')
-      return {type:''}
-    }
+const sendRequest = () => {
+  return{
+    type: 'SEND_REQUEST'
+  }
+}
 
-  } else { // user try to create room
-    hashHistory.push('/game')
-    return {
-      type: 'CREATE_GAME',
-      gameID: json.roomID,
-      gameHost: data.name
-    }      
+const receivePosts = (data, json) => {
+  //TODO: !!! add the following
+  // console.log('receivePosts')
+  // //--------------need to test
+  // if (data.roomID){ // user try to join room
+  //   if (json.sucess) {
+  //     hashHistory.push('/game')
+  //      return {
+  //       type: 'JOIN_GAME',
+  //       gameID: data.roomID,
+  //       gameHost: data.name
+  //     }     
+  //   } else {
+  //     //alert
+  //     hashHistory.push('/joinGame')
+  //     return {type:''}
+  //   }
+
+  // } else { // user try to create room
+  //   hashHistory.push('/game')
+  //   return {
+  //     type: 'CREATE_GAME',
+  //     gameID: json.roomID,
+  //     gameHost: data.name
+  //   }      
+  // }
+
+
+
+  // //----------------
+  // hashHistory.push('/game')
+
+
+
+  browserHistory.push('/game')
+  return {
+    type: 'CREATE_GAME',
+    gameID: json.roomID,
+    gameHost: data.name
   }
 
-
-
-  //----------------
-  hashHistory.push('/game')
-
-
 }
-
 
 export const createGame = (gameHost) => {
-  console.log('createGame');
   return(dispatch) => {
     dispatch(postGuest(gameHost))
-  }  
+  }
 }
+
 export const joinGame = (guestName, roomID) => {
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
-  }  
-} 
-
-
-
+  }
+}

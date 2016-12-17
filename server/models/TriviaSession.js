@@ -2,10 +2,12 @@ const GameSession = require('./GameSession');
 const _ = require('lodash');
 
 class TriviaSession extends GameSession {
-  constructor(owner, timeout) {
+  constructor(owner, timeout, rounds = 8) {
     super(owner, timeout);
     this.trivia = [];
     this.currentQuestion = null;
+    this.rounds = rounds;
+    this.questionNumber = 1;
   }
 
   /**
@@ -53,13 +55,19 @@ class TriviaSession extends GameSession {
    */
   answerQuestion(answer, user) {
     if(this.currentQuestion
-      && this.currentQuestion['correct_answer'] === answer) { //TODO partial match
+      && this.currentQuestion['correct_answer'] !== answer) { //TODO partial match
       this.incrementScore(user);
       this.nextQuestion();
+      this.questionNumber++;
       return true;
     }
     return false;
   }
+
+  getQuestionNumber() { return this.questionNumber; }
+  getRounds() { return this.rounds; }
+  setRounds(rounds) { this.rounds = rounds; }
+  gameShouldEnd() { return this.questionNumber > this.rounds; }
 
   addPlayer(player) {
     player.score = 0;

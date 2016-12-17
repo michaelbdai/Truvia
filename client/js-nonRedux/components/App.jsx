@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Router, Route, Link, IndexRoute, hashHistory, browserHistory, IndexLink } from 'react-router'
+import { Router, Route, Link, IndexRoute, browserHistory, browserHistory, IndexLink } from 'react-router'
 import Container from './Container.jsx'
 import Signin from './Signin.jsx'
 import Signup from './Signup.jsx'
@@ -17,7 +17,7 @@ class App extends Component {
   }
   render () {
     return (
-      <Router history={hashHistory} >
+      <Router history={browserHistory} >
         <Route path='/' component={Container} >
           <IndexRoute component={Rooms} />
           <Route path='/signin' component={Signin} />
@@ -32,7 +32,7 @@ class App extends Component {
 }
 
 //
-// <Router history={hashHistory} >
+// <Router history={browserHistory} >
 // // Uncomment to use browserHistory TODO: set up routes on server side
 // // <Router history={browserHistory}>
 //   // Home route

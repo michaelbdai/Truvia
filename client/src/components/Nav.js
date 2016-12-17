@@ -1,5 +1,4 @@
 import React from 'react'
-import StatusBar from '../containers/StatusBar'
 import AppBar from 'material-ui/AppBar'
 
 
@@ -8,17 +7,23 @@ import AppBar from 'material-ui/AppBar'
 
 
 
-const Nav = () => (
+const Nav = (props) => (
 	<div>
     {/* TODO: Decide what functionalities would be inside app bar */}
     <AppBar
-    title="Trivia"
+    title={props.title}
+		style={props.style}
     iconClassNameRight="muidocs-icon-navigation-expand-more"
     />
-    <StatusBar />
+
+
   </div>
 )
 
 export default Nav
 
-/*iconElementRight={<ShowHost gameID={gameID}/>}*/
+/*
+Todo: load <StatusBar /> if needed
+iconElementRight={<ShowHost gameID={gameID}/>}
+
+*/

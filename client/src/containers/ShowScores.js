@@ -1,9 +1,9 @@
 import { connect } from 'react-redux'
 import Scoreboard from '../components/Scoreboard'
 
-
 const mapStateToProps = (state) => ({
-  userObj: state.userObj
+
+  scoreObj: state.scoreObj
 })
 
 
