@@ -8,33 +8,39 @@ export default class Watson extends React.Component {
     super(props);
 
     this.state = {
-      translatedSpeech: 'Speech will go here after record'
+      translatedSpeech: 'Speech will go here after recording'
     }
   }
 
   streamSpeech() {
+    console.log("inside stream speech");
     let that = this;
     fetch('/watsontoken')
     // fetch('/api/token', {method: 'POST'})
       .then(function(response) {
         return response.text();
       }).then(function (token) {
-
+        console.log("token is ", token);
+        //console.log(WatsonSpeech.SpeechToText);
+      //  debugger;
         var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
           token: token,
           continuous: false, // false = automatically stop transcription the first time a pause is detected
           extractResults: true// outputElement: '#output' // CSS selector or DOM Element
         });
-
+        // console.log("stream is ");
+        // console.log(stream);
         stream.on('error', function(err) {
+          console.log("inside error");
           console.log(err);
         });
-
+       
         stream.on('data', function(data) {
           that.setState({translatedSpeech: data.alternatives[0].transcript})
-          console.log(data);
+          console.log("data is ");
+          console.log(data.alternatives[0].transcript);
         });
-
+        console.log("end of stream");
         setTimeout(() => console.log('stream is ', stream), 10000);
 
       }).catch(function(error) {
