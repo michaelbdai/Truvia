@@ -11,12 +11,19 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
 const Game = () => (
 	<MuiThemeProvider>
-    <div>
-  		<Nav />
-  		<ShowScores />
-  		<ShowQuestion />
-  		<Answer />
-  		<Tools />
+    <div className='background'>
+  		<Nav
+				title={`${APP_NAME}`}
+				style={{backgroundColor: '#8BC34A'}} />
+			<div style={{
+				paddingLeft: 10,
+				paddingRight: 10
+				}}>
+	  		<ShowScores />
+	  		<ShowQuestion />
+	  		<Answer />
+	  		<Tools />
+			</div>
     </div>
   </MuiThemeProvider>
 

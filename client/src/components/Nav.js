@@ -9,11 +9,12 @@ import AppBar from 'material-ui/AppBar'
 
 
 
-const Nav = () => (
+const Nav = (props) => (
 	<div>
     {/* TODO: Decide what functionalities would be inside app bar */}
     <AppBar
-    title="Trivia"
+    title={props.title}
+		style={props.style}
     iconClassNameRight="muidocs-icon-navigation-expand-more"
     />
     <ShowGameID />

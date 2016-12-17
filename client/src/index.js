@@ -10,6 +10,7 @@ import io from 'socket.io-client';
 const store = createStore(reducer, applyMiddleware(thunkMiddleware))
 window.socket = io.connect('/trivia');
 window.store = store;
+window.APP_NAME = 'Truevia';
 
 import reducer from './reducers'
 import App from './components/App'
@@ -54,5 +55,3 @@ render((
 //     )
 //   )
 // }
-
-

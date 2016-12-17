@@ -47,4 +47,3 @@ export default Tools
 
 // TODO: state change on bottom nav
 // <BottomNavigation selectedIndex={this.state.selectedIndex}>
-
