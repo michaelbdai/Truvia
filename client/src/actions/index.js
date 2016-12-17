@@ -34,8 +34,8 @@ export const speechToText = (text) => {  // figureout how to get the text here
 const listenTrivia = (socket, isOwner) => {
   socket.on('user enter', (name, count) => {
     console.log(`User ${name} has entered, ${count} in room`);
-    console.log(isOwner.owner);
     if (isOwner.owner && count === 2) {
+      console.log('The owner triggers game start')
       socket.emit('game start');
     }
   });
@@ -76,7 +76,7 @@ const connectSocket = (roomID, isOwner) => {
 
 
 const postGuest = (name, roomID) => {
-  let data = roomID ? {name: name} : {name: name, roomID: roomID}
+  let data = roomID ? {name: name, roomID: roomID} : {name: name}
   return dispatch => {
       dispatch(sendRequest)
       return fetch('/api/guest', {
@@ -88,7 +88,6 @@ const postGuest = (name, roomID) => {
       .then(json => {
         console.log('CreateGame POST data from /guest ->', json);
         const isOwner = json.owner;
-        console.log('isOwner'+ isOwner);
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         dispatch(receivePosts(data, json))
@@ -104,7 +103,6 @@ const sendRequest = () => {
 }
 
 const receivePosts = (data, json) => {
-  console.log('receivePosts')
   browserHistory.push('/game')
   return {
     type: 'CREATE_GAME',
@@ -120,8 +118,6 @@ export const createGame = (gameHost) => {
 }
 
 export const joinGame = (guestName, roomID) => {
-  console.log('joinGame:');
-  console.log(roomID);
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
   }
