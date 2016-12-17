@@ -2,16 +2,20 @@ import { connect } from 'react-redux'
 import Answer from '../components/Answer'
 
 
-const mapStateToProps = (state) => ({
-  userAnswer: state.userAnswer
-})
+const mapStateToProps = (state) => {
+  console.log("inside show answer");
+  console.log(state);
+  return {
+   text: state.text
+ }
+}
 
 const mapDispatchToProps = () => ({
 
 })
 
 
-ShowAnswer = connect(
+const ShowAnswer = connect(
   mapStateToProps,
   mapDispatchToProps
 )(Answer)

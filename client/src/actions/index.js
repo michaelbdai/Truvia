@@ -1,6 +1,6 @@
 import * as _ from 'lodash';
 import { hashHistory } from 'react-router'
-
+//import { streamSpeech } from '../components/Watson';
 export const postAnswer = (answer) => {
   socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
   return {
@@ -20,6 +20,14 @@ export const updateScore = (scoreObj) => {
   return {
     type: 'UPDATE_SCORE',
     scoreObj
+  }
+}
+
+export const speechToText = (text) => {  // figureout how to get the text here
+  console.log("speechToText");
+  return {
+    type: 'SPEECH_TO_TEXT',
+    text
   }
 }
 

@@ -9,7 +9,8 @@ const intitialState = {
 	gameID:'',
 	gameHost:'',
 	joinAsHost: false,
-	isFetching: false
+	isFetching: false,
+	text: 'Speech to text goes here'
 }
 
 
@@ -56,6 +57,14 @@ const trivia = (state = intitialState, action) => {
 			return state
 		case 'SKIP_QUESTION':
 			return state
+		case 'SPEECH_TO_TEXT':
+		   console.log("Reducer for speech to text");
+		   console.log(action.text);
+		   return {
+		   	...state,
+		   	text: action.text
+		   }
+
 		default:
 			return state
 	}

@@ -3,7 +3,7 @@ import Nav from './Nav'
 import ShowScores from '../containers/ShowScores'
 // import Question from './Question'
 import ShowQuestion from '../containers/ShowQuestion'
-import Answer from './Answer'
+import ShowAnswer from '../containers/ShowAnswer'
 import Tools from '../containers/Tools'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 
