@@ -21,6 +21,7 @@ const Game = () => (
   		<Tools />
 		</div>
   </div>
+
 )
 
 export default Game

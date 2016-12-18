@@ -53,6 +53,7 @@ const listenTrivia = (socket, isOwner) => {
   });
 
   socket.on('game end', winningUser => {
+    browserHistory.push('/gameover')
     console.log('Game ended, ' + winningUser + ' won the game! :)')
   });
 }
@@ -62,6 +63,7 @@ const connectSocket = (roomID, isOwner) => {
   let token = window.sessionStorage.getItem('token');
   // Once socket connected, store as window variable
   let socket = window.socket;
+  console.log('socket is ', socket);
   // Authentication
   socket
     .emit('authenticate', {token: token})
@@ -86,7 +88,8 @@ const postGuest = (name, roomID) => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log('CreateGame POST data from /guest ->', json);
+        console.log('CreateGame POST data from /api/guest ->', json);
+        console.log('ROOMID:\n' + json.roomID)
         const isOwner = json.owner;
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
@@ -121,12 +124,46 @@ const sendRequest = () => {
 }
 
 const receivePosts = (data, json) => {
+  //TODO: !!! add the following
+  // console.log('receivePosts')
+  // //--------------need to test
+  // if (data.roomID){ // user try to join room
+  //   if (json.sucess) {
+  //     hashHistory.push('/game')
+  //      return {
+  //       type: 'JOIN_GAME',
+  //       gameID: data.roomID,
+  //       gameHost: data.name
+  //     }
+  //   } else {
+  //     //alert
+  //     hashHistory.push('/joinGame')
+  //     return {type:''}
+  //   }
+
+  // } else { // user try to create room
+  //   hashHistory.push('/game')
+  //   return {
+  //     type: 'CREATE_GAME',
+  //     gameID: json.roomID,
+  //     gameHost: data.name
+  //   }
+  // }
+
+
+
+  // //----------------
+  // hashHistory.push('/game')
+
+
+
   browserHistory.push('/game')
   return {
     type: 'CREATE_GAME',
     gameID: json.roomID,
     gameHost: data.name
   }
+
 }
 const receiveGames = (games) => {
   console.log(games);

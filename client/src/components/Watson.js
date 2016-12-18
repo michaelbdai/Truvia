@@ -40,7 +40,9 @@ export default class Watson extends React.Component {
           console.log("data is ");
           console.log(data.alternatives[0].transcript);
         });
+
         console.log("end of stream");
+
         setTimeout(() => console.log('stream is ', stream), 10000);
 
       }).catch(function(error) {

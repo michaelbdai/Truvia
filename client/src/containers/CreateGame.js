@@ -10,6 +10,7 @@ let CreateGame = ({ dispatch }) => {
 	let txtField
 	const onSubmit = e => {
 		e && e.preventDefault()
+		// console.log('dfggd', txtField.input.value);
 		dispatch(createGame(txtField.input.value))
 		txtField.input.value = ''
 	};
