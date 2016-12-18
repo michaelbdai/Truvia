@@ -63,8 +63,11 @@ const listenTrivia = (socket, isOwner) => {
       number));
   });
 
-  socket.on('answered', user => {
-    console.log(user + ' answered the question correctly!');
+
+  // on('ansered'): Removed the second param 'user'
+  socket.on('answered', scoreObj => {
+    console.log('scoreboard will be updated to ' + scoreObj);
+    store.dispatch(updateScore(scoreObj));
   });
 
   socket.emit('scoreboard', scoreObj => {
