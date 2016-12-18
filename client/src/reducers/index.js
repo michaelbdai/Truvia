@@ -76,7 +76,7 @@ const trivia = (state = intitialState, action) => {
 				scoreObj: action.scoreObj
 			}
 
-		case 'UPDATE_ROUND_WINNER': 
+		case 'UPDATE_ROUND_WINNER':
 			return {
 				...state,
 				roundWinner: action.roundWinner
@@ -90,7 +90,7 @@ const trivia = (state = intitialState, action) => {
 			return {
 				...state,
 				roundDialogShow: false
-			}		
+			}
 
 
 		case 'ACTIVATE_MIC':
