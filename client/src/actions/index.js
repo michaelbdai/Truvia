@@ -102,20 +102,21 @@ const postGuest = (name, roomID) => {
 // getGames function here 
 const getGames = (player) => {
   let data = player;
-  return dispath => {
+  return dispatch => {
     dispatch(sendRequest);
-    return fetch('/api/getGames', {
+    return fetch('/api/sessions', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
      })
-    .then(res => res.json())
+    .then(res => res.text())
     .then(json => {
-      dispatch(receiveGames(data, json))
+      console.log(json);
+      dispatch(receiveGames(json))
     });
   }
 }
 
-// i should send a get request to get all the games and then dispatch another action after its done.
+
 
 const sendRequest = () => {
   return{
@@ -165,8 +166,10 @@ const receivePosts = (data, json) => {
   }
 
 }
-const receiveGames = (games) => {
+const receiveGames = (games) => { // games is an array of player information
   console.log(games);
+
+  browserHistory.push('/showGames')
   return {
     type: 'GET_ONGOING_GAMES',
     games
