@@ -22,7 +22,12 @@ export const updateScore = (scoreObj) => {
     scoreObj
   }
 }
-
+// export const addToPlayerlist = (newPlayer) => {
+//   return {
+//     type: 'ADD_TO_PLAYERLIST',
+//     newPlayer
+//   }
+// }
 export const speechToText = (text) => {  // figureout how to get the text here
   console.log("speechToText");
   return {
@@ -32,12 +37,14 @@ export const speechToText = (text) => {  // figureout how to get the text here
 }
 
 const listenTrivia = (socket, isOwner) => {
-  socket.on('user enter', (name, count) => {
-    console.log(`User ${name} has entered, ${count} in room`);
-    if (isOwner.owner && count === 2) {
-      console.log('The owner triggers game start')
-      socket.emit('game start');
-    }
+  socket.on('user enter', (res) => {
+    console.log(res)
+    console.log(`User ${res.name} has entered, ${res.count} in room`);
+    store.dispatch(updateScore(res.scoreObj))
+    // if (isOwner.owner && count === 2) {
+    //   console.log('The owner triggers game start')
+    //   socket.emit('game start');
+    // }
   });
 
   socket.on('question', question => {
@@ -52,12 +59,18 @@ const listenTrivia = (socket, isOwner) => {
     store.dispatch(updateScore(scoreObj));
   });
 
+  socket.on('game started', () => {
+    console.log('host started the game');
+    store.dispatch(directToGame());
+  });
+
   socket.on('game end', winningUser => {
     console.log('Game ended, ' + winningUser + ' won the game! :)')
   });
+
 }
 
-const connectSocket = (roomID, isOwner) => {
+const connectSocket = (isOwner) => {
   console.log('... starting trivia socket connection');
   let token = window.sessionStorage.getItem('token');
   // Once socket connected, store as window variable
@@ -73,7 +86,12 @@ const connectSocket = (roomID, isOwner) => {
       console.log('Unauthorized' + JSON.stringify(msg.data));
     });
 }
-
+const directToGame = () => {
+  browserHistory.push('/game')
+  return {
+    type: 'START_GAME'
+  }
+}
 
 const postGuest = (name, roomID) => {
   let data = roomID ? {name: name, roomID: roomID} : {name: name}
@@ -91,7 +109,7 @@ const postGuest = (name, roomID) => {
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         dispatch(receivePosts(data, json))
-        dispatch(connectSocket(data, json, isOwner))
+        dispatch(connectSocket(isOwner))
 
       });
   }
@@ -103,49 +121,51 @@ const sendRequest = () => {
 }
 
 const receivePosts = (data, json) => {
+  console.log(json);
   //TODO: !!! add the following
-  // console.log('receivePosts')
-  // //--------------need to test
-  // if (data.roomID){ // user try to join room
-  //   if (json.sucess) {
-  //     hashHistory.push('/game')
-  //      return {
-  //       type: 'JOIN_GAME',
-  //       gameID: data.roomID,
-  //       gameHost: data.name
-  //     }     
-  //   } else {
-  //     //alert
-  //     hashHistory.push('/joinGame')
-  //     return {type:''}
-  //   }
+  console.log('receivePosts')
+  //--------------need to test
+  if (data.roomID){ // user try to join room
+    if (json.success) {
+      console.log('join sucess')
+      browserHistory.push('/lobby')
+       return {
+        type: 'JOIN_GAME',
+        gameID: data.roomID,
+        gameHost: json.roomOwner,
+        userName: data.name,
+      }     
+    } else {
+      //alert
+      console.log('join fail--------')
+      browserHistory.push('/')
+      return {type:''}
+    }
 
-  // } else { // user try to create room
-  //   hashHistory.push('/game')
-  //   return {
-  //     type: 'CREATE_GAME',
-  //     gameID: json.roomID,
-  //     gameHost: data.name
-  //   }      
-  // }
-
-
+  } else { // user try to create room
+    browserHistory.push('/lobby')
+    return {
+      type: 'CREATE_GAME',
+      gameID: json.roomID,
+      gameHost: data.name,
+      userName: data.name
+    }      
+  }
 
   // //----------------
   // hashHistory.push('/game')
 
-
-
-  browserHistory.push('/game')
-  return {
-    type: 'CREATE_GAME',
-    gameID: json.roomID,
-    gameHost: data.name
-  }
+  // browserHistory.push('/lobby')
+  // return {
+  //   type: 'CREATE_GAME',
+  //   gameID: json.roomID,
+  //   gameHost: data.name
+  // }
 
 }
 
 export const createGame = (gameHost) => {
+  console.log('createGame')
   return(dispatch) => {
     dispatch(postGuest(gameHost))
   }
@@ -155,4 +175,10 @@ export const joinGame = (guestName, roomID) => {
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
   }
+}
+
+export const startGame = () => {
+  console.log('game starts')
+  socket.emit('game start');
+
 }

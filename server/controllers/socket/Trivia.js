@@ -5,7 +5,11 @@ const _ = require('lodash');
 module.exports = triviaSocket => {
   manager.socketRestoreSession(triviaSocket, TriviaSession, socket => {
     const token = socket.decoded_token;
-    triviaSocket.emit('user enter', token.name, socket.session.getPlayersCount());
+    triviaSocket.emit('user enter', {
+      name: token.name,
+      count: socket.session.getPlayersCount(),
+      scoreObj: socket.session.getScoreBoard(),
+    });
 
     const session = socket.session;
     const room = token.roomID;
@@ -53,6 +57,7 @@ module.exports = triviaSocket => {
           console.log(`Player ${p.name} joined in room ${room}`);
         });
         session.gameState = 'QUESTION';
+        triviaSocket.to(room).emit('game started');
         sendTimedQuestion(8);
       } else {
         socket.emit('error', 'Game can only be started by owner');

@@ -19,6 +19,7 @@ import App from './components/App'
 import Game from './components/Game'
 import { JoinGameView, JoinGameViewRoute } from './components/JoinGameView'
 import CreateGame from './containers/CreateGame'
+import Lobby from './components/Lobby'
 
 
 // import auth from './auth'
@@ -46,7 +47,7 @@ render((
   			<Route path = '/joingame/:gameID' component = {JoinGameViewRoute} />
   			<Route path = '/game' component = {Game} />
         <Route path = '/watson' component = {Watson} />
-      {/*<Route path = '/lobby' component = {ShowLobby} /> */}
+        <Route path = '/lobby' component = {Lobby} />
   		</Router>
   	</Provider>
   </CustomThemeProvider>

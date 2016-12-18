@@ -4,13 +4,15 @@ const intitialState = {
 	question: '',
 	options: [],
 	difficulty: '',
+	text: 'Speech to text goes here',	
 	scoreObj: [],
 	result: false,
 	gameID:'',
 	gameHost:'',
 	joinAsHost: false,
 	isFetching: false,
-	text: 'Speech to text goes here'
+	gameStarted: false,
+	userName:'',
 }
 
 
@@ -21,15 +23,23 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				gameID: action.gameID,
 				gameHost: action.gameHost,
+				userName: action.userName,
 				joinAsHost: true,
-				isFetching: false
+				isFetching: false,
 			}
 		case 'JOIN_GAME':
+			console.log('joinGame in reducer')
 			return {
 				...state,
 				gameID: action.gameID,
 				gameHost: action.gameHost,
-				isFetching: false
+				userName: action.userName,
+				isFetching: false,
+			}
+		case 'START_GAME':
+			return {
+				...state,
+				gameStarted: true
 			}
 		case 'SEND_REQUEST':
 			return {
@@ -41,6 +51,7 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				userAnswer: action.answer
 			}
+
 		case 'GET_QUESTION':
 			return {
 				...state,
