@@ -19,6 +19,7 @@ import App from './components/App'
 import Game from './components/Game'
 import { JoinGameView, JoinGameViewRoute } from './components/JoinGameView'
 import CreateGame from './containers/CreateGame'
+import HomePage from './containers/HomePage'
 import Lobby from './components/Lobby'
 import ShowGameOver from './containers/ShowGameOver'
 import ShowGames from './containers/ShowGames'
@@ -44,7 +45,7 @@ render((
   <CustomThemeProvider>
     <Provider store={store}>
   		<Router history={browserHistory}>
-  			<Route path = '/' component = {CreateGame}/>
+  			<Route path = '/' component = {HomePage}/>
   			<Route path = '/creategame' component = {CreateGame} />
   			<Route path = '/joingame' component = {JoinGameView} />
   			<Route path = '/joingame/:gameID' component = {JoinGameViewRoute} />

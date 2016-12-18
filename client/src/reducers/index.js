@@ -10,6 +10,7 @@ const intitialState = {
 	gameID:'',
 	gameHost:'',
 	number: 1,
+	rounds: 10,
 	joinAsHost: false,
 	isFetching: false,
 	games: [],
@@ -45,6 +46,11 @@ const trivia = (state = intitialState, action) => {
 			return {
 				...state,
 				gameStarted: true
+			}
+		case 'SET_ROUNDS':
+			return {
+				...state,
+				rounds: action.rounds,
 			}
 		case 'SEND_REQUEST':
 			return {

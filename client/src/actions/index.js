@@ -213,10 +213,15 @@ const receiveGames = (games, userName) => { // games is an array of player infor
   }
 }
 
-export const createGame = (gameHost) => {
-  console.log('createGame')
+export const setRounds = (rounds) => ({
+  type: 'SET_ROUNDS',
+  rounds,
+});
+
+export const createGame = (gameHost, rounds) => {
   return(dispatch) => {
-    dispatch(postGuest(gameHost))
+    dispatch(postGuest(gameHost));
+    dispatch(setRounds(rounds));
   }
 }
 // go to the games page , get the games, update the games state with all the currently streaming games
@@ -251,8 +256,7 @@ export const timedShowDialog = () => {
 
 
 export const startGame = () => {
-  console.log('game starts')
-  let rounds = 2;
+  const rounds = store.getState().rounds;
   socket.emit('game start', rounds);
   store.dispatch(getGameInfo(rounds))
 

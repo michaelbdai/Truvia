@@ -5,27 +5,31 @@ import TextField from 'material-ui/TextField';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
 import Nav from '../components/Nav';
+import Paper from 'material-ui/Paper';
+import SelectField from 'material-ui/SelectField';
+import MenuItem from 'material-ui/MenuItem';
 
-let CreateGame = ({ dispatch }) => {
+class CreateGame extends React.Component {
+	constructor(props) {
+		super(props);
+		this.dispatch = props.dispatch;
+		this.state = {
+			rounds: 5
+		};
+	}
+
+	render() {
 	let txtField
 	const onSubmit = e => {
 		e && e.preventDefault()
-		// console.log('dfggd', txtField.input.value);
-		dispatch(createGame(txtField.input.value))
+		this.dispatch(createGame(txtField.input.value, this.state.rounds))
+		console.log('Round choice ' + this.state.rounds)
 		txtField.input.value = ''
 	};
-	// when i join the room, i should change the games state to the new state. and go to the new page
-	const onJoin = () => {
-		console.log("inside onJoin");
-		console.log(txtField.input.value);
-    dispatch(ongoingGames(txtField.input.value));
-    txtField.input.value = ''
-	};
-
 	return (
 		<div className='stretch background'>
 			<Nav
-				title={`Welcome to ${APP_NAME}`} />
+				title='Create Game' />
 			<div style={{
 					display: 'flex',
 					flexDirection: 'column',
@@ -33,31 +37,41 @@ let CreateGame = ({ dispatch }) => {
 					justifyContent: 'center',
 					height: '100%'
 				}}>
-				<div style={{marginTop: -200}}>
-					<FontIcon
-						className="material-icons"
-						style={{fontSize: 288, color: 'rgb(71, 83, 67)'}}>school</FontIcon>
-				</div>
-				<form onSubmit={onSubmit}>
+				<Paper zDepth={1}
+					style={{padding:20}}>
 					<TextField
 						hintText='Enter anything'
 						floatingLabelText='Your name'
-
 						ref={node => txtField = node}/>
-					<div style={{marginTop: 20}}>
-						<RaisedButton
-							label='Create Game'
-							onTouchTap={onSubmit}/>
-					 <RaisedButton style={{marginLeft: 20}}  
-							label='Join Game'
-							onTouchTap={onJoin}/>
-					</div>
-				</form>
+					<br />
+					<form onSubmit={onSubmit}>
+						<SelectField
+		          floatingLabelText="Rounds"
+		          value={this.state.rounds}
+		          onChange={(e,i,rounds) => this.setState({rounds})}
+		        >
+		          <MenuItem value={5} primaryText="5" />
+		          <MenuItem value={10} primaryText="10" />
+		          <MenuItem value={15} primaryText="15" />
+		          <MenuItem value={20} primaryText="20" />
+		          <MenuItem value={25} primaryText="25" />
+		        </SelectField>
+						<div style={{marginTop: 20}}>
+						 <RaisedButton
+								label='Create Game'
+								onTouchTap={onSubmit}/>
+						</div>
+					</form>
+				</Paper>
 			</div>
 
 		</div>
 	)
+	}
 }
+
+// let CreateGame = ({ dispatch }) => {
+// }
 CreateGame = connect()(CreateGame);
 
 export default CreateGame
