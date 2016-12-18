@@ -7,7 +7,7 @@ import { getQuestion, postAnswer, activateMic, speechToText } from '../actions'
 import Question from '../components/Question'
 import {red500} from 'material-ui/styles/colors';
 
-const micIcon = <FontIcon className="material-icons">mic</FontIcon>
+const micIcon = <FontIcon className="material-icons" color={red500}>mic</FontIcon>
 const micNoneIcon = <FontIcon className="material-icons">mic_none</FontIcon>
 
 
