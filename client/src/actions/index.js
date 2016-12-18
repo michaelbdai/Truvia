@@ -4,7 +4,11 @@ import { browserHistory } from 'react-router'
 const unescape = s => _.unescape(s).replace(/&#\d+;/g, '');
 
 export const postAnswer = (answer) => {
-  socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
+  // ## Susan's part - need changes
+  socket.emit('answer', answer , correct => {
+    console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
+
+  });
   return {
     type: 'POST_ANSWER',
     answer
