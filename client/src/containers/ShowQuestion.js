@@ -5,7 +5,9 @@ const mapStateToProps = (state) => {
   return {
     question: state.question,
     options: state.options,
-    difficulty: state.difficulty
+    difficulty: state.difficulty,
+    number: state.number,
+    maxQuestions: state.maxQuestions,
   }
 }
 
