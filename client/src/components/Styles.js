@@ -20,6 +20,7 @@ const Styles = {
     fontSize: '20px',
     color: 'rgb(158, 158, 158)',
   },
+  // TODO scroll for more content instead of fixed height
   questionBody: {
     fontSize: '17px',
     padding: '20px 20px',
@@ -28,7 +29,6 @@ const Styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   answerContainer: {
     height: 100,
@@ -41,9 +41,6 @@ const Styles = {
   userButton: {
     color: 'white',
     width: 170
-  },
-  toolbarTitle: {
-    color: 'white'
   },
   gameOverContainer: {
     height: 230,

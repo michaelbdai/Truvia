@@ -1,10 +1,12 @@
 import React from 'react'
-import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import Paper from 'material-ui/Paper'
+import Divider from 'material-ui/Divider'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
 import Styles from './Styles'
+import Dialog from 'material-ui/Dialog'
 
-const Scoreboard = ({scoreObj}) => (
+const Scoreboard = ({scoreObj, roundDialogShow, roundWinner}) => (
+  <div>
   <Paper style={Styles.scoreboardContainer} >
     <Table >
     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -29,6 +31,14 @@ const Scoreboard = ({scoreObj}) => (
     </TableBody>
     </Table>
   </Paper>
+  <Dialog
+    title="Result for last round: "
+    modal={false}
+    open={roundDialogShow}
+  >
+  {roundWinner} won last round!
+  </Dialog>
+  </div>
 );
 
 export default Scoreboard

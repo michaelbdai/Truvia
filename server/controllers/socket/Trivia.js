@@ -2,10 +2,24 @@ const manager = require('../../models/GameSessionsManager');
 const TriviaSession = require('../../models/TriviaSession');
 const _ = require('lodash');
 
+let scrubQuestion = (question) => {
+  let q = _.cloneDeep(question);
+  q.incorrect_answers.push(q.correct_answer);
+  const options = q.incorrect_answers.slice();
+  delete q.incorrect_answers;
+  delete q.correct_answer;
+  q['options'] = options;
+  return q;
+}
+
 module.exports = triviaSocket => {
   manager.socketRestoreSession(triviaSocket, TriviaSession, socket => {
     const token = socket.decoded_token;
-    triviaSocket.emit('user enter', token.name, socket.session.getPlayersCount());
+    triviaSocket.emit('user enter', {
+      name: token.name,
+      count: socket.session.getPlayersCount(),
+      scoreObj: socket.session.getScoreBoard(),
+    });
 
     const session = socket.session;
     const room = token.roomID;
@@ -14,12 +28,14 @@ module.exports = triviaSocket => {
       if (session.stopped()) return;
 
       session.nextQuestion();
-      session.getCurrentQuestion().then(question =>
+      session.getCurrentQuestion().then(question => {
+        console.log('CORRECT ANSWER IS ' + question.correct_answer);
         triviaSocket.to(room).emit(
           'question',
-          question,
+          scrubQuestion(question),
           session.getQuestionNumber()
-        ));
+        )
+      });
 
       // Set timeout to give options after 10 seconds
       setTimeout(() => triviaSocket.to(room).emit('options'), 10000);
@@ -53,7 +69,8 @@ module.exports = triviaSocket => {
           p.socket.join(token.roomID);
           console.log(`Player ${p.name} joined in room ${room}`);
         });
-        sendTimedQuestion(20);
+        triviaSocket.to(room).emit('game started');
+        sendTimedQuestion(30);
       } else {
         socket.emit('error', 'Game can only be started by owner');
       }
@@ -64,13 +81,13 @@ module.exports = triviaSocket => {
       if (session.answerQuestion(answer, socket.user)) {
         cb(true);
         let user
-        triviaSocket.to(room).emit('answered', session.getScoreBoard());
+        triviaSocket.to(room).emit('answered', session.getScoreBoard(), socket.user);
         if (session.gameShouldEnd()) {
           session.stop();
-          triviaSocket.to(room).emit('game end', socket.user);
+          triviaSocket.to(room).emit('game end', session.getScoreBoard());
         } else {
           // Every 25 seconds send a new quesiton
-          sendTimedQuestion(8);
+          sendTimedQuestion(30);
         }
       } else {
         cb(false);

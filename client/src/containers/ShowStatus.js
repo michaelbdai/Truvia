@@ -1,22 +1,70 @@
 import { connect } from 'react-redux'
+import {Toolbar, ToolbarTitle} from 'material-ui/Toolbar'
+import Paper from 'material-ui/Paper'
+import RaisedButton from 'material-ui/RaisedButton';
+import Styles from '../components/Styles'
+import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
+import {startGame} from '../actions'
 
 const mapStateToProps = (state) => ({
-  gameID: state.gameID,
   gameHost: state.gameHost,
   joinAsHost: state.joinAsHost,
-  UserList: state.scoreObj.map(obj => obj.name)
+  userList: state.scoreObj.map(obj => obj.name),
+  gameUrl: window.location.origin + '/joingame/' + state.gameID,
 })
 
-let StatusBar = ({gameID, gameHost, joinAsHost}) => (
+let ShowStatus = ({userList, joinAsHost, gameUrl, dispatch, gameHost}) => {
+  const onSubmit = e => {
+    dispatch(startGame)
+  }
+  return (
   <div>
-    <spam>Join as {joinAsHost? 'host' : 'guest'}/ </spam>
-    <spam>GameLink: /joingame/{gameID} </spam>
+    <Toolbar>
+      <ToolbarTitle text = {
+        'Join as ' + 
+        (joinAsHost? 'host' : 'guest') +
+         ' @ ' + 
+         gameUrl
+       } />
+    </Toolbar>
+    <Paper style={Styles.scoreboardContainer} >
+      <Table >
+      <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
+        <TableRow >
+          <TableHeaderColumn>Player</TableHeaderColumn>
+        </TableRow>
+      </TableHeader>
+      <TableBody displayRowCheckbox={false}>
+      {
+        userList
+          .map((userName, index) => (
+          <TableRow key={index}>
+            <TableRowColumn>{userName}</TableRowColumn>
+          </TableRow>
+        ))
+      }
+      </TableBody>
+      </Table>    
+    </Paper>
+    { joinAsHost ? 
+    (<div style={{marginTop: 20}}>
+      <RaisedButton
+        label='Start Game'
+        onTouchTap={onSubmit}/>
+    </div> ):
+    (<div> 
+      Welcome to the game, please wait for Host({gameHost}) to start the game
+    </div>)}   
+
   </div>
-)     
+
+)}     
 
 
-StatusBar = connect(
+ShowStatus = connect(
   mapStateToProps
-)(StatusBar)
+)(ShowStatus)
 
-export default StatusBar
+export default ShowStatus
+
+// window.location.hostname + '/joingame/' + 
