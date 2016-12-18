@@ -252,7 +252,7 @@ export const timedShowDialog = () => {
 
 export const startGame = () => {
   console.log('game starts')
-  let rounds = 8;
+  let rounds = 2;
   socket.emit('game start', rounds);
   store.dispatch(getGameInfo(rounds))
 

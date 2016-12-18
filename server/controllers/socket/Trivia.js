@@ -27,7 +27,7 @@ module.exports = triviaSocket => {
     const sendQuestion = () => {
       if (session.stopped()) return;
 
-      session.nextQuestion();
+      // session.nextQuestion();
       session.getCurrentQuestion().then(question => {
         console.log('CORRECT ANSWER IS ' + question.correct_answer);
         triviaSocket.to(room).emit(
@@ -53,6 +53,7 @@ module.exports = triviaSocket => {
         setTimeout(()=>{
           // If question number is still the same as back then, send another timed question
           if (backThenQNum === session.getQuestionNumber()) {
+            session.nextQuestion();
             sendTimedQuestion(timeoutSecs);
           }
         }, (timeoutSecs - 3) * 1000);
