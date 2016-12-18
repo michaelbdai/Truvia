@@ -20,6 +20,7 @@ const Styles = {
     fontSize: '20px',
     color: 'rgb(158, 158, 158)',
   },
+  // TODO scroll for more content instead of fixed height
   questionBody: {
     fontSize: '17px',
     padding: '20px 20px',

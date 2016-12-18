@@ -53,9 +53,38 @@ class TriviaSession extends GameSession {
    * @param  {type} user   The user who answered
    * @return {type}        Boolean whether the answer is correct
    */
+
+   // ALOGIRTHM
+   // Get largest substrings
+      // Start searching for largest substrings
+      // If found substr add to list `matchSubstr` as ms
+      // Add to list as [pos of sub in orig string, substr length]
+      // Remove substr from looped scanned substr
+      // Try find smaller substr
+  // Find max in order substrs
+      // let scores
+      // For each substr `s` in `ms`
+          // score = s length
+          // For each substr `j` in `ms`.slice(s.idx)
+            // score += j length if s idx < j idx (in order)
+      // return max scores
+  // _getLargestSubstringsRemoved(str) {
+  //   _.map(str, (c, i) => [c, i])
+  // }
+  //
+  // _scoreMatch(str1, str2) {
+  //   if (str1.includes(str2)) return 9001;
+  //
+  //
+  // }
+  // pickMostSimilar(options, str) {
+  //   _.map(options, opt => {
+  //     // make both lowercase
+  //   })
+  // }
   answerQuestion(answer, user) {
     if(this.currentQuestion
-      && this.currentQuestion['correct_answer'] !== answer) { //TODO partial match
+      && this.currentQuestion['correct_answer'] === answer) { //TODO partial match
       this.incrementScore(user);
       this.nextQuestion();
       this.questionNumber++;

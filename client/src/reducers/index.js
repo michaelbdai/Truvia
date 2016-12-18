@@ -65,13 +65,15 @@ const trivia = (state = intitialState, action) => {
 		case 'SKIP_QUESTION':
 			return state
 		case 'SPEECH_TO_TEXT':
-		   console.log("Reducer for speech to text");
-		   console.log(action.text);
-		   return {
-		   	...state,
-		   	text: action.text
-		   }
-
+		  return {
+				...state,
+				text: action.text
+		  }
+	  case 'SUBMIT_SPEECH':
+		  return {
+		 		...state,
+			 	text: action.text
+		 	}
 		default:
 			return state
 	}
