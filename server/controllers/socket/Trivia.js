@@ -63,7 +63,8 @@ module.exports = triviaSocket => {
       if (session.stopped()) return;
       if (session.answerQuestion(answer, socket.user)) {
         cb(true);
-        triviaSocket.to(room).emit('answered', socket.user);
+        let user
+        triviaSocket.to(room).emit('answered', session.getScoreBoard());
         if (session.gameShouldEnd()) {
           session.stop();
           triviaSocket.to(room).emit('game end', socket.user);
