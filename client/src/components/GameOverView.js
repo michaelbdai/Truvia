@@ -10,7 +10,7 @@ import {lightgreen900} from 'material-ui/styles/colors';
 // const sadIcon = <FontIcon className="material-icons">mood bad</FontIcon>
 
 
-const GameOverView = () => (
+const GameOverView = ({ result }) => (
   <div className='background stretch'>
     <Nav
       title={`${APP_NAME}`} />
@@ -24,11 +24,23 @@ const GameOverView = () => (
           </div>
           <Divider />
           <div style={Styles.gameOverBody}>
-            <FontIcon className="material-icons" color="lightgreen900" style={{fontSize: '50px'}}>mood</FontIcon>
-            <div>You WIN!</div>
+          {
+            result ? (
+              <div>
+                <FontIcon className="material-icons" color="lightgreen900" style={{fontSize: '50px'}}>mood</FontIcon>
+                <div>{console.log(result)}</div>
+                <div>You WIN!</div>
+              </div>
+            ) : (
+              <div>
+                <FontIcon className="material-icons" color="lightgreen900" style={{fontSize: '50px'}}>mood_bad</FontIcon>
+                <div>{console.log(result)}</div>
+                <div>You LOSE!</div>
+              </div>
+            )
+          }
           </div>
         </Paper>
-
       </div>
   </div>
 )

@@ -2,7 +2,11 @@ import * as _ from 'lodash';
 import { browserHistory } from 'react-router'
 //import { streamSpeech } from '../components/Watson';
 export const postAnswer = (answer) => {
-  socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
+  // ## Susan's part - need changes
+  socket.emit('answer', answer , correct => {
+    console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
+
+  });
   return {
     type: 'POST_ANSWER',
     answer

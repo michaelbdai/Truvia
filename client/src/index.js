@@ -19,7 +19,8 @@ import App from './components/App'
 import Game from './components/Game'
 import { JoinGameView, JoinGameViewRoute } from './components/JoinGameView'
 import CreateGame from './containers/CreateGame'
-import GameOverView from './components/GameOverView'
+import ShowGameOver from './containers/ShowGameOver'
+// import GameOverView from './components/GameOverView'
 
 
 // import auth from './auth'
@@ -46,7 +47,7 @@ render((
   			<Route path = '/joingame' component = {JoinGameView} />
   			<Route path = '/joingame/:gameID' component = {JoinGameViewRoute} />
   			<Route path = '/game' component = {Game} />
-        <Route path = '/gameover' component = {GameOverView} />
+        <Route path = '/gameover' component = {ShowGameOver} />
         <Route path = '/watson' component = {Watson} />
       {/*<Route path = '/lobby' component = {ShowLobby} /> */}
   		</Router>
