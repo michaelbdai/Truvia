@@ -18,7 +18,7 @@ import Game from './components/Game'
 import { JoinGameView, JoinGameViewRoute } from './components/JoinGameView'
 import CreateGame from './containers/CreateGame'
 import Login from './containers/Login'
-import Watson from './components/Watson';
+//import Watson from './components/Watson';
 import CustomThemeProvider from './components/CustomThemeProvider';
 injectTapEventPlugin();
 
@@ -31,7 +31,7 @@ render((
   			<Route path = '/joingame' component = {JoinGameView} />
   			<Route path = '/joingame/:gameID' component = {JoinGameViewRoute} />
   			<Route path = '/game' component = {Game} />
-        <Route path = '/watson' component = {Watson} />
+       
   		</Router>
   	</Provider>
   </CustomThemeProvider>

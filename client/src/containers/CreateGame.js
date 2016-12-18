@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { createGame } from '../actions'
+import { createGame, ongoingGames } from '../actions'
 import TextField from 'material-ui/TextField';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
@@ -12,7 +12,15 @@ let CreateGame = ({ dispatch }) => {
 		e && e.preventDefault()
 		dispatch(createGame(txtField.input.value))
 		txtField.input.value = ''
-	}
+	};
+	// when i join the room, i should change the games state to the new state. and go to the new page
+	const onJoin = () => {
+		console.log("inside onJoin");
+		console.log(txtField.input.value);
+    dispatch(ongoingGames(txtField.input.value));
+    txtField.input.value = ''
+	};
+
 	return (
 		<div className='stretch background'>
 			<Nav
@@ -39,6 +47,9 @@ let CreateGame = ({ dispatch }) => {
 						<RaisedButton
 							label='Create Game'
 							onTouchTap={onSubmit}/>
+					 <RaisedButton style={{marginLeft: 20}}  
+							label='Join Game'
+							onTouchTap={onJoin}/>
 					</div>
 				</form>
 			</div>

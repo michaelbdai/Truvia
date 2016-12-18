@@ -10,7 +10,8 @@ const intitialState = {
 	gameHost:'',
 	joinAsHost: false,
 	isFetching: false,
-	text: 'Speech to text goes here'
+	text: 'Speech to text goes here',
+	games: []
 }
 
 
@@ -64,6 +65,12 @@ const trivia = (state = intitialState, action) => {
 		   	...state,
 		   	text: action.text
 		   }
+	  case 'GET_ONGOING_GAMES':
+	     console.log(" Get ongoing games in reducer");
+       return {
+       	 ...state,
+       	 games: action.games
+       }
 
 		default:
 			return state

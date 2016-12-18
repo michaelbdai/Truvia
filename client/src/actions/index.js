@@ -96,6 +96,24 @@ const postGuest = (name, roomID) => {
       });
   }
 }
+// getGames function here 
+const getGames = (player) => {
+  let data = player;
+  return dispath => {
+    dispatch(sendRequest);
+    return fetch('/api/getGames', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+     })
+    .then(res => res.json())
+    .then(json => {
+      dispatch(receiveGames(data, json))
+    });
+  }
+}
+
+// i should send a get request to get all the games and then dispatch another action after its done.
+
 const sendRequest = () => {
   return{
     type: 'SEND_REQUEST'
@@ -110,10 +128,30 @@ const receivePosts = (data, json) => {
     gameHost: data.name
   }
 }
+const receiveGames = (games) => {
+  console.log(games);
+  return {
+    type: 'GET_ONGOING_GAMES',
+    games
+  }
+}
 
 export const createGame = (gameHost) => {
   return(dispatch) => {
     dispatch(postGuest(gameHost))
+  }
+}
+// go to the games page , get the games, update the games state with all the currently streaming games
+// 
+// games page should display all the games by reflecting the changes in the state.
+
+
+export const ongoingGames = (games) => { // this should have state of list of ongoing games and name of the player
+  console.log("inside actioncreator ongoing games");
+  
+  return(dispatch) => {
+    console.log(dispatch);
+    dispatch(getGames(games));
   }
 }
 

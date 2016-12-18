@@ -19,7 +19,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
-
+// to be moved later to config file.
 var username = '3874ec47-c72a-41c5-bc52-72e74b0070cd';
 var password = 'nyks7d6REJGx';
 var config = extend({
