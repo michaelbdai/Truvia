@@ -51,7 +51,8 @@ const Styles = {
     padding: '50px 100px',
   },
   showGamesContainer: {
-    height: 500,
+    minHeight: 500,
+    height: 'auto',
     width: '100%',
     marginTop: 15,
     marginBottom: 15,
