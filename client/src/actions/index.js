@@ -28,6 +28,14 @@ export const updateScore = (scoreObj) => ({
   scoreObj
 })
 
+export const activateMic = (state) => {
+  console.log('mic state is now ' + state)
+  return{
+    type: 'ACTIVATE_MIC',
+    state
+  }
+}
+
 export const speechToText = (text) => ({  // figureout how to get the text here
   type: 'SPEECH_TO_TEXT',
   text

@@ -1,5 +1,4 @@
 const intitialState = {
-	audioFilePath: '',
 	userAnswer: '',
 	question: '',
 	options: [],
@@ -11,7 +10,8 @@ const intitialState = {
 	number: 1,
 	joinAsHost: false,
 	isFetching: false,
-	text: 'Speech to text goes here'
+	text: 'Speech to text goes here',
+	micState: false,
 }
 
 
@@ -60,10 +60,11 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				scoreObj: action.scoreObj
 			}
-		case 'RECORD_VOICE':
-			return state
-		case 'SKIP_QUESTION':
-			return state
+		case 'ACTIVATE_MIC':
+			return {
+				...state,
+				micState: action.state
+			}
 		case 'SPEECH_TO_TEXT':
 		  return {
 				...state,

@@ -29,7 +29,6 @@ const Styles = {
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'center',
-
   },
   answerContainer: {
     height: 100,
@@ -42,9 +41,6 @@ const Styles = {
   userButton: {
     color: 'white',
     width: 170
-  },
-  toolbarTitle: {
-    color: 'white'
   },
   gameOverContainer: {
     height: 230,
