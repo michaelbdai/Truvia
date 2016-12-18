@@ -53,7 +53,7 @@ module.exports = triviaSocket => {
           p.socket.join(token.roomID);
           console.log(`Player ${p.name} joined in room ${room}`);
         });
-        sendTimedQuestion(8);
+        sendTimedQuestion(20);
       } else {
         socket.emit('error', 'Game can only be started by owner');
       }
@@ -63,7 +63,8 @@ module.exports = triviaSocket => {
       if (session.stopped()) return;
       if (session.answerQuestion(answer, socket.user)) {
         cb(true);
-        triviaSocket.to(room).emit('answered', socket.user);
+        let user
+        triviaSocket.to(room).emit('answered', session.getScoreBoard());
         if (session.gameShouldEnd()) {
           session.stop();
           triviaSocket.to(room).emit('game end', socket.user);

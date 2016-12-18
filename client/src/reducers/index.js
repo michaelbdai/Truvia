@@ -8,6 +8,7 @@ const intitialState = {
 	result: false,
 	gameID:'',
 	gameHost:'',
+	number: 1,
 	joinAsHost: false,
 	isFetching: false,
 	text: 'Speech to text goes here',
@@ -47,7 +48,13 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				question: action.question,
 				options: action.options,
-				difficulty: action.difficulty
+				difficulty: action.difficulty,
+				number: action.number,
+			}
+		case 'GET_GAME_INFO':
+			return {
+				...state,
+				maxQuestions: action.maxQuestions,
 			}
 		case 'UPDATE_SCORE':
 			return {
@@ -78,4 +85,3 @@ const trivia = (state = intitialState, action) => {
 	}
 }
 export default trivia
-

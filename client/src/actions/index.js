@@ -1,19 +1,26 @@
 import * as _ from 'lodash';
 import { browserHistory } from 'react-router'
-//import { streamSpeech } from '../components/Watson';
+
+const unescape = s => _.unescape(s).replace(/&#\d+;/g, '');
+
 export const postAnswer = (answer) => {
-  socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
+  // ## Susan's part - need changes
+  socket.emit('answer', answer , correct => {
+    console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
+
+  });
   return {
     type: 'POST_ANSWER',
     answer
   }
 }
 
-export const getQuestion = (question, options, difficulty) => ({
+export const getQuestion = (question, options, difficulty, number) => ({
   type: 'GET_QUESTION',
   question,
   options,
-  difficulty
+  difficulty,
+  number
 })
 
 export const updateScore = (scoreObj) => {
@@ -24,28 +31,42 @@ export const updateScore = (scoreObj) => {
 }
 
 export const speechToText = (text) => {  // figureout how to get the text here
-  console.log("speechToText");
   return {
     type: 'SPEECH_TO_TEXT',
     text
   }
 }
 
+export const getGameInfo = (maxQuestions) => ({
+  type: 'GET_GAME_INFO',
+  maxQuestions,
+});
+
 const listenTrivia = (socket, isOwner) => {
   socket.on('user enter', (name, count) => {
     console.log(`User ${name} has entered, ${count} in room`);
-    if (isOwner.owner && count === 2) {
+    if (isOwner.owner && count === 1) {
       console.log('The owner triggers game start')
-      socket.emit('game start');
+      let rounds = 8;
+      socket.emit('game start', rounds);
+      store.dispatch(getGameInfo(rounds))
     }
   });
 
-  socket.on('question', question => {
-    store.dispatch(getQuestion(question.question, question.options, question.difficulty));
+  socket.on('question', (question, number) => {
+    console.log(question.options);
+    store.dispatch(getQuestion(
+      unescape(question.question),
+      _.map(question.options, s => unescape(s)),
+      question.difficulty,
+      number));
   });
 
-  socket.on('answered', user => {
-    console.log(user + ' answered the question correctly!');
+
+  // on('ansered'): Removed the second param 'user'
+  socket.on('answered', scoreObj => {
+    console.log('scoreboard will be updated to ' + scoreObj);
+    store.dispatch(updateScore(scoreObj));
   });
 
   socket.emit('scoreboard', scoreObj => {
@@ -63,7 +84,6 @@ const connectSocket = (roomID, isOwner) => {
   let token = window.sessionStorage.getItem('token');
   // Once socket connected, store as window variable
   let socket = window.socket;
-  console.log('socket is ', socket);
   // Authentication
   socket
     .emit('authenticate', {token: token})
