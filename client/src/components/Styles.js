@@ -53,6 +53,13 @@ const Styles = {
     display: 'inline-block',
     padding: '50px 100px',
   },
+  showGamesContainer: {
+    height: 500,
+    width: '100%',
+    marginTop: 15,
+    marginBottom: 15,
+    display: 'inline-block',
+  },
   gameOverHeader: {
     fontSize: '30px'
   },

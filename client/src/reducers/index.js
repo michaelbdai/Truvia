@@ -75,9 +75,12 @@ const trivia = (state = intitialState, action) => {
 	  case 'GET_ONGOING_GAMES':
 	     console.log(" Get ongoing games in reducer");
 	     console.log(action.games);
-       return {
+	     var array = action.games.map(function(element) {
+          return element;
+	     });
+	     return {
        	 ...state,
-       	 games: action.games
+       	 games: array
        }
 
 		default:

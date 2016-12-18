@@ -128,10 +128,13 @@ const getGames = (player) => {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
      })
-    .then(res => res.text())
+    .then(res => res.json())
     .then(json => {
       console.log(json);
-      dispatch(receiveGames(json))
+      var array = json.map(function(element) {
+        return element.owner.name;
+      });
+     dispatch(receiveGames(array))
     });
   }
 }

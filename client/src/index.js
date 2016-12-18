@@ -20,7 +20,7 @@ import Game from './components/Game'
 import { JoinGameView, JoinGameViewRoute } from './components/JoinGameView'
 import CreateGame from './containers/CreateGame'
 import ShowGameOver from './containers/ShowGameOver'
-import ShowGames from './components/ShowGames'
+import ShowGames from './containers/ShowGames'
 
 // import auth from './auth'
 // const requireAuth = (nextState, replace) => {
