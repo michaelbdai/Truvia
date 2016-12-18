@@ -3,7 +3,6 @@ const intitialState = {
 	question: '',
 	options: [],
 	difficulty: '',
-	text: 'Speech to text goes here',	
 	scoreObj: [],
 	roundWinner: '',
 	roundDialogShow: false,
@@ -13,14 +12,10 @@ const intitialState = {
 	number: 1,
 	joinAsHost: false,
 	isFetching: false,
-<<<<<<< HEAD
-	isRecording: false,
 	gameStarted: false,
 	userName:'',
-=======
 	text: 'Speech to text goes here',
 	micState: false,
->>>>>>> 5d0ba3c9cabbbfa403f800b38f0eec40504465ad
 }
 
 
@@ -81,7 +76,7 @@ const trivia = (state = intitialState, action) => {
 				scoreObj: action.scoreObj
 			}
 
-		case 'UPDATE_ROUND_WINNER': 
+		case 'UPDATE_ROUND_WINNER':
 			return {
 				...state,
 				roundWinner: action.roundWinner
@@ -95,7 +90,7 @@ const trivia = (state = intitialState, action) => {
 			return {
 				...state,
 				roundDialogShow: false
-			}		
+			}
 
 
 		case 'ACTIVATE_MIC':
