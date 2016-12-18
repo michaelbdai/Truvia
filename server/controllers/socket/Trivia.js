@@ -15,7 +15,11 @@ let scrubQuestion = (question) => {
 module.exports = triviaSocket => {
   manager.socketRestoreSession(triviaSocket, TriviaSession, socket => {
     const token = socket.decoded_token;
-    triviaSocket.emit('user enter', token.name, socket.session.getPlayersCount());
+    triviaSocket.emit('user enter', {
+      name: token.name,
+      count: socket.session.getPlayersCount(),
+      scoreObj: socket.session.getScoreBoard(),
+    });
 
     const session = socket.session;
     const room = token.roomID;
@@ -63,6 +67,7 @@ module.exports = triviaSocket => {
           p.socket.join(token.roomID);
           console.log(`Player ${p.name} joined in room ${room}`);
         });
+        triviaSocket.to(room).emit('game started');
         sendTimedQuestion(30);
       } else {
         socket.emit('error', 'Game can only be started by owner');
@@ -74,10 +79,10 @@ module.exports = triviaSocket => {
       if (session.answerQuestion(answer, socket.user)) {
         cb(true);
         let user
-        triviaSocket.to(room).emit('answered', session.getScoreBoard());
+        triviaSocket.to(room).emit('answered', session.getScoreBoard(), socket.user);
         if (session.gameShouldEnd()) {
           session.stop();
-          triviaSocket.to(room).emit('game end', socket.user);
+          triviaSocket.to(room).emit('game end', session.getScoreBoard());
         } else {
           // Every 25 seconds send a new quesiton
           sendTimedQuestion(8);

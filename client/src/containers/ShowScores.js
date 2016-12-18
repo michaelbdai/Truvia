@@ -3,7 +3,10 @@ import Scoreboard from '../components/Scoreboard'
 
 const mapStateToProps = (state) => ({
 
-  scoreObj: state.scoreObj
+  scoreObj: state.scoreObj,
+  roundDialogShow: state.roundDialogShow,
+  roundWinner: state.roundWinner,
+
 })
 
 

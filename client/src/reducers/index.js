@@ -1,17 +1,26 @@
 const intitialState = {
-	audioFilePath: '',
 	userAnswer: '',
 	question: '',
 	options: [],
 	difficulty: '',
+	text: 'Speech to text goes here',	
 	scoreObj: [],
+	roundWinner: '',
+	roundDialogShow: false,
 	result: false,
 	gameID:'',
 	gameHost:'',
 	number: 1,
 	joinAsHost: false,
 	isFetching: false,
-	text: 'Speech to text goes here'
+<<<<<<< HEAD
+	isRecording: false,
+	gameStarted: false,
+	userName:'',
+=======
+	text: 'Speech to text goes here',
+	micState: false,
+>>>>>>> 5d0ba3c9cabbbfa403f800b38f0eec40504465ad
 }
 
 
@@ -22,15 +31,23 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				gameID: action.gameID,
 				gameHost: action.gameHost,
+				userName: action.userName,
 				joinAsHost: true,
-				isFetching: false
+				isFetching: false,
 			}
 		case 'JOIN_GAME':
+			console.log('joinGame in reducer')
 			return {
 				...state,
 				gameID: action.gameID,
 				gameHost: action.gameHost,
-				isFetching: false
+				userName: action.userName,
+				isFetching: false,
+			}
+		case 'START_GAME':
+			return {
+				...state,
+				gameStarted: true
 			}
 		case 'SEND_REQUEST':
 			return {
@@ -42,6 +59,7 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				userAnswer: action.answer
 			}
+
 		case 'GET_QUESTION':
 			return {
 				...state,
@@ -50,6 +68,8 @@ const trivia = (state = intitialState, action) => {
 				difficulty: action.difficulty,
 				number: action.number,
 			}
+
+
 		case 'GET_GAME_INFO':
 			return {
 				...state,
@@ -60,10 +80,30 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				scoreObj: action.scoreObj
 			}
-		case 'RECORD_VOICE':
-			return state
-		case 'SKIP_QUESTION':
-			return state
+
+		case 'UPDATE_ROUND_WINNER': 
+			return {
+				...state,
+				roundWinner: action.roundWinner
+			}
+		case 'SHOW_ROUND_DIALOG':
+			return {
+				...state,
+				roundDialogShow: true
+			}
+		case 'HIDE_ROUND_DIALOG':
+			return {
+				...state,
+				roundDialogShow: false
+			}		
+
+
+		case 'ACTIVATE_MIC':
+			return {
+				...state,
+				micState: action.state
+			}
+
 		case 'SPEECH_TO_TEXT':
 		  return {
 				...state,

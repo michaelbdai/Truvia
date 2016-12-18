@@ -1,13 +1,10 @@
 import React from 'react'
 import Nav from './Nav'
-import ShowScores from '../containers/ShowScores'
-// import Question from './Question'
-import ShowQuestion from '../containers/ShowQuestion'
-import ShowAnswer from '../containers/ShowAnswer'
-import Tools from '../containers/Tools'
+import ShowStatus from '../containers/ShowStatus'
 
 
-const Game = () => (
+
+const Lobby = () => (
   <div className='background stretch'>
 		<Nav
 			title={`${APP_NAME}`} />
@@ -15,13 +12,11 @@ const Game = () => (
 			paddingLeft: 10,
 			paddingRight: 10
 			}}>
-  		<ShowScores />
-  		<ShowQuestion />
-  		<ShowAnswer />
-  		<Tools />
+  		<ShowStatus />
+
 		</div>
   </div>
 
 )
 
-export default Game
+export default Lobby

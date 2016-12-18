@@ -1,17 +1,19 @@
 import React from 'react'
+// import Styles from '../components/Styles'
 import FontIcon from 'material-ui/FontIcon'
 import {BottomNavigation, BottomNavigationItem} from 'material-ui/BottomNavigation'
-import Paper from 'material-ui/Paper'
-
 import { connect } from 'react-redux'
-import { getQuestion, postAnswer, speechToText } from '../actions'
+import { getQuestion, postAnswer, activateMic, speechToText } from '../actions'
 import Question from '../components/Question'
+import {red500} from 'material-ui/styles/colors';
 
 const micIcon = <FontIcon className="material-icons">mic</FontIcon>
-const skipIcon = <FontIcon className="material-icons">help</FontIcon>
-const submitIcon = <FontIcon className="material-icons">check</FontIcon>
+const micNoneIcon = <FontIcon className="material-icons">mic_none</FontIcon>
+
 
 let streamSpeech = () => {
+    // activate mic state
+    store.dispatch(activateMic(true))
     let that = this;
     fetch('/watsontoken')
     .then(function(response) {
@@ -31,7 +33,9 @@ let streamSpeech = () => {
           console.log(speech);
           store.dispatch(speechToText(speech))
           if (data.alternatives[0].confidence !== undefined) {
-            console.log("final value is ", speech);
+            // deactivate mic state
+            store.dispatch(activateMic(false))
+            console.log("final value is ", speech)
             store.dispatch(speechToText(speech))
             socket.emit('answer', speech, correct => {
               console.log(speech + ' was correct? ' + correct);
@@ -42,37 +46,44 @@ let streamSpeech = () => {
     });
   }
 
-let Tools = ({ dispatch }) => {
+
+let Tools = ({ dispatch, micState }) => {
   return (
-    <Paper zDepth={1}>
-      <BottomNavigation>
-        <BottomNavigationItem
-          label="Record"
-          icon={micIcon}
-          onTouchTap={() => {
-            console.log('Record button clicked :)')
-            streamSpeech()
+    <BottomNavigation>
+      { micState ? (
+          <BottomNavigationItem
+            label="Record"
+            icon={micIcon}
+            onTouchTap={() => {
+              console.log('Record button clicked :)')
+              streamSpeech()
+              }
             }
-          }
-        />
-        <BottomNavigationItem
-          label="Skip"
-          icon={skipIcon}
-          onTouchTap={() => console.log('')}
-        />
-        <BottomNavigationItem
-          label="Submit"
-          icon={submitIcon}
-          onTouchTap={() => {
-            console.log('submit button clicked')
-            dispatch(postAnswer('yup'));
+          />
+        )
+        : (
+          <BottomNavigationItem
+            label="Record"
+            icon={micNoneIcon}
+            onTouchTap={() => {
+              console.log('Record button clicked :)')
+              streamSpeech()
+              }
             }
-          }
-        />
-      </BottomNavigation>
-    </Paper>
+          />
+        )
+      }
+    </BottomNavigation>
   )
 }
-Tools = connect()(Tools)
+
+
+const mapStateToProps = (state) => ({
+  micState: state.micState
+})
+
+Tools = connect(
+  mapStateToProps
+)(Tools)
 
 export default Tools
