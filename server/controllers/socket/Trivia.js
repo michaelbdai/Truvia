@@ -28,12 +28,14 @@ module.exports = triviaSocket => {
       if (session.stopped()) return;
 
       session.nextQuestion();
-      session.getCurrentQuestion().then(question =>
+      session.getCurrentQuestion().then(question => {
+        console.log('CORRECT ANSWER IS ' + question.correct_answer);
         triviaSocket.to(room).emit(
           'question',
           scrubQuestion(question),
           session.getQuestionNumber()
-        ));
+        )
+      });
 
       // Set timeout to give options after 10 seconds
       setTimeout(() => triviaSocket.to(room).emit('options'), 10000);
@@ -85,7 +87,7 @@ module.exports = triviaSocket => {
           triviaSocket.to(room).emit('game end', session.getScoreBoard());
         } else {
           // Every 25 seconds send a new quesiton
-          sendTimedQuestion(8);
+          sendTimedQuestion(30);
         }
       } else {
         cb(false);
