@@ -32,7 +32,7 @@ const Scoreboard = ({scoreObj, roundDialogShow, roundWinner}) => (
     </Table>
   </Paper>
   <Dialog
-    title="Dialog With Actions"
+    title="Result for last round: "
     modal={false}
     open={roundDialogShow}
   >
