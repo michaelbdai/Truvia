@@ -2,6 +2,16 @@ const manager = require('../../models/GameSessionsManager');
 const TriviaSession = require('../../models/TriviaSession');
 const _ = require('lodash');
 
+let scrubQuestion = (question) => {
+  let q = _.cloneDeep(question);
+  q.incorrect_answers.push(q.correct_answer);
+  const options = q.incorrect_answers.slice();
+  delete q.incorrect_answers;
+  delete q.correct_answer;
+  q['options'] = options;
+  return q;
+}
+
 module.exports = triviaSocket => {
   manager.socketRestoreSession(triviaSocket, TriviaSession, socket => {
     const token = socket.decoded_token;
@@ -17,7 +27,7 @@ module.exports = triviaSocket => {
       session.getCurrentQuestion().then(question =>
         triviaSocket.to(room).emit(
           'question',
-          question,
+          scrubQuestion(question),
           session.getQuestionNumber()
         ));
 
@@ -53,7 +63,7 @@ module.exports = triviaSocket => {
           p.socket.join(token.roomID);
           console.log(`Player ${p.name} joined in room ${room}`);
         });
-        sendTimedQuestion(20);
+        sendTimedQuestion(30);
       } else {
         socket.emit('error', 'Game can only be started by owner');
       }

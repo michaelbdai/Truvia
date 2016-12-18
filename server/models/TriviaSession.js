@@ -21,19 +21,9 @@ class TriviaSession extends GameSession {
     this._setTrivia(triviaJSON.results);
   }
 
-  // Removes keys from question marking correct answers and turns them into ambiguous options
-  _scrubQueston(question) {
-    question.incorrect_answers.push(question.correct_answer);
-    const options = question.incorrect_answers.slice();
-    delete question.incorrect_answers;
-    delete question.correct_answer;
-    question['options'] = options;
-    return question;
-  }
-
   async getCurrentQuestion() {
     if (!this.currentQuestion) await this.addTrivia();
-    return this._scrubQueston(this.currentQuestion);
+    return this.currentQuestion;
   }
 
   /**
@@ -61,30 +51,77 @@ class TriviaSession extends GameSession {
       // Add to list as [pos of sub in orig string, substr length]
       // Remove substr from looped scanned substr
       // Try find smaller substr
-  // Find max in order substrs
+   // Find max in order substrs
       // let scores
       // For each substr `s` in `ms`
           // score = s length
           // For each substr `j` in `ms`.slice(s.idx)
             // score += j length if s idx < j idx (in order)
       // return max scores
-  // _getLargestSubstringsRemoved(str) {
-  //   _.map(str, (c, i) => [c, i])
-  // }
-  //
-  // _scoreMatch(str1, str2) {
-  //   if (str1.includes(str2)) return 9001;
-  //
-  //
-  // }
-  // pickMostSimilar(options, str) {
-  //   _.map(options, opt => {
-  //     // make both lowercase
-  //   })
-  // }
+
+  _getLargestSubstringsRemoved(str1, str2) {
+    let subStrs = [];
+    let set = str1.slice();
+    for (let len = str1.length; len > 0; len--) {
+      for (let j = 0; j + (len - 1) < str1.length; j++) {
+        let s = str1.slice(j, j + len);
+        let setIdx = set.indexOf(s);
+        if (setIdx !== -1) {
+          let idx = str2.indexOf(s);
+          if (idx !== -1) {
+            subStrs.push([idx, len, j]);
+            set = set.slice(0,setIdx) + set.slice(setIdx + len)
+          }
+        }
+      }
+    }
+    return _.uniqBy(subStrs, ([i, l]) => i)
+      .sort((a,b) => a[2] - b[2]);
+  }
+
+  _scoreMatch(str1, str2) {
+    let subStrs = this._getLargestSubstringsRemoved(str1, str2);
+    let scores = _.map(subStrs, ([i, l], si) => {
+      let score = l;
+      _.each(subStrs.slice(si + 1), ([j, l2]) => {
+        if (i < j) {
+          score += l2;
+        }
+      });
+      return score;
+    });
+    return _.max(scores);
+  }
+
+  _pickMostSimilar(str, options) {
+    str = str.toLowerCase()//_.lowerCase(str);
+    let optionScores = _.map(options, (opt, i) => {
+      let optl = opt.toLowerCase();
+      return [i, this._scoreMatch(str, optl)];
+    });
+    console.log('OPTION SCORES ' + JSON.stringify(optionScores));
+    let optionIdx = _.maxBy(optionScores, ([idx, score]) => score)[0];
+    return options[optionIdx];
+  }
+
+  _scrubQuestion(question) {
+    let q = _.cloneDeep(question);
+    q.incorrect_answers.push(q.correct_answer);
+    const options = q.incorrect_answers.slice();
+    delete q.incorrect_answers;
+    delete q.correct_answer;
+    q['options'] = options;
+    return q;
+  }
+
   answerQuestion(answer, user) {
-    if(this.currentQuestion
-      && this.currentQuestion['correct_answer'] === answer) { //TODO partial match
+    if (!this.currentQuestion) return false;
+    console.log('Q', this.currentQuestion);
+    let options = this._scrubQuestion(this.currentQuestion).options;
+    console.log('OPTIONS ARE ' + JSON.stringify(options));
+    let picked = this._pickMostSimilar(answer, options);
+    console.log('PICKED ' + picked)
+    if(this.currentQuestion['correct_answer'] === picked) { //TODO partial match
       this.incrementScore(user);
       this.nextQuestion();
       this.questionNumber++;
@@ -100,7 +137,6 @@ class TriviaSession extends GameSession {
 
   addPlayer(player) {
     player.score = 0;
-    console.log('ts ' + player.socket);
     super.addPlayer(player);
   }
 
