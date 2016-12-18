@@ -1,5 +1,4 @@
 const intitialState = {
-	audioFilePath: '',
 	userAnswer: '',
 	question: '',
 	options: [],
@@ -14,9 +13,14 @@ const intitialState = {
 	number: 1,
 	joinAsHost: false,
 	isFetching: false,
+<<<<<<< HEAD
 	isRecording: false,
 	gameStarted: false,
 	userName:'',
+=======
+	text: 'Speech to text goes here',
+	micState: false,
+>>>>>>> 5d0ba3c9cabbbfa403f800b38f0eec40504465ad
 }
 
 
@@ -76,6 +80,7 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				scoreObj: action.scoreObj
 			}
+
 		case 'UPDATE_ROUND_WINNER': 
 			return {
 				...state,
@@ -91,18 +96,24 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				roundDialogShow: false
 			}		
-		case 'RECORD_VOICE':
-			return state
-		case 'SKIP_QUESTION':
-			return state
-		case 'SPEECH_TO_TEXT':
-		   console.log("Reducer for speech to text");
-		   console.log(action.text);
-		   return {
-		   	...state,
-		   	text: action.text
-		   }
 
+
+		case 'ACTIVATE_MIC':
+			return {
+				...state,
+				micState: action.state
+			}
+
+		case 'SPEECH_TO_TEXT':
+		  return {
+				...state,
+				text: action.text
+		  }
+	  case 'SUBMIT_SPEECH':
+		  return {
+		 		...state,
+			 	text: action.text
+		 	}
 		default:
 			return state
 	}

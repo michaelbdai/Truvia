@@ -1,7 +1,7 @@
 import * as _ from 'lodash';
 import { browserHistory } from 'react-router'
 
-const unescape = s => _.unescape(s).replace(/&#\d+;/g, '');
+const unescape = s => _.unescape(s).replace(/&.+;/g, '');
 
 export const postAnswer = (answer) => {
   // ## Susan's part - need changes
@@ -23,24 +23,29 @@ export const getQuestion = (question, options, difficulty, number) => ({
   number
 })
 
-export const updateScore = (scoreObj) => {
-  return {
-    type: 'UPDATE_SCORE',
-    scoreObj
+
+export const updateScore = (scoreObj) => ({
+  type: 'UPDATE_SCORE',
+  scoreObj
+})
+
+export const activateMic = (state) => {
+  console.log('mic state is now ' + state)
+  return{
+    type: 'ACTIVATE_MIC',
+    state
   }
 }
-// export const addToPlayerlist = (newPlayer) => {
-//   return {
-//     type: 'ADD_TO_PLAYERLIST',
-//     newPlayer
-//   }
-// }
-export const speechToText = (text) => {  // figureout how to get the text here
-  return {
-    type: 'SPEECH_TO_TEXT',
-    text
-  }
-}
+
+export const speechToText = (text) => ({  // figureout how to get the text here
+  type: 'SPEECH_TO_TEXT',
+  text
+})
+
+export const doneRecording = (text) => ({
+  type: 'SUBMIT_SPEECH',
+  text,
+})
 
 export const getGameInfo = (maxQuestions) => ({
   type: 'GET_GAME_INFO',
