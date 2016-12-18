@@ -8,8 +8,6 @@ import { getQuestion, postAnswer, speechToText } from '../actions'
 import Question from '../components/Question'
 
 const micIcon = <FontIcon className="material-icons">mic</FontIcon>
-const skipIcon = <FontIcon className="material-icons">help</FontIcon>
-const submitIcon = <FontIcon className="material-icons">check</FontIcon>
 
 let streamSpeech = () => {
     let that = this;
@@ -52,20 +50,6 @@ let Tools = ({ dispatch }) => {
           onTouchTap={() => {
             console.log('Record button clicked :)')
             streamSpeech()
-            }
-          }
-        />
-        <BottomNavigationItem
-          label="Skip"
-          icon={skipIcon}
-          onTouchTap={() => console.log('')}
-        />
-        <BottomNavigationItem
-          label="Submit"
-          icon={submitIcon}
-          onTouchTap={() => {
-            console.log('submit button clicked')
-            dispatch(postAnswer('yup'));
             }
           }
         />
