@@ -14,7 +14,7 @@
     // Posting to guest with {name, roomID} lets the name join the room.
     // Use postman to test it out
 
-    fetch('/guest', {
+    fetch('/api/guest', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

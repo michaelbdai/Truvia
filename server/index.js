@@ -6,6 +6,10 @@ const vcapServices = require('vcap_services');
 const extend = require('util')._extend
 const watson = require('watson-developer-cloud');
 const path = require('path');
+const Promise = require('bluebird');
+Promise.longStackTraces();
+global.Promise = Promise;
+
 require('isomorphic-fetch');
 require('dotenv').load({silent: true});
 

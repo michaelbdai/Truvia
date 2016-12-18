@@ -6,8 +6,10 @@ import Paper from 'material-ui/Paper'
 import { connect } from 'react-redux'
 import { getQuestion, postAnswer, speechToText } from '../actions'
 import Question from '../components/Question'
+import {red500} from 'material-ui/styles/colors';
 
 const micIcon = <FontIcon className="material-icons">mic</FontIcon>
+const redMicIcon = <FontIcon className="material-icons" color={red500}>mic</FontIcon>
 const skipIcon = <FontIcon className="material-icons">help</FontIcon>
 const submitIcon = <FontIcon className="material-icons">check</FontIcon>
 
@@ -42,13 +44,13 @@ let streamSpeech = () => {
     });
   }
 
-let Tools = ({ dispatch }) => {
+let Tools = ({ dispatch, isRecording}) => {
   return (
     <Paper zDepth={1}>
       <BottomNavigation>
         <BottomNavigationItem
           label="Record"
-          icon={micIcon}
+          icon={isRecording? redMicIcon : micIcon}
           onTouchTap={() => {
             console.log('Record button clicked :)')
             streamSpeech()
@@ -73,6 +75,7 @@ let Tools = ({ dispatch }) => {
     </Paper>
   )
 }
-Tools = connect()(Tools)
+
+Tools = connect(mapStateToProps)(Tools)
 
 export default Tools

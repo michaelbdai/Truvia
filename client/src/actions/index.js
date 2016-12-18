@@ -1,19 +1,26 @@
 import * as _ from 'lodash';
 import { browserHistory } from 'react-router'
-//import { streamSpeech } from '../components/Watson';
+
+const unescape = s => _.unescape(s).replace(/&#\d+;/g, '');
+
 export const postAnswer = (answer) => {
-  socket.emit('answer', answer , correct => console.log('Answer was ' + (!correct ? 'not correct' : 'correct')));
+  // ## Susan's part - need changes
+  socket.emit('answer', answer , correct => {
+    console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
+
+  });
   return {
     type: 'POST_ANSWER',
     answer
   }
 }
 
-export const getQuestion = (question, options, difficulty) => ({
+export const getQuestion = (question, options, difficulty, number) => ({
   type: 'GET_QUESTION',
   question,
   options,
-  difficulty
+  difficulty,
+  number
 })
 
 export const updateScore = (scoreObj) => {
@@ -29,30 +36,52 @@ export const updateScore = (scoreObj) => {
 //   }
 // }
 export const speechToText = (text) => {  // figureout how to get the text here
-  console.log("speechToText");
   return {
     type: 'SPEECH_TO_TEXT',
     text
   }
 }
 
+export const getGameInfo = (maxQuestions) => ({
+  type: 'GET_GAME_INFO',
+  maxQuestions,
+});
+
+export const updateRoundWinner = (roundWinner) => ({
+  type: 'UPDATE_ROUND_WINNER',
+  roundWinner
+})
+
 const listenTrivia = (socket, isOwner) => {
+
   socket.on('user enter', (res) => {
     console.log(res)
     console.log(`User ${res.name} has entered, ${res.count} in room`);
     store.dispatch(updateScore(res.scoreObj))
-    // if (isOwner.owner && count === 2) {
+    // if (isOwner.owner && count === 1) {
     //   console.log('The owner triggers game start')
-    //   socket.emit('game start');
+    //   let rounds = 8;
+    //   socket.emit('game start', rounds);
+    //   store.dispatch(getGameInfo(rounds))
     // }
   });
 
-  socket.on('question', question => {
-    store.dispatch(getQuestion(question.question, question.options, question.difficulty));
+  socket.on('question', (question, number) => {
+    console.log(question.options);
+    store.dispatch(getQuestion(
+      unescape(question.question),
+      _.map(question.options, s => unescape(s)),
+      question.difficulty,
+      number));
   });
 
-  socket.on('answered', user => {
-    console.log(user + ' answered the question correctly!');
+
+  // on('ansered'): Removed the second param 'user'
+  socket.on('answered', (scoreObj, roundWinner ) => {
+    console.log('scoreboard will be updated to ' + scoreObj)
+    store.dispatch(updateScore(scoreObj))
+    store.dispatch(updateRoundWinner(roundWinner))
+    store.dispatch(timedShowDialog())
   });
 
   socket.emit('scoreboard', scoreObj => {
@@ -65,6 +94,7 @@ const listenTrivia = (socket, isOwner) => {
   });
 
   socket.on('game end', winningUser => {
+    browserHistory.push('/gameover')
     console.log('Game ended, ' + winningUser + ' won the game! :)')
   });
 
@@ -104,7 +134,8 @@ const postGuest = (name, roomID) => {
     })
       .then(res => res.json())
       .then(json => {
-        console.log('CreateGame POST data from /guest ->', json);
+        console.log('CreateGame POST data from /api/guest ->', json);
+        console.log('ROOMID:\n' + json.roomID)
         const isOwner = json.owner;
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
@@ -121,10 +152,6 @@ const sendRequest = () => {
 }
 
 const receivePosts = (data, json) => {
-  console.log(json);
-  //TODO: !!! add the following
-  console.log('receivePosts')
-  //--------------need to test
   if (data.roomID){ // user try to join room
     if (json.success) {
       console.log('join sucess')
@@ -136,7 +163,6 @@ const receivePosts = (data, json) => {
         userName: data.name,
       }     
     } else {
-      //alert
       console.log('join fail--------')
       browserHistory.push('/')
       return {type:''}
@@ -151,17 +177,6 @@ const receivePosts = (data, json) => {
       userName: data.name
     }      
   }
-
-  // //----------------
-  // hashHistory.push('/game')
-
-  // browserHistory.push('/lobby')
-  // return {
-  //   type: 'CREATE_GAME',
-  //   gameID: json.roomID,
-  //   gameHost: data.name
-  // }
-
 }
 
 export const createGame = (gameHost) => {
@@ -177,8 +192,22 @@ export const joinGame = (guestName, roomID) => {
   }
 }
 
+export const timedShowDialog = () => {
+  return (dispatch) => {
+    dispatch({type: 'SHOW_ROUND_DIALOG'})
+    setTimeout(() => dispatch({type: 'HIDE_ROUND_DIALOG'}), 1000)
+
+  }
+  // dispatch({type: 'SHOW_ROUND_DIALOG'})
+  // setTimeout(dispatch({type: 'HIDE_ROUND_DIALOG'}), 3000)
+
+}
+
+
 export const startGame = () => {
   console.log('game starts')
-  socket.emit('game start');
+  let rounds = 8;
+  socket.emit('game start', rounds);
+  store.dispatch(getGameInfo(rounds))
 
 }
