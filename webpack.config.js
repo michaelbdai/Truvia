@@ -18,7 +18,7 @@ if (minimize) {
   plugins.push(new webpack.optimize.UglifyJsPlugin(
     {
         compress: {
-            warnings: true
+            warnings: false
         }
     }
   ));

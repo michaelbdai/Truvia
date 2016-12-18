@@ -23,7 +23,8 @@ import HomePage from './containers/HomePage'
 import Lobby from './components/Lobby'
 import ShowGameOver from './containers/ShowGameOver'
 import ShowGames from './containers/ShowGames'
-
+import 'isomorphic-fetch';
+require('es6-promise').polyfill();
 
 // import auth from './auth'
 // const requireAuth = (nextState, replace) => {
