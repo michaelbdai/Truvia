@@ -3,7 +3,8 @@ import GameOverView from '../components/GameOverView'
 
 const mapStateToProps = (state) => {
   return {
-    result: state.result
+    scoreObj: state.scoreObj,
+    userName: state.userName
   }
 }
 

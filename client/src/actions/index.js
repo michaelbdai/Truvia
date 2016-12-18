@@ -7,7 +7,6 @@ export const postAnswer = (answer) => {
   // ## Susan's part - need changes
   socket.emit('answer', answer , correct => {
     console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
-
   });
   return {
     type: 'POST_ANSWER',
@@ -166,7 +165,7 @@ const receivePosts = (data, json) => {
         gameID: data.roomID,
         gameHost: json.roomOwner,
         userName: data.name,
-      }     
+      }
     } else {
       console.log('join fail--------')
       browserHistory.push('/')
@@ -180,7 +179,7 @@ const receivePosts = (data, json) => {
       gameID: json.roomID,
       gameHost: data.name,
       userName: data.name
-    }      
+    }
   }
 }
 
