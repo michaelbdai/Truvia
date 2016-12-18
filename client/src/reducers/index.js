@@ -3,7 +3,6 @@ const intitialState = {
 	question: '',
 	options: [],
 	difficulty: '',
-	text: 'Speech to text goes here',	
 	scoreObj: [],
 	roundWinner: '',
 	roundDialogShow: false,
@@ -13,14 +12,10 @@ const intitialState = {
 	number: 1,
 	joinAsHost: false,
 	isFetching: false,
-<<<<<<< HEAD
-	isRecording: false,
 	gameStarted: false,
 	userName:'',
-=======
 	text: 'Speech to text goes here',
 	micState: false,
->>>>>>> 5d0ba3c9cabbbfa403f800b38f0eec40504465ad
 }
 
 
