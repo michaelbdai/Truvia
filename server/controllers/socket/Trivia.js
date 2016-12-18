@@ -87,7 +87,7 @@ module.exports = triviaSocket => {
           triviaSocket.to(room).emit('game end', session.getScoreBoard());
         } else {
           // Every 25 seconds send a new quesiton
-          sendTimedQuestion(8);
+          sendTimedQuestion(30);
         }
       } else {
         cb(false);
