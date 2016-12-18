@@ -22,14 +22,20 @@ const _ = require('lodash');
 
 module.exports.getSessions = function(req, res) {
   let sessions = _.map(manager.sessions, ({players, id, rounds, gameState, owner}, k) => {
+    // JSON.stringify(players);
+    JSON.stringify(id);
+    JSON.stringify(rounds);
+    JSON.stringify(gameState);
+    JSON.stringify(owner.name);
     return {
-      players,
+      //players,
       roomID: id,
       rounds,
       gameState,
-      owner,
+      owner: owner.name,
     };
   });
+
   res.json(sessions);
 }
 

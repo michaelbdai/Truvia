@@ -4,8 +4,9 @@ import Divider from 'material-ui/Divider';
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
 import Styles from './Styles'
 import RaisedButton from 'material-ui/RaisedButton';
+import { joinGame } from '../actions'
 
-const GameOwners = ({games}) => (
+const GameOwners = ({dispatch, games, userName}) => (
   <Paper style={Styles.showGamesContainer} >
     <Table >
     <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
@@ -15,18 +16,24 @@ const GameOwners = ({games}) => (
     </TableHeader>
     <TableBody displayRowCheckbox={false}>
       {
-      games
-        .map((name) => (
-        <TableRow key={name}>
-          <TableRowColumn>{name}</TableRowColumn>
-          <TableRowColumn><RaisedButton
+      games.map(({owner, rounds, roomID}) => (
+        <TableRow key={roomID}>
+          <TableRowColumn>
+            {owner}
+          </TableRowColumn>
+          <TableRowColumn>
+            <RaisedButton
               label='Join Room'
-              /></TableRowColumn>
+              onClick={() => {
+                dispatch(joinGame(userName, roomID));
+              }}
+            />
+          </TableRowColumn>
         </TableRow>
       ))
     }
-  
-        
+
+
     </TableBody>
     </Table>
   </Paper>

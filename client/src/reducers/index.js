@@ -12,7 +12,7 @@ const intitialState = {
 	number: 1,
 	joinAsHost: false,
 	isFetching: false,
-	games: []
+	games: [],
 	gameStarted: false,
 	userName:'',
 	text: 'Speech to text goes here',
@@ -81,12 +81,10 @@ const trivia = (state = intitialState, action) => {
 	  case 'GET_ONGOING_GAMES':
 	     console.log(" Get ongoing games in reducer");
 	     console.log(action.games);
-	     var array = action.games.map(function(element) {
-          return element;
-	     });
 	     return {
        	 ...state,
-       	 games: array
+       	 games: action.games,
+       	 userName: action.userName,
        }
 
 

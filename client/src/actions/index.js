@@ -149,9 +149,8 @@ const postGuest = (name, roomID) => {
       });
   }
 }
-// getGames function here 
-const getGames = (player) => {
-  let data = player;
+// getGames function here
+const getGames = (playerName) => {
   return dispatch => {
     dispatch(sendRequest);
     return fetch('/api/sessions', {
@@ -161,10 +160,9 @@ const getGames = (player) => {
     .then(res => res.json())
     .then(json => {
       console.log(json);
-      var array = json.map(function(element) {
-        return element.owner.name;
-      });
-     dispatch(receiveGames(array))
+      let lobbyGames = json.filter(game => game.gameState === 'lobby');
+      console.log('getGames array ' + lobbyGames);
+     dispatch(receiveGames(lobbyGames, playerName))
     });
   }
 }
@@ -204,13 +202,14 @@ const receivePosts = (data, json) => {
     }
   }
 }
-const receiveGames = (games) => { // games is an array of player information
+const receiveGames = (games, userName) => { // games is an array of player information
   console.log(games);
 
   browserHistory.push('/showGames')
   return {
     type: 'GET_ONGOING_GAMES',
-    games
+    games,
+    userName
   }
 }
 
@@ -221,16 +220,15 @@ export const createGame = (gameHost) => {
   }
 }
 // go to the games page , get the games, update the games state with all the currently streaming games
-// 
+//
 // games page should display all the games by reflecting the changes in the state.
 
 
-export const ongoingGames = (games) => { // this should have state of list of ongoing games and name of the player
+export const ongoingGames = (name) => { // this should have state of list of ongoing games and name of the player
   console.log("inside actioncreator ongoing games");
-  
+
   return(dispatch) => {
-    console.log(dispatch);
-    dispatch(getGames(games));
+    dispatch(getGames(name));
   }
 }
 
