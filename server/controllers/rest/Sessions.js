@@ -1,16 +1,16 @@
 const jwt = require('jsonwebtoken');
-const manager = require('../../models/GameSessionsManager');
 const _ = require('lodash');
 
+const manager = require('../../models/GameSessionsManager');
+
+
+/**
+ * getSessions - Express controller that returns all GameSessionsManager sessions
+ *
+ */
 module.exports.getSessions = function(req, res) {
   let sessions = _.map(manager.sessions, ({players, id, rounds, gameState, owner}, k) => {
-    // JSON.stringify(players);
-    JSON.stringify(id);
-    JSON.stringify(rounds);
-    JSON.stringify(gameState);
-    JSON.stringify(owner.name);
     return {
-      //players,
       roomID: id,
       rounds,
       gameState,
@@ -22,6 +22,11 @@ module.exports.getSessions = function(req, res) {
 }
 
 
+/**
+ * guestLogin - Express controller that determines from post data whether to
+ * send a token to create a room or join a room. A session is created in GameSessionsManager
+ *
+ */
 module.exports.guestLogin = function(req, res) {
   // TODO use redis to persist user temporarily with timeout
   let response;

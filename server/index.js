@@ -1,46 +1,43 @@
 const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const extend = require('util')._extend
-const watson = require('watson-developer-cloud');
 const path = require('path');
-const compression = require('compression');
 const Promise = require('bluebird');
 Promise.longStackTraces();
 global.Promise = Promise;
-
 require('isomorphic-fetch');
-require('dotenv').load({silent: true});
+
+const morgan = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+
+global.jwtSecret = process.env.JWT_SECRET || 'HoorayTeamSpinach';
+
 
 const app = express();
 
-const port = process.env.PORT || 8080;
-global.jwtSecret = process.env.JWT_SECRET || 'HoorayTeamSpinach';
-
+// Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
-
-// Enable gzip compression static files
 app.use(compression());
-
-
-const server = app.listen(port);
-const io = require('socket.io')(server);
-
-console.log("Server listening on port " + port);
-
-module.exports = {app, io};
-
-const triviaRoute = require('./routes');
-app.use('/api', triviaRoute);
-
 app.use(express.static(path.join(__dirname, '../client/public')));
 
+// Server and IO initialization
+const port = process.env.PORT || 8080;
+const server = app.listen(port);
+const io = require('socket.io')(server);
+console.log('Server listening on port ' + port);
+
+// route require has to be required after exports because of circular dependency
+module.exports = {app, io};
+const triviaRoute = require('./routes');
+
+// Routes
+app.use('/api', triviaRoute);
+// All requests for non found static files go to client side router
 app.get('*', function (request, response){
   const index = path.resolve(__dirname, '../client/public', 'index.html');
   console.log('Sending index ' + index);
   response.sendFile(index);
-})
+});

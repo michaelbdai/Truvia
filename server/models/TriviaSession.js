@@ -44,13 +44,20 @@ class TriviaSession extends GameSession {
    * @return {type}        Boolean whether the answer is correct
    */
 
-   // ALOGIRTHM
+   // PARTIAL MATCH ALOGIRTHM
+   //
+   // This algorithm scores a mangled string based on its matching ordered substrings to a comparison string.
+   //
+   // Substring scores get combined with and other substring scores if they appear in order
+   // with the string to compare it to.
+
    // Get largest substrings
       // Start searching for largest substrings
       // If found substr add to list `matchSubstr` as ms
       // Add to list as [pos of sub in orig string, substr length]
       // Remove substr from looped scanned substr
       // Try find smaller substr
+
    // Find max in order substrs
       // let scores
       // For each substr `s` in `ms`
@@ -115,6 +122,16 @@ class TriviaSession extends GameSession {
     return q;
   }
 
+
+  /**
+   * answerQuestion - determine if a user has answered a quesiton correctly
+   * if so, increment that players score and move on to the next quesiton in the
+   * trivia
+   *
+   * @param  {String} answer approximation of an answer
+   * @param  {String} user   player who is submitting the answer
+   * @return {Boolean}       whether the answer is correct
+   */
   answerQuestion(answer, user) {
     if (!this.currentQuestion) return false;
     console.log('Q', this.currentQuestion);
@@ -141,6 +158,12 @@ class TriviaSession extends GameSession {
     super.addPlayer(player);
   }
 
+
+  /**
+   * nextQuestion - make session move on to the next question
+   *
+   * @return {Object} the next question
+   */
   nextQuestion() {
     if (this.trivia.length <3) this.addTrivia(); // <3
     this.currentQuestion = this.trivia.pop();
