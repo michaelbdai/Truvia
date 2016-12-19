@@ -5,6 +5,7 @@
   "main": "server/index.js",
   "scripts": {
     "postinstall": "npm run build",
+    "ohno": "heroku ps:restart web.1",
     "test": "mocha test",
     "dev": "webpack --minimize",
     "build": "webpack --minimize",
