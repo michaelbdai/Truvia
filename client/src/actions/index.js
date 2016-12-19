@@ -116,35 +116,30 @@ const postGuest = (name, roomID) => {
       .then(res => res.json())
       .then(json => {
         console.log('CreateGame POST data from /api/guest ->', json);
-        console.log('ROOMID:\n' + json.roomID)
         const isOwner = json.owner;
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         dispatch(receivePosts(data, json))
         connectSocket(isOwner)
-
       });
   }
 }
-// getGames function here
+
 const getGames = (playerName) => {
   return dispatch => {
-    dispatch(sendRequest);
+    dispatch(sendRequest)
     return fetch('/api/sessions', {
       method: 'GET',
       headers: { 'Content-Type': 'application/json' },
      })
     .then(res => res.json())
     .then(json => {
-      console.log(json);
-      let lobbyGames = json.filter(game => game.gameState === 'lobby');
-      console.log('getGames array ' + lobbyGames);
+      let lobbyGames = json.filter(game => game.gameState === 'lobby')
+      console.log('getGames array ' + lobbyGames)
      dispatch(receiveGames(lobbyGames, playerName))
-    });
+    })
   }
 }
-
-
 
 const sendRequest = () => {
   return{
@@ -155,7 +150,6 @@ const sendRequest = () => {
 const receivePosts = (data, json) => {
   if (data.roomID){ // user try to join room
     if (json.success) {
-      console.log('join sucess')
       browserHistory.push('/lobby')
        return {
         type: 'JOIN_GAME',
@@ -164,11 +158,9 @@ const receivePosts = (data, json) => {
         userName: data.name,
       }
     } else {
-      console.log('join fail--------')
       browserHistory.push('/')
       return {type:''}
     }
-
   } else { // user try to create room
     browserHistory.push('/lobby')
     return {
@@ -179,36 +171,29 @@ const receivePosts = (data, json) => {
     }
   }
 }
-const receiveGames = (games, userName) => { // games is an array of player information
-  console.log(games);
 
+const receiveGames = (games, userName) => { // games is an array of player information
   browserHistory.push('/showGames')
   return {
     type: 'GET_ONGOING_GAMES',
     games,
-    userName
+    userName,
   }
 }
 
 export const setRounds = (rounds) => ({
   type: 'SET_ROUNDS',
   rounds,
-});
+})
 
 export const createGame = (gameHost, rounds) => {
   return(dispatch) => {
-    dispatch(postGuest(gameHost));
-    dispatch(setRounds(rounds));
+    dispatch(postGuest(gameHost))
+    dispatch(setRounds(rounds))
   }
 }
-// go to the games page , get the games, update the games state with all the currently streaming games
-//
-// games page should display all the games by reflecting the changes in the state.
 
-
-export const ongoingGames = (name) => { // this should have state of list of ongoing games and name of the player
-  console.log("inside actioncreator ongoing games");
-
+export const ongoingGames = (name) => {
   return(dispatch) => {
     dispatch(getGames(name));
   }
@@ -218,6 +203,12 @@ export const joinGame = (guestName, roomID) => {
   return(dispatch) => {
     dispatch(postGuest(guestName, roomID))
   }
+}
+
+export const startGame = () => {
+  const rounds = store.getState().rounds;
+  socket.emit('game start', rounds);
+  store.dispatch(getGameInfo(rounds))
 }
 
 export const timedShowDialog = () => {
@@ -233,12 +224,4 @@ export const timedShowWrongDialog = () => {
     dispatch({type: 'SHOW_WRONG_DIALOG'})
     setTimeout(() => dispatch({type: 'HIDE_WRONG_DIALOG'}), 1000)
   }
-}
-
-
-export const startGame = () => {
-  const rounds = store.getState().rounds;
-  socket.emit('game start', rounds);
-  store.dispatch(getGameInfo(rounds))
-
 }
