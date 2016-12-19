@@ -1,45 +1,41 @@
-import * as _ from 'lodash';
 import { browserHistory } from 'react-router'
-
+import * as _ from 'lodash';
 const unescape = s => _.unescape(s).replace(/&.+;/g, '');
 
-// export const postAnswer = (answer) => {
-//   // ## Susan's part - need changes
-//   socket.emit('answer', answer , correct => {
-//     console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
-//     store.dispatch(timedShowWrongDialog())
-//   });
-//   return {
-//     type: 'POST_ANSWER',
-//     answer
-//   }
-// }
+export const getGameInfo = (maxQuestions) => ({
+  type: 'GET_GAME_INFO',
+  maxQuestions,
+})
 
 export const getQuestion = (question, options, difficulty, number) => ({
   type: 'GET_QUESTION',
   question,
   options,
   difficulty,
-  number
+  number,
 })
 
+export const updateRoundWinner = (roundWinner) => ({
+  type: 'UPDATE_ROUND_WINNER',
+  roundWinner,
+})
 
 export const updateScore = (scoreObj) => ({
   type: 'UPDATE_SCORE',
-  scoreObj
+  scoreObj,
 })
 
 export const activateMic = (state) => {
   console.log('mic state is now ' + state)
   return{
     type: 'ACTIVATE_MIC',
-    state
+    state,
   }
 }
 
 export const speechToText = (text) => ({  // figureout how to get the text here
   type: 'SPEECH_TO_TEXT',
-  text
+  text,
 })
 
 export const doneRecording = (text) => ({
@@ -47,28 +43,11 @@ export const doneRecording = (text) => ({
   text,
 })
 
-export const getGameInfo = (maxQuestions) => ({
-  type: 'GET_GAME_INFO',
-  maxQuestions,
-});
-
-export const updateRoundWinner = (roundWinner) => ({
-  type: 'UPDATE_ROUND_WINNER',
-  roundWinner
-})
 
 const listenTrivia = (socket, isOwner) => {
-
   socket.on('user enter', (res) => {
-    console.log(res)
     console.log(`User ${res.name} has entered, ${res.count} in room`);
     store.dispatch(updateScore(res.scoreObj))
-    // if (isOwner.owner && count === 1) {
-    //   console.log('The owner triggers game start')
-    //   let rounds = 8;
-    //   socket.emit('game start', rounds);
-    //   store.dispatch(getGameInfo(rounds))
-    // }
   });
 
   socket.on('question', (question, number) => {
@@ -80,8 +59,6 @@ const listenTrivia = (socket, isOwner) => {
       number));
   });
 
-
-  // on('ansered'): Removed the second param 'user'
   socket.on('answered', (scoreObj, roundWinner ) => {
     console.log('scoreboard will be updated to ' + scoreObj)
     store.dispatch(updateScore(scoreObj))
@@ -90,19 +67,17 @@ const listenTrivia = (socket, isOwner) => {
   });
 
   socket.emit('scoreboard', scoreObj => {
-    store.dispatch(updateScore(scoreObj));
+    store.dispatch(updateScore(scoreObj))
   });
 
   socket.on('game started', () => {
-    console.log('host started the game');
-    store.dispatch(directToGame());
+    console.log('host started the game')
+    store.dispatch(directToGame())
   });
 
   socket.on('game end', winningUser => {
     browserHistory.push('/gameover')
-    console.log('Game ended, ' + winningUser + ' won the game! :)')
   });
-
 }
 
 const connectSocket = (isOwner) => {
@@ -121,6 +96,7 @@ const connectSocket = (isOwner) => {
       console.log('Unauthorized' + JSON.stringify(msg.data));
     });
 }
+
 const directToGame = () => {
   browserHistory.push('/game')
   return {

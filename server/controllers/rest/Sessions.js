@@ -1,24 +1,6 @@
-// const Rooms = require('../../models/rooms');
 const jwt = require('jsonwebtoken');
 const manager = require('../../models/GameSessionsManager');
 const _ = require('lodash');
-// exports.getAll = function(req, res) {
-//   let rooms = Rooms.getRooms();
-//   for (let k in rooms) {
-//     rooms[k].trivia = rooms[k].trivia.map(unmarkAnswers);
-//   }
-//   res.json(rooms);
-// }
-//
-// exports.createOne = async function(req, res) {
-//   let room;
-//   try {
-//     room = await Rooms.makeRoom(req.body.roomname, req.body.user);
-//   } catch (e) { console.warn(e) }
-//
-//   const result = { roomName: room.name, players: room.players };
-//   res.json(result);
-// }
 
 module.exports.getSessions = function(req, res) {
   let sessions = _.map(manager.sessions, ({players, id, rounds, gameState, owner}, k) => {
