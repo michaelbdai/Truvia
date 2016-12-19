@@ -100,8 +100,9 @@ class TriviaSession extends GameSession {
       return [i, this._scoreMatch(str, optl)];
     });
     console.log('OPTION SCORES ' + JSON.stringify(optionScores));
-    let optionIdx = _.maxBy(optionScores, ([idx, score]) => score)[0];
-    return options[optionIdx];
+    let max = _.maxBy(optionScores, ([idx, score]) => score);
+    let optionIdx = max && max[0];
+    return optionIdx ? options[optionIdx] : '';
   }
 
   _scrubQuestion(question) {

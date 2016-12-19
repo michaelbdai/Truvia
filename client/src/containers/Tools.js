@@ -45,7 +45,7 @@ let streamSpeech = () => {
             interim_transcript += event.results[i][0].transcript;
           }
         }
-        store.dispatch(speechToText(interim_transcript));
+        store.dispatch(speechToText(final_transcript || interim_transcript));
       };
       recognition.onerror = function(event) {
         console.log('Recognition error: ' + event);
@@ -60,35 +60,35 @@ let streamSpeech = () => {
       recognition.start();
     }
 
-    // fetch('/watsontoken')
-    // .then(function(response) {
-    //     return response.text();
-    //   }).then(function (token) {
-    //     var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-    //       token: token,
-    //       continuous: false, // false = automatically stop transcription the first time a pause is detected
-    //       extractResults: true// outputElement: '#output' // CSS selector or DOM Element
-    //     });
-    //     stream.on('error', function(err) {
-    //       console.log(err);
-    //     });
-    //     stream.on('data', function(data) {
-    //       console.log(data.alternatives[0]);
-    //       let speech = data.alternatives[0].transcript;
-    //       console.log(speech);
-    //       store.dispatch(speechToText(speech))
-    //       if (data.alternatives[0].confidence !== undefined) {
-    //         // deactivate mic state
-    //         store.dispatch(activateMic(false))
-    //         console.log("final value is ", speech)
-    //         store.dispatch(speechToText(speech))
-    //         socket.emit('answer', speech, correct => {
-    //           console.log(speech + ' was correct? ' + correct);
-    //         });
-    //         // store.dispatch(doneRecording(speech))
-    //       }
-    //     })
-    // });
+    fetch('/watsontoken')
+    .then(function(response) {
+        return response.text();
+      }).then(function (token) {
+        var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+          token: token,
+          continuous: false, // false = automatically stop transcription the first time a pause is detected
+          extractResults: true// outputElement: '#output' // CSS selector or DOM Element
+        });
+        stream.on('error', function(err) {
+          console.log(err);
+        });
+        stream.on('data', function(data) {
+          console.log(data.alternatives[0]);
+          let speech = data.alternatives[0].transcript;
+          console.log(speech);
+          store.dispatch(speechToText(speech))
+          if (data.alternatives[0].confidence !== undefined) {
+            // deactivate mic state
+            store.dispatch(activateMic(false))
+            console.log("final value is ", speech)
+            store.dispatch(speechToText(speech))
+            socket.emit('answer', speech, correct => {
+              console.log(speech + ' was correct? ' + correct);
+            });
+            // store.dispatch(doneRecording(speech))
+          }
+        })
+    });
   }
 
 

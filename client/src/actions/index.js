@@ -144,7 +144,7 @@ const postGuest = (name, roomID) => {
         // Take token from json and store it persistently into sessionStorage
         window.sessionStorage.setItem('token', json.token);
         dispatch(receivePosts(data, json))
-        dispatch(connectSocket(isOwner))
+        connectSocket(isOwner)
 
       });
   }
