@@ -1,18 +1,17 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { joinGame } from '../actions'
-import TextField from 'material-ui/TextField';
-import FontIcon from 'material-ui/FontIcon';
-import RaisedButton from 'material-ui/RaisedButton';
-import Nav from '../components/Nav';
+
+import Nav from '../components/Nav'
+import TextField from 'material-ui/TextField'
+import FontIcon from 'material-ui/FontIcon'
+import RaisedButton from 'material-ui/RaisedButton'
 
 let JoinGame = ({ dispatch, gameID }) => {
-
   let txtField
 	const onSubmit = e => {
 		e && e.preventDefault()
     dispatch(joinGame(txtField.input.value, gameID))
-
 		txtField.input.value = ''
 	}
 	return (
@@ -35,7 +34,6 @@ let JoinGame = ({ dispatch, gameID }) => {
 					<TextField
 						hintText='Enter anything'
 						floatingLabelText='Your name'
-
 						ref={node => txtField = node}/>
 					<div style={{marginTop: 20}}>
 						<RaisedButton
@@ -44,11 +42,9 @@ let JoinGame = ({ dispatch, gameID }) => {
 					</div>
 				</form>
 			</div>
-
 		</div>
 	)
 }
-
 
 JoinGame = connect()(JoinGame);
 

@@ -49,7 +49,7 @@ module.exports = triviaSocket => {
           'question',
           scrubQuestion(question),
           session.getQuestionNumber(),
-          session.getRounds(),
+          session.getRounds()
         )
       });
 

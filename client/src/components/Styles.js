@@ -65,8 +65,6 @@ const Styles = {
     fontSize: '20px',
     marginTop: '10px'
   }
-};
+}
 
-export default Styles;
-
-// Question: Don't know why it doesn't work when 'export const Styles = {..}'
+export default Styles

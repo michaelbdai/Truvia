@@ -2,17 +2,13 @@ import { browserHistory } from 'react-router'
 import * as _ from 'lodash';
 const unescape = s => _.unescape(s).replace(/&.+;/g, '');
 
-export const getGameInfo = (maxQuestions) => ({
-  type: 'GET_GAME_INFO',
-  maxQuestions,
-})
-
-export const getQuestion = (question, options, difficulty, number) => ({
+export const getQuestion = (question, options, difficulty, questionNum, maxQuestions) => ({
   type: 'GET_QUESTION',
   question,
   options,
   difficulty,
-  number,
+  questionNum,
+  maxQuestions,
 })
 
 export const updateRoundWinner = (roundWinner) => ({
@@ -33,16 +29,10 @@ export const activateMic = (state) => {
   }
 }
 
-export const speechToText = (text) => ({  // figureout how to get the text here
+export const speechToText = (text) => ({
   type: 'SPEECH_TO_TEXT',
   text,
 })
-
-export const doneRecording = (text) => ({
-  type: 'SUBMIT_SPEECH',
-  text,
-})
-
 
 const listenTrivia = (socket, isOwner) => {
   socket.on('user enter', (res) => {
@@ -50,13 +40,15 @@ const listenTrivia = (socket, isOwner) => {
     store.dispatch(updateScore(res.scoreObj))
   });
 
-  socket.on('question', (question, number) => {
+  socket.on('question', (question, questionNum, rounds) => {
     console.log(question.options);
     store.dispatch(getQuestion(
       unescape(question.question),
       _.map(question.options, s => unescape(s)),
       question.difficulty,
-      number));
+      questionNum,
+      rounds)
+    );
   });
 
   socket.on('answered', (scoreObj, roundWinner ) => {
@@ -208,7 +200,6 @@ export const joinGame = (guestName, roomID) => {
 export const startGame = () => {
   const rounds = store.getState().rounds;
   socket.emit('game start', rounds);
-  store.dispatch(getGameInfo(rounds))
 }
 
 export const timedShowDialog = () => {

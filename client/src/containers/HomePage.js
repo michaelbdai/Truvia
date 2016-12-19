@@ -1,29 +1,24 @@
 import React from 'react'
 import { connect } from 'react-redux'
+import { browserHistory } from 'react-router'
 import { createGame, ongoingGames } from '../actions'
+
+import Nav from '../components/Nav';
 import TextField from 'material-ui/TextField';
 import FontIcon from 'material-ui/FontIcon';
 import RaisedButton from 'material-ui/RaisedButton';
-import Nav from '../components/Nav';
-import { browserHistory } from 'react-router'
 
 let HomePage = ({ dispatch }) => {
 	let txtField
 	const navigateCreate = e => {
 		e && e.preventDefault()
     browserHistory.push('/creategame');
-
-		// dispatch(createGame(txtField.input.value))
-		// console.log('TODO')
 		txtField.input.value = ''
-	};
-	// when i join the room, i should change the games state to the new state. and go to the new page
+	}
 	const onJoin = () => {
-		console.log("inside onJoin");
-		console.log(txtField.input.value);
     dispatch(ongoingGames(txtField.input.value));
     txtField.input.value = ''
-	};
+	}
 
 	return (
 		<div className='stretch background'>
@@ -45,7 +40,6 @@ let HomePage = ({ dispatch }) => {
 					<TextField
 						hintText='Enter anything'
 						floatingLabelText='Your name'
-
 						ref={node => txtField = node}/>
 					<div style={{marginTop: 20}}>
 					 <RaisedButton
@@ -62,10 +56,10 @@ let HomePage = ({ dispatch }) => {
 						right: 40,
 					}}/>
 			</div>
-
 		</div>
 	)
 }
+
 HomePage = connect()(HomePage);
 
 export default HomePage

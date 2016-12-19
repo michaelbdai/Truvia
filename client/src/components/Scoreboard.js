@@ -1,8 +1,8 @@
 import React from 'react'
+import Styles from './Styles'
 import Paper from 'material-ui/Paper'
 import Divider from 'material-ui/Divider'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table'
-import Styles from './Styles'
 import Dialog from 'material-ui/Dialog'
 
 const Scoreboard = ({scoreObj, roundDialogShow, wrongDialogShow, roundWinner}) => (
@@ -47,5 +47,3 @@ const Scoreboard = ({scoreObj, roundDialogShow, wrongDialogShow, roundWinner}) =
 );
 
 export default Scoreboard
-
-//.sort((a,b) => {a.score - b.score})

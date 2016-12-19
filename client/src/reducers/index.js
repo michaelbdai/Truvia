@@ -1,30 +1,44 @@
 const intitialState = {
-	userAnswer: '',
-	question: '',
-	options: [],
-	difficulty: '',
-	scoreObj: [],
-	roundWinner: '',
-	roundDialogShow: false,
-	wrongDialogShow: false,
-	result: false,
+	// states related to start game
+	isFetching: false,
+	userName:'',
+	joinAsHost: false,
 	gameID:'',
 	gameHost:'',
-	number: 1,
 	rounds: 10,
-	joinAsHost: false,
-	isFetching: false,
 	games: [],
 	gameStarted: false,
-	userName:'',
-	text: 'Speech to text goes here',
-	micState: false,
 
+	// states related to trivia question
+	maxQuestions: 10,
+	questionNum: 1,
+	difficulty: '',
+	question: '',
+	options: [],
+
+	// states related to voice recognition
+	micState: false,
+	text: 'Speech to text goes here',
+	// userAnswer: '',
+
+	// states related to instant score
+	result: false,
+	wrongDialogShow: false,
+
+	// states related to overall score
+	scoreObj: [],
+	roundDialogShow: false,
+	roundWinner: '',
 }
 
 
 const trivia = (state = intitialState, action) => {
 	switch (action.type) {
+		case 'SEND_REQUEST':
+			return {
+				...state,
+				isFetching: true
+			}
 		case 'CREATE_GAME':
 			return {
 				...state,
@@ -34,8 +48,12 @@ const trivia = (state = intitialState, action) => {
 				joinAsHost: true,
 				isFetching: false,
 			}
+		case 'SET_ROUNDS':
+			return {
+				...state,
+				rounds: action.rounds,
+			}
 		case 'JOIN_GAME':
-			console.log('joinGame in reducer')
 			return {
 				...state,
 				gameID: action.gameID,
@@ -48,35 +66,19 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				gameStarted: true
 			}
-		case 'SET_ROUNDS':
-			return {
-				...state,
-				rounds: action.rounds,
-			}
-		case 'SEND_REQUEST':
-			return {
-				...state,
-				isFetching: true
-			}
+
 		case 'POST_ANSWER':
 			return {
 				...state,
 				userAnswer: action.answer
 			}
-
 		case 'GET_QUESTION':
 			return {
 				...state,
 				question: action.question,
 				options: action.options,
 				difficulty: action.difficulty,
-				number: action.number,
-			}
-
-
-		case 'GET_GAME_INFO':
-			return {
-				...state,
+				questionNum: action.questionNum,
 				maxQuestions: action.maxQuestions,
 			}
 		case 'UPDATE_SCORE':
@@ -86,15 +88,11 @@ const trivia = (state = intitialState, action) => {
 			}
 
 	  case 'GET_ONGOING_GAMES':
-	     console.log(" Get ongoing games in reducer");
-	     console.log(action.games);
-	     return {
+	    return {
        	 ...state,
        	 games: action.games,
        	 userName: action.userName,
-       }
-
-
+      }
 		case 'UPDATE_ROUND_WINNER':
 			return {
 				...state,
@@ -125,19 +123,14 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				micState: action.state
 			}
-
 		case 'SPEECH_TO_TEXT':
 		  return {
 				...state,
 				text: action.text
 		  }
-	  case 'SUBMIT_SPEECH':
-		  return {
-		 		...state,
-			 	text: action.text
-		 	}
 		default:
 			return state
 	}
 }
+
 export default trivia

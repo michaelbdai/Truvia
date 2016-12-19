@@ -9,7 +9,6 @@ const customTheme = getMuiTheme({
   textField: {
     textColor: '#5b6f44',
     hintColor: '#88a666',
-    // underlineStyle: {color: 'white'}
   }
 });
 

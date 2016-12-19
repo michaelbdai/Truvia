@@ -1,11 +1,9 @@
 import React from 'react'
 import Nav from './Nav'
 import ShowScores from '../containers/ShowScores'
-// import Question from './Question'
 import ShowQuestion from '../containers/ShowQuestion'
 import ShowAnswer from '../containers/ShowAnswer'
 import Tools from '../containers/Tools'
-
 
 const Game = () => (
   <div className='background stretch'>

@@ -1,18 +1,19 @@
 import React, { PropTypes } from 'react'
-import Paper from 'material-ui/Paper';
-import Divider from 'material-ui/Divider';
-import Styles from './Styles'
 import { connect } from 'react-redux'
 import {capitalize} from 'lodash';
+
+import Styles from './Styles'
+import Paper from 'material-ui/Paper';
+import Divider from 'material-ui/Divider';
 
 const Option = ({option}) => (
   <li>{option}</li>
 )
 
-const Question = ({question, options, difficulty, number, maxQuestions}) => (
+const Question = ({question, options, difficulty, questionNum, maxQuestions}) => (
   <Paper style={Styles.questionContainer} zDepth={1} >
     {question && <div style={Styles.questionHeader}>
-      {capitalize(difficulty)} question, {number} of {maxQuestions}
+      {capitalize(difficulty)} question, {questionNum} of {maxQuestions}
     </div>}
     <Divider />
     <div style={Styles.questionBody}>
@@ -27,12 +28,5 @@ const Question = ({question, options, difficulty, number, maxQuestions}) => (
     </div>
   </Paper>
 )
-
-Question.propTypes = {
-  question: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-  difficulty: PropTypes.string.isRequired,
-  number: PropTypes.number.isRequired
-}
 
 export default Question
