@@ -56,6 +56,7 @@
     "bootstrap": "^3.3.7",
     "bootstrap-webpack": "0.0.5",
     "classnames": "^2.2.5",
+    "clipboard": "^1.5.16",
     "cors": "^2.8.1",
     "css-loader": "^0.26.1",
     "dotenv": "^2.0.0",
