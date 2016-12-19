@@ -6,6 +6,7 @@ const intitialState = {
 	scoreObj: [],
 	roundWinner: '',
 	roundDialogShow: false,
+	wrongDialogShow: false,
 	result: false,
 	gameID:'',
 	gameHost:'',
@@ -109,8 +110,16 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				roundDialogShow: false
 			}
-
-
+		case 'SHOW_WRONG_DIALOG':
+			return {
+				...state,
+				wrongDialogShow: true
+			}
+		case 'HIDE_WRONG_DIALOG':
+			return {
+				...state,
+				wrongDialogShow: false
+			}
 		case 'ACTIVATE_MIC':
 			return {
 				...state,

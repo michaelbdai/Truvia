@@ -6,7 +6,7 @@ const mapStateToProps = (state) => ({
   scoreObj: state.scoreObj,
   roundDialogShow: state.roundDialogShow,
   roundWinner: state.roundWinner,
-
+  wrongDialogShow: state.wrongDialogShow,
 })
 
 

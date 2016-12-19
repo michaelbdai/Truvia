@@ -5,7 +5,7 @@ import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColu
 import Styles from './Styles'
 import Dialog from 'material-ui/Dialog'
 
-const Scoreboard = ({scoreObj, roundDialogShow, roundWinner}) => (
+const Scoreboard = ({scoreObj, roundDialogShow, wrongDialogShow, roundWinner}) => (
   <div>
   <Paper style={Styles.scoreboardContainer} >
     <Table >
@@ -38,6 +38,14 @@ const Scoreboard = ({scoreObj, roundDialogShow, roundWinner}) => (
   >
   {roundWinner} won last round!
   </Dialog>
+  <Dialog
+    title="Result: "
+    modal={false}
+    open={wrongDialogShow}
+  >
+  Your answer is... WRONG!
+  </Dialog>
+
   </div>
 );
 

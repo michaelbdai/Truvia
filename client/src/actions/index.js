@@ -3,16 +3,17 @@ import { browserHistory } from 'react-router'
 
 const unescape = s => _.unescape(s).replace(/&.+;/g, '');
 
-export const postAnswer = (answer) => {
-  // ## Susan's part - need changes
-  socket.emit('answer', answer , correct => {
-    console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
-  });
-  return {
-    type: 'POST_ANSWER',
-    answer
-  }
-}
+// export const postAnswer = (answer) => {
+//   // ## Susan's part - need changes
+//   socket.emit('answer', answer , correct => {
+//     console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
+//     store.dispatch(timedShowWrongDialog())
+//   });
+//   return {
+//     type: 'POST_ANSWER',
+//     answer
+//   }
+// }
 
 export const getQuestion = (question, options, difficulty, number) => ({
   type: 'GET_QUESTION',
@@ -249,9 +250,13 @@ export const timedShowDialog = () => {
     setTimeout(() => dispatch({type: 'HIDE_ROUND_DIALOG'}), 1000)
 
   }
-  // dispatch({type: 'SHOW_ROUND_DIALOG'})
-  // setTimeout(dispatch({type: 'HIDE_ROUND_DIALOG'}), 3000)
+}
 
+export const timedShowWrongDialog = () => {
+  return (dispatch) => {
+    dispatch({type: 'SHOW_WRONG_DIALOG'})
+    setTimeout(() => dispatch({type: 'HIDE_WRONG_DIALOG'}), 1000)
+  }
 }
 
 
