@@ -42,6 +42,14 @@ const Styles = {
     color: 'white',
     width: 170
   },
+  copyButton: {
+    color: 'white',
+    width: '100%',
+    marginTop: 15,
+  },  
+  hidden: {
+    display: 'none',
+  },
   gameOverContainer: {
     height: 230,
     width: '100%',

@@ -5,7 +5,8 @@ import Styles from '../components/Styles'
 import Paper from 'material-ui/Paper'
 import {Toolbar, ToolbarTitle} from 'material-ui/Toolbar'
 import {Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn} from 'material-ui/Table';
-import RaisedButton from 'material-ui/RaisedButton';
+import RaisedButton from 'material-ui/RaisedButton'
+import ClipboardButton from 'react-clipboard.js'
 
 const mapStateToProps = (state) => ({
   gameHost: state.gameHost,
@@ -20,14 +21,14 @@ let ShowStatus = ({userList, joinAsHost, gameUrl, dispatch, gameHost}) => {
   }
   return (
     <div>
-      <Toolbar>
-        <ToolbarTitle text = {
-          'Join as ' +
-          (joinAsHost? 'host' : 'guest') +
-           ' @ ' +
-           gameUrl
-         } />
-      </Toolbar>
+    <RaisedButton
+      label="Copy invitation link to clipboard"
+      labelPosition="before"
+      style={Styles.copyButton}
+      containerElement="label"
+    >
+      <ClipboardButton data-clipboard-text={gameUrl} style={Styles.hidden}/>
+    </RaisedButton>    
       <Paper style={Styles.scoreboardContainer} >
         <Table >
         <TableHeader adjustForCheckbox={false} displaySelectAll={false}>
