@@ -118,10 +118,10 @@ class TriviaSession extends GameSession {
     if (!this.currentQuestion) return false;
     console.log('Q', this.currentQuestion);
     let options = this._scrubQuestion(this.currentQuestion).options;
-    console.log('OPTIONS ARE ' + JSON.stringify(options));
     let picked = this._pickMostSimilar(answer, options);
     console.log('PICKED ' + picked)
-    if(this.currentQuestion['correct_answer'] === picked) { //TODO partial match
+    if(this.currentQuestion['correct_answer'] === picked) {
+      console.log('Question answered correctly, moving next question');
       this.incrementScore(user);
       this.nextQuestion();
       this.questionNumber++;

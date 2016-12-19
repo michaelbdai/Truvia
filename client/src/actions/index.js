@@ -7,7 +7,6 @@ export const postAnswer = (answer) => {
   // ## Susan's part - need changes
   socket.emit('answer', answer , correct => {
     console.log('Answer was ' + (!correct ? 'not correct' : 'correct'))
-
   });
   return {
     type: 'POST_ANSWER',
@@ -150,6 +149,26 @@ const postGuest = (name, roomID) => {
       });
   }
 }
+// getGames function here
+const getGames = (playerName) => {
+  return dispatch => {
+    dispatch(sendRequest);
+    return fetch('/api/sessions', {
+      method: 'GET',
+      headers: { 'Content-Type': 'application/json' },
+     })
+    .then(res => res.json())
+    .then(json => {
+      console.log(json);
+      let lobbyGames = json.filter(game => game.gameState === 'lobby');
+      console.log('getGames array ' + lobbyGames);
+     dispatch(receiveGames(lobbyGames, playerName))
+    });
+  }
+}
+
+
+
 const sendRequest = () => {
   return{
     type: 'SEND_REQUEST'
@@ -166,7 +185,7 @@ const receivePosts = (data, json) => {
         gameID: data.roomID,
         gameHost: json.roomOwner,
         userName: data.name,
-      }     
+      }
     } else {
       console.log('join fail--------')
       browserHistory.push('/')
@@ -180,14 +199,41 @@ const receivePosts = (data, json) => {
       gameID: json.roomID,
       gameHost: data.name,
       userName: data.name
-    }      
+    }
+  }
+}
+const receiveGames = (games, userName) => { // games is an array of player information
+  console.log(games);
+
+  browserHistory.push('/showGames')
+  return {
+    type: 'GET_ONGOING_GAMES',
+    games,
+    userName
   }
 }
 
-export const createGame = (gameHost) => {
-  console.log('createGame')
+export const setRounds = (rounds) => ({
+  type: 'SET_ROUNDS',
+  rounds,
+});
+
+export const createGame = (gameHost, rounds) => {
   return(dispatch) => {
-    dispatch(postGuest(gameHost))
+    dispatch(postGuest(gameHost));
+    dispatch(setRounds(rounds));
+  }
+}
+// go to the games page , get the games, update the games state with all the currently streaming games
+//
+// games page should display all the games by reflecting the changes in the state.
+
+
+export const ongoingGames = (name) => { // this should have state of list of ongoing games and name of the player
+  console.log("inside actioncreator ongoing games");
+
+  return(dispatch) => {
+    dispatch(getGames(name));
   }
 }
 
@@ -210,8 +256,7 @@ export const timedShowDialog = () => {
 
 
 export const startGame = () => {
-  console.log('game starts')
-  let rounds = 8;
+  const rounds = store.getState().rounds;
   socket.emit('game start', rounds);
   store.dispatch(getGameInfo(rounds))
 

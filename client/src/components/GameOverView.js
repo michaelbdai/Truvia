@@ -8,7 +8,19 @@ import {lightgreen900} from 'material-ui/styles/colors';
 
 
 // ## TODO: change props result -> scoreObj!!
-const GameOverView = ({ result }) => (
+const GameOverView = ({ scoreObj, userName }) => {
+  let maxScore = 0
+  let maxScoreUser = ''
+  scoreObj.forEach((user)=>{
+    console.log(user);
+    if(user.score >= maxScore){
+      maxScore = user.score
+      maxScoreUser = user.name
+    }
+  });
+  let winner = maxScoreUser === userName
+
+  return (
   <div className='background stretch'>
     <Nav
       title={`${APP_NAME}`} />
@@ -23,16 +35,14 @@ const GameOverView = ({ result }) => (
           <Divider />
           <div style={Styles.gameOverBody}>
           {
-            result ? (
+            winner ? (
               <div>
                 <FontIcon className="material-icons" color="lightgreen900" style={{fontSize: '50px'}}>mood</FontIcon>
-                <div>{console.log(result)}</div>
                 <div>You WIN!</div>
               </div>
             ) : (
               <div>
                 <FontIcon className="material-icons" color="lightgreen900" style={{fontSize: '50px'}}>mood_bad</FontIcon>
-                <div>{console.log(result)}</div>
                 <div>You LOSE!</div>
               </div>
             )
@@ -41,6 +51,8 @@ const GameOverView = ({ result }) => (
         </Paper>
       </div>
   </div>
-)
+  )
+
+}
 
 export default GameOverView

@@ -10,12 +10,15 @@ const intitialState = {
 	gameID:'',
 	gameHost:'',
 	number: 1,
+	rounds: 10,
 	joinAsHost: false,
 	isFetching: false,
+	games: [],
 	gameStarted: false,
 	userName:'',
 	text: 'Speech to text goes here',
 	micState: false,
+
 }
 
 
@@ -43,6 +46,11 @@ const trivia = (state = intitialState, action) => {
 			return {
 				...state,
 				gameStarted: true
+			}
+		case 'SET_ROUNDS':
+			return {
+				...state,
+				rounds: action.rounds,
 			}
 		case 'SEND_REQUEST':
 			return {
@@ -75,6 +83,16 @@ const trivia = (state = intitialState, action) => {
 				...state,
 				scoreObj: action.scoreObj
 			}
+
+	  case 'GET_ONGOING_GAMES':
+	     console.log(" Get ongoing games in reducer");
+	     console.log(action.games);
+	     return {
+       	 ...state,
+       	 games: action.games,
+       	 userName: action.userName,
+       }
+
 
 		case 'UPDATE_ROUND_WINNER':
 			return {
