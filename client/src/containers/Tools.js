@@ -15,35 +15,80 @@ let streamSpeech = () => {
     // activate mic state
     store.dispatch(activateMic(true))
     let that = this;
-    fetch('/watsontoken')
-    .then(function(response) {
-        return response.text();
-      }).then(function (token) {
-        var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
-          token: token,
-          continuous: false, // false = automatically stop transcription the first time a pause is detected
-          extractResults: true// outputElement: '#output' // CSS selector or DOM Element
-        });
-        stream.on('error', function(err) {
-          console.log(err);
-        });
-        stream.on('data', function(data) {
-          console.log(data.alternatives[0]);
-          let speech = data.alternatives[0].transcript;
-          console.log(speech);
-          store.dispatch(speechToText(speech))
-          if (data.alternatives[0].confidence !== undefined) {
-            // deactivate mic state
-            store.dispatch(activateMic(false))
-            console.log("final value is ", speech)
-            store.dispatch(speechToText(speech))
-            socket.emit('answer', speech, correct => {
-              console.log(speech + ' was correct? ' + correct);
-            });
+
+    let final_transcript = '';
+    if (!('webkitSpeechRecognition' in window)) {
+      upgrade();
+    } else {
+      var recognition = new webkitSpeechRecognition();
+      recognition.continuous = true;
+      recognition.interimResults = true;
+      recognition.lang = 'en-US'
+
+      recognition.onstart = function() {
+        console.log('Recognition started');
+      }
+
+      recognition.onresult = function(event) {
+        var interim_transcript = '';
+
+        for (var i = event.resultIndex; i < event.results.length; ++i) {
+          if (event.results[i].isFinal) {
+            final_transcript += event.results[i][0].transcript;
             // store.dispatch(doneRecording(speech))
+            socket.emit('answer', final_transcript, correct => {
+              console.log(final_transcript + ' was correct? ' + correct);
+            });
+            recognition.stop();
+            store.dispatch(activateMic(false))
+          } else {
+            interim_transcript += event.results[i][0].transcript;
           }
-        })
-    });
+        }
+        store.dispatch(speechToText(interim_transcript));
+      };
+      recognition.onerror = function(event) {
+        console.log('Recognition error: ' + event);
+
+      }
+      recognition.onend = function() {
+        console.log('Recognition ended');
+
+
+      }
+
+      recognition.start();
+    }
+
+    // fetch('/watsontoken')
+    // .then(function(response) {
+    //     return response.text();
+    //   }).then(function (token) {
+    //     var stream = WatsonSpeech.SpeechToText.recognizeMicrophone({
+    //       token: token,
+    //       continuous: false, // false = automatically stop transcription the first time a pause is detected
+    //       extractResults: true// outputElement: '#output' // CSS selector or DOM Element
+    //     });
+    //     stream.on('error', function(err) {
+    //       console.log(err);
+    //     });
+    //     stream.on('data', function(data) {
+    //       console.log(data.alternatives[0]);
+    //       let speech = data.alternatives[0].transcript;
+    //       console.log(speech);
+    //       store.dispatch(speechToText(speech))
+    //       if (data.alternatives[0].confidence !== undefined) {
+    //         // deactivate mic state
+    //         store.dispatch(activateMic(false))
+    //         console.log("final value is ", speech)
+    //         store.dispatch(speechToText(speech))
+    //         socket.emit('answer', speech, correct => {
+    //           console.log(speech + ' was correct? ' + correct);
+    //         });
+    //         // store.dispatch(doneRecording(speech))
+    //       }
+    //     })
+    // });
   }
 
 
