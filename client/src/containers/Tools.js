@@ -95,7 +95,13 @@ let streamSpeech = () => {
 
 let Tools = ({ dispatch, micState }) => {
   return (
-    <BottomNavigation>
+    <BottomNavigation style={{
+        position: 'absolute',
+        width: '100vw',
+        bottom: 0,
+        left: 0,
+        height: '8%'
+      }}>
       { micState ? (
           <BottomNavigationItem
             label="Record"

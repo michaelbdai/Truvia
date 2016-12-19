@@ -1,13 +1,13 @@
 const Styles = {
   scoreboardContainer: {
-    height: 200,
+    height: '30%',
     width: '100%',
     marginTop: 15,
     marginBottom: 15,
     display: 'inline-block',
   },
   questionContainer : {
-    height: 230,
+    height: '40%',
     width: '100%',
     margin: 0,
     textAlign: 'center',
@@ -31,7 +31,7 @@ const Styles = {
     alignItems: 'center',
   },
   answerContainer: {
-    height: 100,
+    height: '10%',
     width: '100%',
     marginTop: 15,
     marginBottom: 15,

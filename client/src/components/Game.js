@@ -11,9 +11,11 @@ const Game = () => (
   <div className='background stretch'>
 		<Nav
 			title={`${APP_NAME}`} />
-		<div style={{
-			paddingLeft: 10,
-			paddingRight: 10
+		<div
+      className='stretch'
+      style={{
+			  paddingLeft: 10,
+			  paddingRight: 10
 			}}>
   		<ShowScores />
   		<ShowQuestion />
