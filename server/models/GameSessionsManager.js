@@ -1,7 +1,11 @@
 const socketioJwt = require('socketio-jwt');
 const TriviaSession = require('./TriviaSession');
 
-// Should delete session after no activity
+
+/**
+ * GameSessionsManager is a general sessions manager that stores GameSessions
+ * and determines whether timed out sessions need to be removed automatically
+ */
 class GameSessionsManager {
   constructor(timeout = 1000 * 60 * 20) {
     this.timeout = timeout;
@@ -9,47 +13,85 @@ class GameSessionsManager {
     this.ownerGameSessions = {}; // map from owner -> gameSession
   }
 
+
+  /**
+   * createSession - factory method to create sessions
+   *
+   * @param  {type} Session  a type deriving from GameSession
+   * @param  {Object} owner  an owner object which is a player
+   * @return {Session}       created session
+   */
   createSession(Session, owner) {
     const session = new Session(owner, this.timeout);
 
     this.gameSessions[session.id] = session;
     this.ownerGameSessions[owner.name] = session;
-    this.startRemoveCheck(session.id, this.timeout);
+    this._startRemoveCheck(session.id, this.timeout);
     return session;
   }
 
+
+  /**
+   * createTriviaSession - factory method to create TriviaSession
+   *
+   * @param  {Object} owner  an owner object which is a player
+   * @return {Session}       created session
+   */
   createTriviaSession(owner) {
     return this.createSession(TriviaSession, owner);
   }
 
-  startRemoveCheck(name, timeout) {
-    setTimeout(() => {
-      const session = this.gameSessions[name];
-      if (session._shouldRemove()) {
-        this.removeSession(name);
-      } else {
-        timeout = session._getRemainingTime();
-        this.startRemoveCheck(name);
-      }
-    }, timeout);
+
+  /**
+   * getSession - session by its ID
+   *
+   * @param  {String} id session id
+   * @return {Session}
+   */
+  getSession(id) {
+    return this.gameSessions[id];
   }
 
-  getSession(name) {
-    return this.gameSessions[name];
-  }
 
+  /**
+   * get sessions - get all sessions
+   *
+   * @return {Object} map from id -> Session
+   */
   get sessions() { return this.gameSessions; }
 
+
+  /**
+   * getSessionByOwner
+   *
+   * @param  {Object} owner
+   * @return {Session}
+   */
   getSessionByOwner(owner) {
     return this.ownerGameSessions[owner.name];
   }
 
-  removeSession(name) {
-    const owner = this.gameSessions[name].getOwner();
-    delete this.gameSessions[name];
+
+  /**
+   * removeSession - removeSession by id
+   *
+   * @param  {String} id
+   */
+  removeSession(id) {
+    const owner = this.gameSessions[id].getOwner();
+    delete this.gameSessions[id];
     delete this.ownerGameSessions[owner];
   }
 
+
+  /**
+   * socketRestoreSession - utility function to decorate a socket with authentication
+   * and session information for that socket
+   *
+   * @param  {Socket} sock  socket io socket
+   * @param  {type} Session Session type to restore
+   * @param  {Function} cb  a callback to execute the decorated socket on
+   */
   socketRestoreSession(sock, Session, cb) {
     sock
       .on('connection', socketioJwt.authorize({
@@ -66,10 +108,7 @@ class GameSessionsManager {
           const owner = { name: token.name, socket };
           socket.session = this.createSession(Session, owner, token.roomID);
         }
-        // else {
-        //   socket.emit('error', 'Game can only be created by owner');
-        //   socket.disconnect();
-        // }
+
         socket.user = token.name;
         if (socket.session.getOwner().name === token.name) {
           socket.session.getOwner().socket = socket;
@@ -82,10 +121,18 @@ class GameSessionsManager {
         cb(socket);
       });
   }
+
+  _startRemoveCheck(name, timeout) {
+    setTimeout(() => {
+      const session = this.gameSessions[name];
+      if (session._shouldRemove()) {
+        this.removeSession(name);
+      } else {
+        timeout = session._getRemainingTime();
+        this._startRemoveCheck(name);
+      }
+    }, timeout);
+  }
 }
 
 module.exports = new GameSessionsManager();
-// const manager = new GameSessionsManager(5000);
-// let name = manager.createSession(GameSession);
-// console.log('Now ', manager.getSession(name));
-// setTimeout(() => console.log('Then ', manager.gameSessions), 4000);

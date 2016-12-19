@@ -1,34 +1,16 @@
-// const Rooms = require('../../models/rooms');
 const jwt = require('jsonwebtoken');
-const manager = require('../../models/GameSessionsManager');
 const _ = require('lodash');
-// exports.getAll = function(req, res) {
-//   let rooms = Rooms.getRooms();
-//   for (let k in rooms) {
-//     rooms[k].trivia = rooms[k].trivia.map(unmarkAnswers);
-//   }
-//   res.json(rooms);
-// }
-//
-// exports.createOne = async function(req, res) {
-//   let room;
-//   try {
-//     room = await Rooms.makeRoom(req.body.roomname, req.body.user);
-//   } catch (e) { console.warn(e) }
-//
-//   const result = { roomName: room.name, players: room.players };
-//   res.json(result);
-// }
 
+const manager = require('../../models/GameSessionsManager');
+
+
+/**
+ * getSessions - Express controller that returns all GameSessionsManager sessions
+ *
+ */
 module.exports.getSessions = function(req, res) {
   let sessions = _.map(manager.sessions, ({players, id, rounds, gameState, owner}, k) => {
-    // JSON.stringify(players);
-    JSON.stringify(id);
-    JSON.stringify(rounds);
-    JSON.stringify(gameState);
-    JSON.stringify(owner.name);
     return {
-      //players,
       roomID: id,
       rounds,
       gameState,
@@ -40,6 +22,11 @@ module.exports.getSessions = function(req, res) {
 }
 
 
+/**
+ * guestLogin - Express controller that determines from post data whether to
+ * send a token to create a room or join a room. A session is created in GameSessionsManager
+ *
+ */
 module.exports.guestLogin = function(req, res) {
   // TODO use redis to persist user temporarily with timeout
   let response;

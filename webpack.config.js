@@ -5,7 +5,7 @@ var plugins = [
         new webpack.ProvidePlugin({
             "React": "react"
         })];
-var filelocation = "./client/public/bundle.js"
+var filelocation = "./client/public/bundle.min.js"
 
 if (minimize) {
   plugins.push(
@@ -18,7 +18,7 @@ if (minimize) {
   plugins.push(new webpack.optimize.UglifyJsPlugin(
     {
         compress: {
-            warnings: true
+            warnings: false
         }
     }
   ));

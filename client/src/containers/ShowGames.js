@@ -1,13 +1,10 @@
 import { connect } from 'react-redux'
 import GameOwners from '../components/GameOwners'
 
-const mapStateToProps = ({games, userName}) => {
-  console.log("inside showgames.js");
-  return {
-   games,
-   userName,
-  }
-}
+const mapStateToProps = ({games, userName}) => ({
+ games,
+ userName,
+})
 
 const ShowGames = connect(
   mapStateToProps

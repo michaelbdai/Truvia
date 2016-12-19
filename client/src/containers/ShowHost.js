@@ -1,6 +1,5 @@
 import { connect } from 'react-redux'
 
-
 const mapStateToProps = (state) => ({
   gameHost: state.gameHost
 })

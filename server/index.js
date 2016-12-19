@@ -1,63 +1,43 @@
 const express = require('express');
-const morgan = require('morgan');
-const bodyParser = require('body-parser');
-const cors = require('cors');
-const vcapServices = require('vcap_services');
-const extend = require('util')._extend
-const watson = require('watson-developer-cloud');
 const path = require('path');
 const Promise = require('bluebird');
 Promise.longStackTraces();
 global.Promise = Promise;
-
 require('isomorphic-fetch');
-require('dotenv').load({silent: true});
+
+const morgan = require('morgan');
+const cors = require('cors');
+const bodyParser = require('body-parser');
+const compression = require('compression');
+
+global.jwtSecret = process.env.JWT_SECRET || 'HoorayTeamSpinach';
+
 
 const app = express();
 
-const port = process.env.PORT || 8080;
-global.jwtSecret = process.env.JWT_SECRET || 'HoorayTeamSpinach';
-
-app.use(express.static('client/public'));
+// Middlewares
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('dev'));
 app.use(cors());
-// to be moved later to config file.
-var username = '3874ec47-c72a-41c5-bc52-72e74b0070cd';
-var password = 'nyks7d6REJGx';
-var config = extend({
-  version: 'v1',
-  url: 'https://stream.watsonplatform.net/speech-to-text/api',
-  username: process.env.STT_USERNAME || username,
-  password: process.env.STT_PASSWORD || password
-}, vcapServices.getCredentials('speech_to_text'));
+app.use(compression());
+app.use(express.static(path.join(__dirname, '../client/public')));
 
-var authService = watson.authorization(config);
-
-// Get token using your credentials
-app.get('/watsontoken', function(req, res, next) {
-  authService.getToken({url: config.url}, function(err, token) {
-    if (err)
-      next(err);
-    else
-      res.send(token);
-  });
-});
-
+// Server and IO initialization
+const port = process.env.PORT || 8080;
 const server = app.listen(port);
 const io = require('socket.io')(server);
+console.log('Server listening on port ' + port);
 
-console.log("Server listening on port " + port);
-
+// route require has to be required after exports because of circular dependency
 module.exports = {app, io};
-
-// Run the socket connections
 const triviaRoute = require('./routes');
-app.use('/api', triviaRoute);
 
+// Routes
+app.use('/api', triviaRoute);
+// All requests for non found static files go to client side router
 app.get('*', function (request, response){
   const index = path.resolve(__dirname, '../client/public', 'index.html');
   console.log('Sending index ' + index);
   response.sendFile(index);
-})
+});
