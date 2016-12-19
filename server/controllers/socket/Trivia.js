@@ -48,7 +48,8 @@ module.exports = triviaSocket => {
         triviaSocket.to(room).emit(
           'question',
           scrubQuestion(question),
-          session.getQuestionNumber()
+          session.getQuestionNumber(),
+          session.getRounds(),
         )
       });
 
